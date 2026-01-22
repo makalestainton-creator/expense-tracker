@@ -1,0 +1,57 @@
+import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+
+export function calculateTotalExpenditure() {
+
+  // get todays date using dayjs and display it in a readable format
+  const today = dayjs();
+
+  const dateString = today.format("D dddd, MMMM YYYY");
+
+  const month = today.format("MMMM");
+
+  const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+  let dailyTotal = 0;
+
+  let monthlyTotal = 0;
+
+  // accumulate the daily total every time we loop through the expenses
+  expenses.forEach((expense) => {
+
+    const cost = expense.cost;
+
+    const dateString = today.format("YYYY-MM-DD");
+
+    const expenseDate = expense.date;
+
+    if(expenseDate === dateString) {
+
+      dailyTotal += cost
+
+    }
+
+    // accumulate the monthly totals every time we loop through the expenses
+    const month = expense.date.slice(5, 7);
+
+    const monthString = today.format("MM");
+
+    if(month === monthString) {
+
+      monthlyTotal += cost;
+
+    }
+  });
+
+  // generate the html 
+  const totalExpenditure = document.querySelector(".js-total-expenditure");
+
+  totalExpenditure.innerHTML = `
+    <h2>Totals</h2>
+    <div class="period-total">
+      <p class="period">Today (${dateString}): </p>
+      <p class="cost">Ksh.${dailyTotal}</p>
+      <p class="period">This month (${month}): </p>
+      <p class="cost">Ksh.${monthlyTotal}</p>
+    </div>
+  `;
+}

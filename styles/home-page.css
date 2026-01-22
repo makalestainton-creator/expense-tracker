@@ -1,0 +1,511 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding-top: 100px;
+  background-color: #f9fafb;
+  font-family: "Roboto";
+}
+
+body.dark-mode {
+  background-color: #001219;
+}
+
+body.dark-mode h2,
+body.dark-mode h1 {
+  color: #60288f;
+}
+
+.header {
+  height: 80px;
+  padding: 0 30px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #d3d3d3;
+}
+
+body.dark-mode .header {
+  background-color: #001219;
+  border-bottom: 1px solid #022330;
+}
+
+.left-header-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.dashboard-title {
+  margin-bottom: 4px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #000;
+}
+
+body.dark-mode .dashboard-title {
+  color: #d6d6d6;
+}
+
+.dashboard-illustration {
+  font-size: 14px;
+  font-weight: normal;
+  color: #64748b;
+}
+
+.right-header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.expenses-link {
+  width: 100px;
+  border-radius: 6px;
+  padding: 2px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #2e2e2e;
+}
+
+.expenses-link:hover {
+  border: 2px solid #0f766e;
+}
+
+body.dark-mode .expenses-link {
+  color: #cccbcb;
+}
+
+.expenses-icon {
+  height: 30px;
+}
+
+.change-theme-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px;
+  height: 100%;
+}
+
+.content-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  border-radius: 10px;
+  /* border: 1px solid #E5E7EB; */
+}
+
+.title h1 {
+  justify-self: center;
+  color: #1f2937;
+}
+
+.line-separator {
+  background-color: #dbdee2;
+  height: 1px;
+  margin: 30px 20px;
+}
+
+body.dark-mode .line-separator {
+  background-color: #64748b;
+}
+
+.month-pill {
+  background-color: #dcf0f0;
+  color: #0f766e;
+  font-weight: 500;
+  font-size: 14px;
+  justify-self: center;
+  padding: 8px 30px;
+  border-radius: 2em;
+  margin-top: -50px;
+  margin-bottom: 30px;
+}
+
+body.dark-mode .month-pill {
+  background-color: #0a2a33;
+  /* border: 1px solid #1B4D5A; */
+}
+
+.expense-details,
+.total-expenditure {
+  /* border: 1px solid rgb(196, 194, 194); */
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #fff;
+}
+
+body.dark-mode .expense-details,
+body.dark-mode .total-expenditure {
+  background-color: #031922;
+}
+
+.expense-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+body.dark-mode .label {
+  color: #cccbcb;
+}
+
+.expense-input {
+  outline: none;
+  border: 1px solid #538de4;
+  height: 30px;
+  margin-top: 12px;
+  color: #2e2e2e;
+  border-radius: 5px;
+  padding: 2px 5px;
+  font-size: 14px;
+}
+
+body.dark-mode .expense-input {
+  background-color: #082a38;
+  color: #cccbcb;
+  border-color: #05465f;
+}
+
+.amount-input {
+  position: relative;
+  padding: 2px 38px;
+  margin-top: 0px;
+}
+
+.prefix {
+  position: absolute;
+  margin-top: 6px;
+  margin-left: 5px;
+  color: #494949;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.prefix-container {
+  height: 30px;
+  margin-top: 12px;
+}
+
+.expense-date-input {
+  width: 39%;
+}
+
+.add-expense-button {
+  width: 100%;
+  margin: 20px auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 15px;
+  border: none;
+  background-color: #0f766e;
+  color: #f2f2f2;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease opacity 0.3s ease transform 0.3s ease;
+}
+
+.add-expense-button:hover {
+  cursor: pointer;
+  background-color: #007269;
+}
+
+.add-expense-button:active {
+  opacity: 0.9;
+  transform: scale(0.99);
+}
+
+.added-to-tracker {
+  color: rgb(6, 150, 90);
+  font-size: 15px;
+}
+
+.added-to-tracker img {
+  height: 20px;
+}
+
+.added-to-tracker {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-self: center;
+  /* this will be visible once we click the add button */
+  opacity: 0;
+}
+
+.is-added-to-tracker {
+  opacity: 1;
+}
+
+.empty-field-warning {
+  position: absolute;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -10px;
+  opacity: 1;
+  transition: all 4s ease;
+}
+
+.empty-field-warning p {
+  color: #f44336;
+}
+
+body.dark-mode .empty-field-warning {
+  color: #c03429;
+}
+
+.total-expenditure h2 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.period-total {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  row-gap: 18px;
+  column-gap: 15px;
+}
+
+.period {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+}
+
+body.dark-mode .period {
+  color: #cccbcb;
+}
+
+.cost {
+  font-size: 18px;
+  font-weight: 500;
+  color: #3063aa;
+}
+
+body.dark-mode .cost {
+  color: #2b5999;
+}
+
+/* responsive design: when screen width is less than the max-width specified the selectors take the given properties */
+@media (max-width: 800px) {
+  .content-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    row-gap: 30px;
+    margin-bottom: 20px;
+  }
+
+  .label {
+    font-size: 18px;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+
+  .period,
+  .cost {
+    font-size: 16px;
+  }
+}
+
+/* responsive design: when screen width is less than the max-width specified the selectors take the given properties */
+@media (max-width: 500px) {
+  .header {
+    padding: 0px 12px;
+  }
+
+  .left-header-section {
+    gap: 7px;
+  }
+
+  .left-header-section svg {
+    height: 30px;
+    width: 30px;
+  }
+
+  .dashboard-title {
+    font-size: 14px;
+  }
+
+  .dashboard-illustration {
+    font-size: 12px;
+  }
+
+  .header .expenses-icon {
+    height: 28px;
+  }
+
+  .header .expenses-link {
+    font-size: 14px;
+  }
+
+  .title h1 {
+    font-size: 18px;
+    margin-bottom: 17px;
+  }
+
+  .month-pill {
+    font-size: 12px;
+    padding: 6px 20px;
+    margin-top: -45px;
+  }
+
+  .content-area {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px;
+    max-width: 400px;
+    row-gap: 40px;
+  }
+
+  .expense-details,
+  .total-expenditure {
+    padding: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .expense-grid {
+    column-gap: 16px;
+  }
+
+  .label {
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  input::placeholder {
+    font-size: 13px;
+    color: #adadad;
+  }
+
+  .expense-details .added-to-tracker {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .period-total .period,
+  .period-total .cost {
+    font-size: 14px;
+  }
+
+  .period-total .period {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .total-expenditure {
+    margin-top: -20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .header {
+    padding: 0px 6px;
+  }
+
+  .content-area {
+    /* outline: 2px solid; */
+    padding: 12px;
+    column-gap: 10px;
+    width: 90vw;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+
+  .expense-grid {
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .total-expenditure h2 {
+    font-size: 18px;
+  }
+
+  .total-expenditure .period {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 350px) {
+  .header {
+    padding-right: 0px;
+  }
+
+  .right-header-section {
+    justify-content: end;
+    gap: 0px;
+  }
+
+  .expenses-link {
+    width: 80px;
+    margin: 0px;
+  }
+
+  .expenses-icon {
+    height: 20px;
+  }
+
+  .expenses-link span {
+    font-size: 12px;
+  }
+
+  .left-header-section {
+    gap: 1px;
+  }
+
+  .dashboard-title {
+    font-size: 12px;
+  }
+
+  .dashboard-illustration {
+    font-size: 9px;
+  }
+
+  .total-expenditure h2 {
+    font-size: 16px;
+  }
+
+  .total-expenditure .period {
+    font-size: 10px;
+  }
+}
