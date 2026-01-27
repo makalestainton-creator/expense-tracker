@@ -10,40 +10,44 @@ changeTheme();
 function renderExpenses() {
   // Load fresh from localStorage
   const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-  let html = "";
 
-  // generates the HTML for each expense
-  expenses.forEach((expense, index) => {
-    html += `
-    <div class="entry-item-container">
-      <p class="cartegory value-dark-mode js-cartegory">
-        ${expense.cartegory}
-      </p>
-      <div class="entry-item js-entry-item">
-        <p class="label">Expense name:</p>
-        <p class="value">${expense.name}</p>
-        <p class="label">Amount spent:</p>
-        <p class="value amount js-amount">Ksh. 
-          ${expense.cost}
-        </p>
-        <p class="label">Date:</p>
-        <p class="value">
-          ${expense.date}
-        </p>
-      </div>
-      <div class="entry-buttons">
-        <button class="delete-button js-delete-button" data-index="${index}">
-          Delete
-        </button>
-        <button class="edit-button js-edit-button" data-index="${index}">
-          Edit
-        </button>
-      </div>
-    </div>
-    `;
-  });
+  displayExpenses(expenses);
+  function displayExpenses(expenses) {
+    let html = "";
 
-  document.querySelector(".js-entries-grid").innerHTML = html;
+    // generates the HTML for each expense
+    expenses.forEach((expense, index) => {
+      html += `
+      <div class="entry-item-container">
+        <p class="cartegory value-dark-mode js-cartegory">
+          ${expense.cartegory}
+        </p>
+        <div class="entry-item js-entry-item">
+          <p class="label">Expense name:</p>
+          <p class="value">${expense.name}</p>
+          <p class="label">Amount spent:</p>
+          <p class="value amount js-amount">Ksh. 
+            ${expense.cost}
+          </p>
+          <p class="label">Date:</p>
+          <p class="value">
+            ${expense.date}
+          </p>
+        </div>
+        <div class="entry-buttons">
+          <button class="delete-button js-delete-button" data-index="${index}">
+            Delete
+          </button>
+          <button class="edit-button js-edit-button" data-index="${index}">
+            Edit
+          </button>
+        </div>
+      </div>
+      `;
+    });
+
+    document.querySelector(".js-entries-grid").innerHTML = html;
+  }
 
   document
     .querySelectorAll(".js-cartegory")
@@ -85,6 +89,20 @@ function renderExpenses() {
       amountElement.classList.add("high-amount");
     }
   });
+
+  const input = document.querySelector("#search-input");
+  input.addEventListener("input", () => {
+    const searchTerm = input.value.trim().toLowerCase();
+
+    const filtered = expenses.filter((expense) => {
+      return (
+        expense.cartegory.toLowerCase().includes(searchTerm) ||
+        expense.name.toLowerCase().includes(searchTerm)
+      );
+    });
+    displayExpenses(filtered);
+  });
+  // renderExpenses();
 
   // making the tracking room header dynamic
   document.querySelector(
