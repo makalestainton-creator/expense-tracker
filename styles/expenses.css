@@ -290,6 +290,11 @@ body.dark-mode .amount {
   color: #d45c17;
 }
 
+.cartegory-container {
+  display: flex;
+  justify-content: center;
+}
+
 .cartegory {
   text-align: center;
   margin-top: 10px;
@@ -300,7 +305,6 @@ body.dark-mode .amount {
   /* edited */
   /* background-color: #0f766e; */
   background-color: #E5F0FF;
-  justify-self: center;
 }
 
 body.dark-mode .cartegory {

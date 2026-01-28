@@ -21,9 +21,11 @@ function renderExpenses() {
       const expenseIndex = expenses.indexOf(expense);
       html += `
       <div class="entry-item-container">
-        <p class="cartegory value-dark-mode js-cartegory">
-          ${expense.cartegory}
-        </p>
+        <div class="cartegory-container">
+          <p class="cartegory value-dark-mode js-cartegory">
+            ${expense.cartegory}
+          </p>
+        </div>
         <div class="entry-item js-entry-item">
           <p class="label">Expense name:</p>
           <p class="value">${expense.name}</p>

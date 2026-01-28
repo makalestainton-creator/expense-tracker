@@ -133,12 +133,16 @@ body.dark-mode .line-separator {
   background-color: #64748b;
 }
 
+.month-pill-container {
+  display: flex;
+  justify-content: center;
+}
+
 .month-pill {
   background-color: #dcf0f0;
   color: #0f766e;
   font-weight: 500;
   font-size: 14px;
-  justify-self: center;
   padding: 8px 30px;
   border-radius: 2em;
   margin-top: -50px;
