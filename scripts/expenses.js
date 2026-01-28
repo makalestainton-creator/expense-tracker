@@ -17,6 +17,8 @@ function renderExpenses() {
 
     // generates the HTML for each expense
     expenses.forEach((expense, index) => {
+
+      const expenseIndex = expenses.indexOf(expense);
       html += `
       <div class="entry-item-container">
         <p class="cartegory value-dark-mode js-cartegory">
@@ -49,6 +51,7 @@ function renderExpenses() {
     document.querySelector(".js-entries-grid").innerHTML = html;
     applyCartegoryStyles();
     applyHighCostStyles();
+    attachEventListeners();
   }
 
   function applyCartegoryStyles() {
@@ -151,31 +154,144 @@ function renderExpenses() {
     }, 300);
   }
 
-  document.querySelectorAll(".js-delete-button").forEach((deleteButton) => {
+  function attachEventListeners() {
+    document.querySelectorAll(".js-delete-button").forEach((deleteButton) => {
 
-    deleteButton.addEventListener("click", () => {
-      //  displays the confirmation dialogue and activates overlay to avoid interactivity with the rest of the page when the dialogue is active
-      renderConfirmationDialogue();
+      deleteButton.addEventListener("click", () => {
+        //  displays the confirmation dialogue and activates overlay to avoid interactivity with the rest of the page when the dialogue is active
+        renderConfirmationDialogue();
 
-      const yesButton = document.querySelector(".js-yes-button");
+        const yesButton = document.querySelector(".js-yes-button");
 
-      yesButton.addEventListener("click", () => {
+        yesButton.addEventListener("click", () => {
 
-        // removes the dialogue and the overlay once we click the button
-        removeDialogue(document.querySelector(".js-confirmation-dialogue"));
+          // removes the dialogue and the overlay once we click the button
+          removeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
-        deleteExpense(deleteButton);
-      });
+          deleteExpense(deleteButton);
+        });
 
-      const noButton = document.querySelector(".js-no-button");
+        const noButton = document.querySelector(".js-no-button");
 
-      noButton.addEventListener("click", () => {
+        noButton.addEventListener("click", () => {
 
-        // removes the dialogue and overlay and does nothing more
-        removeDialogue(document.querySelector(".js-confirmation-dialogue"));
+          // removes the dialogue and overlay and does nothing more
+          removeDialogue(document.querySelector(".js-confirmation-dialogue"));
+        });
       });
     });
-  });
+
+    document.querySelectorAll(".js-edit-button").forEach((editButton) => {
+      editButton.addEventListener("click", () => {
+        const index = parseInt(editButton.getAttribute("data-index"));
+
+        renderEditDialogue();
+
+        // this section displays the value of the expense labels in the in input field before editing
+        document.querySelector(".js-edit-name").value = expenses[index].name;
+
+        document.querySelector(".js-edit-cost").value = `${expenses[index].cost}`;
+
+        document.querySelector(".js-edit-cartegory").value =
+          expenses[index].cartegory;
+
+        document.querySelector(".js-edit-date").value = expenses[index].date;
+
+        let timeoutId;
+        document
+          .querySelector(".js-save-button")
+          .addEventListener("click", () => {
+            editExpense(index);
+
+            if (
+              !expenses[index].name ||
+              !expenses[index].cartegory ||
+              !expenses[index].date
+            ) {
+              document.querySelector(".js-edit-alert").classList.add("active");
+              document.querySelector(".js-edit-alert").innerHTML =
+                `Please fill all fields!`;
+
+              clearTimeout(timeoutId);
+
+              timeoutId = setTimeout(() => {
+                document
+                  .querySelector(".js-edit-alert")
+                  .classList.remove("active");
+              }, 3000);
+              return;
+            }
+
+            if (
+              expenses[index].cost <= 0 ||
+              expenses[index].cost !== Number(expenses[index].cost) ||
+              expenses[index].cost === null
+            ) {
+              document.querySelector(".js-edit-alert").classList.add("active");
+              document.querySelector(".js-edit-alert").innerHTML =
+                `Unexpected input!`;
+
+              clearTimeout(timeoutId);
+
+              timeoutId = setTimeout(() => {
+                document
+                  .querySelector(".js-edit-alert")
+                  .classList.remove("active");
+              }, 3000);
+              return;
+            }
+
+            renderExpenses();
+
+            removeDialogue(document.querySelector(".js-edit-dialogue"));
+          });
+
+        document
+          .querySelector(".js-cancel-button")
+          .addEventListener("click", () => {
+            if (
+              !expenses[index].name ||
+              !expenses[index].cartegory ||
+              !expenses[index].date
+            ) {
+              document.querySelector(".js-edit-alert").classList.add("active");
+              document.querySelector(".js-edit-alert").innerHTML =
+                `Please fill all fields!`;
+
+              clearTimeout(timeoutId);
+
+              timeoutId = setTimeout(() => {
+                document
+                  .querySelector(".js-edit-alert")
+                  .classList.remove("active");
+              }, 3000);
+              return;
+            }
+
+            if (
+              expenses[index].cost <= 0 ||
+              expenses[index].cost !== Number(expenses[index].cost) ||
+              expenses[index].cost === null
+            ) {
+              document.querySelector(".js-edit-alert").classList.add("active");
+              document.querySelector(".js-edit-alert").innerHTML =
+                `Unexpected input!`;
+
+              clearTimeout(timeoutId);
+
+              timeoutId = setTimeout(() => {
+                document
+                  .querySelector(".js-edit-alert")
+                  .classList.remove("active");
+              }, 3000);
+              return;
+            }
+            removeDialogue(document.querySelector(".js-edit-dialogue"));
+          });
+      });
+    });
+  }
+
 
   // edit an expense
 
@@ -215,118 +331,7 @@ function renderExpenses() {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }
 
-  document.querySelectorAll(".js-edit-button").forEach((editButton) => {
-
-    editButton.addEventListener("click", () => {
-
-      const index = parseInt(editButton.getAttribute("data-index"));
-
-      renderEditDialogue();
-
-      // this section displays the value of the expense labels in the in input field before editing
-      document.querySelector(".js-edit-name").value = expenses[index].name;
-
-      document.querySelector(".js-edit-cost").value = `${expenses[index].cost}`;
-
-      document.querySelector(".js-edit-cartegory").value =
-        expenses[index].cartegory;
-
-      document.querySelector(".js-edit-date").value = expenses[index].date;
-
-      let timeoutId;
-      document
-        .querySelector(".js-save-button")
-        .addEventListener("click", () => {
-
-          editExpense(index);
-          
-           if (
-             !expenses[index].name ||
-             !expenses[index].cartegory ||
-             !expenses[index].date            
-            ) {
-            document.querySelector(".js-edit-alert").classList.add("active");
-            document.querySelector(".js-edit-alert").innerHTML = `Please fill all fields!`;
-
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-              document.querySelector(".js-edit-alert").classList.remove("active");
-            }, 3000);
-            return;
-           }
-
-           if (
-             expenses[index].cost <= 0 ||
-             expenses[index].cost !== Number(expenses[index].cost) || expenses[index].cost === null
-           ) {
-            document.querySelector(".js-edit-alert").classList.add("active");
-            document.querySelector(
-              ".js-edit-alert"
-            ).innerHTML = `Unexpected input!`;
-
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-              document
-                .querySelector(".js-edit-alert")
-                .classList.remove("active");
-            }, 3000);
-             return;
-           }
-
-          renderExpenses();
-
-          removeDialogue(document.querySelector(".js-edit-dialogue"));
-
-        });
-
-      document
-        .querySelector(".js-cancel-button")
-        .addEventListener("click", () => {
-          if (
-            !expenses[index].name ||
-            !expenses[index].cartegory ||
-            !expenses[index].date
-          ) {
-            document.querySelector(".js-edit-alert").classList.add("active");
-            document.querySelector(".js-edit-alert").innerHTML =
-              `Please fill all fields!`;
-
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-              document
-                .querySelector(".js-edit-alert")
-                .classList.remove("active");
-            }, 3000);
-            return;
-          }
-
-          if (
-            expenses[index].cost <= 0 ||
-            expenses[index].cost !== Number(expenses[index].cost) ||
-            expenses[index].cost === null
-          ) {
-            document.querySelector(".js-edit-alert").classList.add("active");
-            document.querySelector(".js-edit-alert").innerHTML =
-              `Unexpected input!`;
-
-            clearTimeout(timeoutId);
-
-            timeoutId = setTimeout(() => {
-              document
-                .querySelector(".js-edit-alert")
-                .classList.remove("active");
-            }, 3000);
-            return;
-          }
-          removeDialogue(document.querySelector(".js-edit-dialogue"));
-
-        });
-    });
-  });
-
+  
   function clearAllExpenses() {
 
     expenses.length = 0;
