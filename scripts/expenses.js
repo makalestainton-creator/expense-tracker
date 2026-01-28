@@ -47,48 +47,54 @@ function renderExpenses() {
     });
 
     document.querySelector(".js-entries-grid").innerHTML = html;
+    applyCartegoryStyles();
+    applyHighCostStyles();
   }
 
-  document
-    .querySelectorAll(".js-cartegory")
-    .forEach((cartegoryElement) => {
-      if (cartegoryElement.innerText.toLowerCase() === "food") {
+  function applyCartegoryStyles() {
+    document
+      .querySelectorAll(".js-cartegory")
+      .forEach((cartegoryElement) => {
+        if (cartegoryElement.innerText.toLowerCase() === "food") {
 
-        cartegoryElement.classList.add("food");
+          cartegoryElement.classList.add("food");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "transport") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "transport") {
 
-        cartegoryElement.classList.add("transport");
+          cartegoryElement.classList.add("transport");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "entertainment") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "entertainment") {
 
-        cartegoryElement.classList.add("entertainment");
+          cartegoryElement.classList.add("entertainment");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "shopping") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "shopping") {
 
-        cartegoryElement.classList.add("shopping");
+          cartegoryElement.classList.add("shopping");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "bills") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "bills") {
 
-        cartegoryElement.classList.add("bills");
+          cartegoryElement.classList.add("bills");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "health") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "health") {
 
-        cartegoryElement.classList.add("health");
+          cartegoryElement.classList.add("health");
 
-      } else if (cartegoryElement.innerText.toLowerCase() === "other") {
+        } else if (cartegoryElement.innerText.toLowerCase() === "other") {
 
-        cartegoryElement.classList.add("other");
+          cartegoryElement.classList.add("other");
 
+        }
+      });
+    }
+
+  function applyHighCostStyles() {
+    document.querySelectorAll(".js-amount").forEach((amountElement) => {
+      const cost = Number(amountElement.innerText.slice(4));
+      if(cost >= 1000) {
+        amountElement.classList.add("high-amount");
       }
     });
-
-  document.querySelectorAll(".js-amount").forEach((amountElement) => {
-    const cost = Number(amountElement.innerText.slice(4));
-    if(cost >= 1000) {
-      amountElement.classList.add("high-amount");
-    }
-  });
+  }
 
   const input = document.querySelector("#search-input");
   input.addEventListener("input", () => {
