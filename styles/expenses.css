@@ -265,8 +265,10 @@ body.dark-mode .label {
 
 .value {
   color: #111827;
+  /* lines that extend beyond 1 line are replaced with ...  */
   display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
