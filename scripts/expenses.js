@@ -109,6 +109,7 @@ function renderExpenses() {
         expense.name.toLowerCase().includes(searchTerm)
       );
     });
+    
     displayExpenses(filtered);
   });
   // renderExpenses();
@@ -209,7 +210,7 @@ function renderExpenses() {
               !expenses[index].date
             ) {
               document.querySelector(".js-edit-alert").classList.add("active");
-              document.querySelector(".js-edit-alert").innerHTML =
+              document.querySelector(".js-edit-alert").textContent =
                 `Please fill all fields!`;
 
               clearTimeout(timeoutId);
@@ -228,7 +229,7 @@ function renderExpenses() {
               expenses[index].cost === null
             ) {
               document.querySelector(".js-edit-alert").classList.add("active");
-              document.querySelector(".js-edit-alert").innerHTML =
+              document.querySelector(".js-edit-alert").textContent =
                 `Unexpected input!`;
 
               clearTimeout(timeoutId);

@@ -629,6 +629,27 @@ body.dark-mode .dialogue-overlay {
   opacity: 1;
 }
 
+.code-link-container {
+  display: flex;
+  justify-content: center;
+  /* margin: 10px; */
+}
+
+.code-link {
+  text-align: center;
+  color: #64748b;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.github-icon {
+  height: 14px;
+}
+
+.code-link:hover {
+  text-decoration: underline;
+}
+
 @media(max-width: 768px) {
   .entries-grid{
     grid-template-columns: 1fr;

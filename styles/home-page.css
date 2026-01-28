@@ -317,6 +317,27 @@ body.dark-mode .cost {
   color: #2b5999;
 }
 
+.code-link-container {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+}
+
+.code-link {
+  text-align: center;
+  color: #64748b;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.github-icon {
+  height: 16px;
+}
+
+.code-link:hover {
+  text-decoration: underline;
+}
+
 /* responsive design: when screen width is less than the max-width specified the selectors take the given properties */
 @media (max-width: 800px) {
   .content-area {
