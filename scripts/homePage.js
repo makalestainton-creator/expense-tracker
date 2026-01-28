@@ -32,20 +32,20 @@ function addExpense() {
   // avoids adding empty expenses
 
   if (!expenseDescription || !expenseCartegory || !expenseDate) {
-    document.querySelector(".js-empty-field-warning").innerHTML = `
-      <p class="js-warning-message">Please fill all the fields!</p>
+    document.querySelector(".js-empty-field-warning").textContent = `
+      Please fill all the fields!
     `;
     return;
   }
 
   if (expenseAmount <= 0 || expenseAmount !== Number(expenseAmount)) {
-    document.querySelector(".js-empty-field-warning").innerHTML = `
-          <p>Unexpected input!</p>
+    document.querySelector(".js-empty-field-warning").textContent = `
+          Unexpected input!
           `;
 
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      document.querySelector(".js-empty-field-warning").innerHTML = "";
+      document.querySelector(".js-empty-field-warning").textContent = "";
     }, 2000);
     return;
   }

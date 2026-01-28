@@ -227,7 +227,7 @@ body.dark-mode .expense-input {
 
 .add-expense-button {
   width: 100%;
-  margin: 20px auto;
+  margin: 20px auto 10px auto;
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 15px;
@@ -248,20 +248,17 @@ body.dark-mode .expense-input {
   transform: scale(0.99);
 }
 
-.added-to-tracker {
-  color: rgb(6, 150, 90);
-  font-size: 15px;
-}
-
 .added-to-tracker img {
   height: 20px;
 }
 
 .added-to-tracker {
+  color: #06965a;
+  font-size: 15px;
   display: flex;
   gap: 8px;
   align-items: center;
-  justify-self: center;
+  justify-content: center;
   /* this will be visible once we click the add button */
   opacity: 0;
 }
@@ -270,18 +267,18 @@ body.dark-mode .expense-input {
   opacity: 1;
 }
 
+.empty-field-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 .empty-field-warning {
   position: absolute;
-  justify-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -10px;
   opacity: 1;
-  transition: all 4s ease;
-}
-
-.empty-field-warning p {
   color: #f44336;
 }
 
