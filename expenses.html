@@ -1,207 +1,213 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tracking room</title>
-  <link rel="stylesheet" href="styles/expenses.css">
-</head>
-<body>
-  <div class="header">
-    <a href="index.html" class="home-page-link">
-      <img src="tracker/icons/home-page-icon.png" class="home-page-icon">
-      Home
-    </a>
-    <h2>
-      
-    </h2>
-    <div class="right-header-section">
-      <div class="search">
-        <input type="text" id="search-input" placeholder="Search">
-        <button class="search-button">
-          <img src="tracker/icons/search.png" class="search-icon">
-        </button>
-      </div>
-      <button class="change-theme-button js-change-theme-button">
-        <svg
-          width="48"
-          height="58"
-          viewBox="0 -10 96 58"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <style>
-              .toggle-button {
-                cursor: pointer;
-                transition: all 0.3s ease;
-              }
-              .toggle-button:hover {
-                opacity: 0.8;
-              }
-              .sun-moon {
-                transition: all 0.4s ease;
-                transform-origin: center;
-              }
-              .light-mode .sun-moon {
-                transform: rotate(0deg);
-              }
-              .dark-mode .sun-moon {
-                transform: rotate(180deg);
-              }
-              .sun-rays {
-                opacity: 1;
-                transition: opacity 0.3s ease;
-              }
-              .dark-mode .sun-rays {
-                opacity: 0;
-              }
-              .moon-crater {
-                opacity: 0;
-                transition: opacity 0.3s ease;
-              }
-              .dark-mode .moon-crater {
-                opacity: 1;
-              }
-            </style>
-          </defs>
-
-          <g
-            class="toggle-button light-mode"
-            onclick="this.classList.toggle('light-mode'); this.classList.toggle('dark-mode')"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tracking room</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="stylesheet" href="styles/expenses.css" />
+  </head>
+  <body>
+    <div class="header">
+      <a href="index.html" class="home-page-link">
+        <img src="tracker/icons/home-page-icon.png" class="home-page-icon" />
+        Home
+      </a>
+      <h2></h2>
+      <div class="right-header-section">
+        <div class="search">
+          <input type="text" id="search-input" placeholder="Search" />
+          <button class="search-button">
+            <img src="tracker/icons/search.png" class="search-icon" />
+          </button>
+        </div>
+        <button class="change-theme-button js-change-theme-button">
+          <svg
+            width="48"
+            height="58"
+            viewBox="0 -10 96 58"
+            xmlns="http://www.w3.org/2000/svg"
           >
+            <defs>
+              <style>
+                .toggle-button {
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                }
+                .toggle-button:hover {
+                  opacity: 0.8;
+                }
+                .sun-moon {
+                  transition: all 0.4s ease;
+                  transform-origin: center;
+                }
+                .light-mode .sun-moon {
+                  transform: rotate(0deg);
+                }
+                .dark-mode .sun-moon {
+                  transform: rotate(180deg);
+                }
+                .sun-rays {
+                  opacity: 1;
+                  transition: opacity 0.3s ease;
+                }
+                .dark-mode .sun-rays {
+                  opacity: 0;
+                }
+                .moon-crater {
+                  opacity: 0;
+                  transition: opacity 0.3s ease;
+                }
+                .dark-mode .moon-crater {
+                  opacity: 1;
+                }
+              </style>
+            </defs>
 
-            <!-- Background circle -->
-            <circle
-              cx="24"
-              cy="24"
-              r="22"
-              fill="#f0f0f0"
-              stroke="#333"
-              stroke-width="2"
-            />
+            <g
+              class="toggle-button light-mode"
+              onclick="
+                this.classList.toggle('light-mode');
+                this.classList.toggle('dark-mode');
+              "
+            >
+              <!-- Background circle -->
+              <circle
+                cx="24"
+                cy="24"
+                r="22"
+                fill="#f0f0f0"
+                stroke="#333"
+                stroke-width="2"
+              />
 
-            <!-- Sun/Moon body -->
-            <g class="sun-moon">
-              <circle cx="24" cy="24" r="8" fill="#0f766e" />
+              <!-- Sun/Moon body -->
+              <g class="sun-moon">
+                <circle cx="24" cy="24" r="8" fill="#0f766e" />
 
-              <!-- Moon craters (hidden in light mode) -->
-              <g class="moon-crater">
-                <circle cx="21" cy="22" r="2" fill="#E6C200" opacity="0.5" />
-                <circle cx="26" cy="25" r="1.5" fill="#E6C200" opacity="0.5" />
-              </g>
+                <!-- Moon craters (hidden in light mode) -->
+                <g class="moon-crater">
+                  <circle cx="21" cy="22" r="2" fill="#E6C200" opacity="0.5" />
+                  <circle
+                    cx="26"
+                    cy="25"
+                    r="1.5"
+                    fill="#E6C200"
+                    opacity="0.5"
+                  />
+                </g>
 
-              <!-- Sun rays (visible in light mode) -->
-              <g class="sun-rays">
-                <line
-                  x1="24"
-                  y1="8"
-                  x2="24"
-                  y2="4"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="24"
-                  y1="44"
-                  x2="24"
-                  y2="40"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="8"
-                  y1="24"
-                  x2="4"
-                  y2="24"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="44"
-                  y1="24"
-                  x2="40"
-                  y2="24"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="12.5"
-                  y1="12.5"
-                  x2="9.5"
-                  y2="9.5"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="38.5"
-                  y1="9.5"
-                  x2="35.5"
-                  y2="12.5"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="9.5"
-                  y1="38.5"
-                  x2="12.5"
-                  y2="35.5"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-                <line
-                  x1="35.5"
-                  y1="35.5"
-                  x2="38.5"
-                  y2="38.5"
-                  stroke="#0f766e"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
+                <!-- Sun rays (visible in light mode) -->
+                <g class="sun-rays">
+                  <line
+                    x1="24"
+                    y1="8"
+                    x2="24"
+                    y2="4"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="24"
+                    y1="44"
+                    x2="24"
+                    y2="40"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="8"
+                    y1="24"
+                    x2="4"
+                    y2="24"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="44"
+                    y1="24"
+                    x2="40"
+                    y2="24"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="12.5"
+                    y1="12.5"
+                    x2="9.5"
+                    y2="9.5"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="38.5"
+                    y1="9.5"
+                    x2="35.5"
+                    y2="12.5"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="9.5"
+                    y1="38.5"
+                    x2="12.5"
+                    y2="35.5"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                  <line
+                    x1="35.5"
+                    y1="35.5"
+                    x2="38.5"
+                    y2="38.5"
+                    stroke="#0f766e"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                  />
+                </g>
               </g>
             </g>
-          </g>
-        </svg>
-      </button>
+          </svg>
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="edit-alert js-edit-alert"></div>
-  <h2 class="entries-title">
-    Your Expenses
-    (
-    <span>
-      <a href="index.html" class="expense-quantity js-expense-quantity"></a>
-    </span>
-    )
-  </h2>
-  <div class="entries-grid js-entries-grid">
-    
-  </div>
+    <div class="edit-alert js-edit-alert"></div>
+    <h2 class="entries-title">
+      Your Expenses (
+      <span>
+        <a href="index.html" class="expense-quantity js-expense-quantity"></a>
+      </span>
+      )
+    </h2>
+    <div class="entries-grid js-entries-grid"></div>
 
-  <div class="confirmation-dialogue js-confirmation-dialogue">
-    
-  </div>
-  <div class="edit-dialogue js-edit-dialogue">
+    <div class="confirmation-dialogue js-confirmation-dialogue"></div>
+    <div class="edit-dialogue js-edit-dialogue"></div>
+    <div class="dialogue-overlay js-dialogue-overlay"></div>
+    <div class="clear-all-button-container js-clear-all-button-container">
+      <button class="clear-all-button js-clear-all-button">Clear all</button>
+    </div>
 
-  </div>
-  <div class="dialogue-overlay js-dialogue-overlay"></div>
-  <div class="clear-all-button-container js-clear-all-button-container">
-    <button class="clear-all-button js-clear-all-button">Clear all</button>
-  </div>
+    <p class="code-link-container">
+      <a
+        href="https://github.com/makalestainton-creator/expense-tracker"
+        class="code-link"
+      >
+        View code
+        <img src="icons/github.png" class="github-icon" />
+      </a>
+    </p>
 
-  <p class="code-link-container">
-    <a href="https://github.com/makalestainton-creator/expense-tracker" class="code-link">
-      View code
-      <img src="icons/github.png" class="github-icon">
-    </a>
-  </p>
-
-  <script type="module" src="scripts/expenses.js"></script>
-</body>
+    <script type="module" src="scripts/expenses.js"></script>
+  </body>
 </html>
