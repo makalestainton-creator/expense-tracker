@@ -88,6 +88,7 @@ if (addButton) {
       document.querySelector(".js-empty-field-warning").innerHTML = "";
     }, 4000);
     addExpense();
+    calculateTotalExpenditure()
   });
 }
 
@@ -99,5 +100,6 @@ document.body.addEventListener("keydown", (event) => {
       document.querySelector(".js-empty-field-warning").innerHTML = "";
     }, 4000);
     addExpense();
+    calculateTotalExpenditure();
   }
 });
