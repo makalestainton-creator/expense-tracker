@@ -148,7 +148,7 @@ export function calculateTotalExpenditure() {
     </div>
     <div class="analysis-title">
       <h3>
-        <img src="../icons/analytics.png" class="analytics-icon">
+        <img src="icons/analytics.png" class="analytics-icon">
         Quick Analysis
       </h3>
     </div>
