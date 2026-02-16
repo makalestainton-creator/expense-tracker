@@ -1,3 +1,5 @@
+import { changeTheme } from "./changeTheme.js";
+
 export function renderExpenseChart() {
   const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
   let expenseChart = null;
@@ -29,6 +31,8 @@ export function renderExpenseChart() {
     return;
   }
 
+  const isDarkMode = localStorage.getItem("theme") === "dark";
+
   const data = {
     labels: [
       "Food",
@@ -48,109 +52,34 @@ export function renderExpenseChart() {
           categoryTotals["entertainment"],
           categoryTotals["shopping"],
           categoryTotals["bills"],
+          categoryTotals["health"],
           categoryTotals["other"],
         ],
-        backgroundColor: [
-          "#4ADE80",
-          "#60A5FA",
-          "#b057f8",
-          "#f8e15d",
-          "#29669b",
-          "#4ea0f1",
-          "#e6744b",
-        ],
+        backgroundColor: isDarkMode
+          ? [
+              "#3FBF8E",
+              "#3B82F6",
+              "#9d50db",
+              "#c5b247",
+              "#428ccc",
+              "#448bd3",
+              "#c4623e",
+            ]
+          : [
+              "#4ADE80",
+              "#60A5FA",
+              "#b057f8",
+              "#f8e15d",
+              "#29669b",
+              "#4ea0f1",
+              "#e6744b",
+            ],
         hoverOffset: 2,
         borderWidth: 2,
-        // borderColor: isDarkMode ? "#031922" : "#fff",
+        borderColor: isDarkMode ? "#031922" : "#fff",
       },
     ],
   };
-
-  // expenseChart = new Chart(ctx.getContext("2d"), {
-  //   type: "doughnut",
-  //   data: {
-  //     labels: labels,
-  //     datasets: [
-  //       {
-  //         label: "Amount Spent (Ksh)",
-  //         data: data,
-  //         backgroundColor: [
-  //           "#4ADE80", // Food
-  //           "#60A5FA", // Transport
-  //           "#b057f8", // Entertainment
-  //           "#f8e15d", // Shopping
-  //           "#29669b", // Bills
-  //           "#4ea0f1", // Health
-  //           "#e6744b", // Other
-  //         ],
-  //         borderWidth: 3,
-  //         borderColor: isDarkMode ? "#031922" : "#fff",
-  //         hoverOffset: 10,
-  //       },
-  //     ],
-  //   },
-  //   options: {
-  //     responsive: true,
-  //     maintainAspectRatio: true,
-  //     plugins: {
-  //       legend: {
-  //         position: "bottom", // ← This moves legend to bottom
-  //         labels: {
-  //           padding: 20,
-  //           font: {
-  //             size: 12,
-  //             family: "Roboto",
-  //           },
-  //           color: isDarkMode ? "#cccbcb" : "#1f2937",
-  //           usePointStyle: true,
-  //           pointStyle: "circle",
-  //         },
-  //       },
-  //       title: {
-  //         display: true,
-  //         text: "Spending by Category",
-  //         font: {
-  //           size: 18,
-  //           weight: "500",
-  //           family: "Roboto",
-  //         },
-  //         color: isDarkMode ? "#d6d6d6" : "#1f2937",
-  //         padding: {
-  //           top: 10,
-  //           bottom: 20,
-  //         },
-  //       },
-  //       tooltip: {
-  //         callbacks: {
-  //           label: function (context) {
-  //             let label = context.label || "";
-  //             if (label) {
-  //               label += ": ";
-  //             }
-  //             label += "Ksh " + context.parsed.toLocaleString();
-
-  //             const total = context.dataset.data.reduce((a, b) => a + b, 0);
-  //             const percentage = ((context.parsed / total) * 100).toFixed(1);
-  //             label += ` (${percentage}%)`;
-
-  //             return label;
-  //           },
-  //         },
-  //         backgroundColor: isDarkMode
-  //           ? "rgba(0, 0, 0, 0.9)"
-  //           : "rgba(0, 0, 0, 0.8)",
-  //         padding: 12,
-  //         cornerRadius: 8,
-  //         titleFont: {
-  //           size: 14,
-  //         },
-  //         bodyFont: {
-  //           size: 13,
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
 
   const ctx = document.getElementById("doughnutCanvas");
   const existingChart = Chart.getChart("doughnutCanvas");
@@ -173,7 +102,7 @@ export function renderExpenseChart() {
               size: 12,
               family: "Roboto",
             },
-            // color: isDarkMode ? "#cccbcb" : "#1f2937",
+            color: isDarkMode ? "#d6d6d6" : "#333333",
             usePointStyle: true,
             pointStyle: "circle",
           },
@@ -186,7 +115,7 @@ export function renderExpenseChart() {
             weight: "500",
             family: "Roboto",
           },
-          // color: isDarkMode ? "#d6d6d6" : "#1f2937",
+          color: isDarkMode ? "#e5e5e5" : "#1f2937",
           padding: {
             top: 10,
             bottom: 20,
@@ -208,9 +137,9 @@ export function renderExpenseChart() {
               return label;
             },
           },
-          // backgroundColor: isDarkMode
-          //   ? "rgba(0, 0, 0, 0.9)"
-          //   : "rgba(0, 0, 0, 0.8)",
+          backgroundColor: isDarkMode
+            ? "rgba(0, 0, 0, 0.9)"
+            : "rgba(0, 0, 0, 0.8)",
           padding: 12,
           cornerRadius: 8,
           titleFont: {
@@ -222,6 +151,6 @@ export function renderExpenseChart() {
         },
       },
     },
-    maxHeight: 250
+    maxHeight: 250,
   });
 }

@@ -1,3 +1,5 @@
+import { renderExpenseChart } from "./chart.js";
+
 export function changeTheme() {
 
   const buttonElement = document.querySelector(".js-change-theme-button");
@@ -13,6 +15,7 @@ export function changeTheme() {
     } else {
       localStorage.setItem("theme", "light");
     }
+    renderExpenseChart();
   });
 }
 
