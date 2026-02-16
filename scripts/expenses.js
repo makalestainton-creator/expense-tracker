@@ -17,7 +17,6 @@ function renderExpenses() {
 
     // generates the HTML for each expense
     expenses.forEach((expense, index) => {
-
       const expenseIndex = expenses.indexOf(expense);
       html += `
       <div class="entry-item-container">
@@ -57,45 +56,29 @@ function renderExpenses() {
   }
 
   function applyCartegoryStyles() {
-    document
-      .querySelectorAll(".js-cartegory")
-      .forEach((cartegoryElement) => {
-        if (cartegoryElement.innerText.toLowerCase() === "food") {
-
-          cartegoryElement.classList.add("food");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "transport") {
-
-          cartegoryElement.classList.add("transport");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "entertainment") {
-
-          cartegoryElement.classList.add("entertainment");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "shopping") {
-
-          cartegoryElement.classList.add("shopping");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "bills") {
-
-          cartegoryElement.classList.add("bills");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "health") {
-
-          cartegoryElement.classList.add("health");
-
-        } else if (cartegoryElement.innerText.toLowerCase() === "other") {
-
-          cartegoryElement.classList.add("other");
-
-        }
-      });
-    }
+    document.querySelectorAll(".js-cartegory").forEach((cartegoryElement) => {
+      if (cartegoryElement.innerText.toLowerCase() === "food") {
+        cartegoryElement.classList.add("food");
+      } else if (cartegoryElement.innerText.toLowerCase() === "transport") {
+        cartegoryElement.classList.add("transport");
+      } else if (cartegoryElement.innerText.toLowerCase() === "entertainment") {
+        cartegoryElement.classList.add("entertainment");
+      } else if (cartegoryElement.innerText.toLowerCase() === "shopping") {
+        cartegoryElement.classList.add("shopping");
+      } else if (cartegoryElement.innerText.toLowerCase() === "bills") {
+        cartegoryElement.classList.add("bills");
+      } else if (cartegoryElement.innerText.toLowerCase() === "health") {
+        cartegoryElement.classList.add("health");
+      } else if (cartegoryElement.innerText.toLowerCase() === "other") {
+        cartegoryElement.classList.add("other");
+      }
+    });
+  }
 
   function applyHighCostStyles() {
     document.querySelectorAll(".js-amount").forEach((amountElement) => {
       const cost = Number(amountElement.innerText.slice(4));
-      if(cost >= 1000) {
+      if (cost >= 1000) {
         amountElement.classList.add("high-amount");
       }
     });
@@ -111,18 +94,16 @@ function renderExpenses() {
         expense.name.toLowerCase().includes(searchTerm)
       );
     });
-    
+
     displayExpenses(filtered);
   });
   // renderExpenses();
 
   // making the tracking room header dynamic
-  document.querySelector(
-    ".js-expense-quantity"
-  ).innerHTML = `${expenses.length}`;
+  document.querySelector(".js-expense-quantity").innerHTML =
+    `${expenses.length}`;
 
   if (expenses.length === 0) {
-
     const entriesGrid = document.querySelector(".js-entries-grid");
 
     entriesGrid.innerHTML = `<p class="no-expense-alert">No expenses yet. Start tracking by adding your first expense!</p>`;
@@ -135,7 +116,6 @@ function renderExpenses() {
   // deleting an expense
 
   function deleteExpense(deleteButton) {
-
     // gets the index of the delete button on the page to determine the expense to delete
     const index = parseInt(deleteButton.getAttribute("data-index"));
 
@@ -159,7 +139,6 @@ function renderExpenses() {
 
   function attachEventListeners() {
     document.querySelectorAll(".js-delete-button").forEach((deleteButton) => {
-
       deleteButton.addEventListener("click", () => {
         //  displays the confirmation dialogue and activates overlay to avoid interactivity with the rest of the page when the dialogue is active
         renderConfirmationDialogue();
@@ -167,7 +146,6 @@ function renderExpenses() {
         const yesButton = document.querySelector(".js-yes-button");
 
         yesButton.addEventListener("click", () => {
-
           // removes the dialogue and the overlay once we click the button
           removeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
@@ -177,7 +155,6 @@ function renderExpenses() {
         const noButton = document.querySelector(".js-no-button");
 
         noButton.addEventListener("click", () => {
-
           // removes the dialogue and overlay and does nothing more
           removeDialogue(document.querySelector(".js-confirmation-dialogue"));
         });
@@ -193,7 +170,8 @@ function renderExpenses() {
         // this section displays the value of the expense labels in the in input field before editing
         document.querySelector(".js-edit-name").value = expenses[index].name;
 
-        document.querySelector(".js-edit-cost").value = `${expenses[index].cost}`;
+        document.querySelector(".js-edit-cost").value =
+          `${expenses[index].cost}`;
 
         document.querySelector(".js-edit-cartegory").value =
           expenses[index].cartegory;
@@ -295,12 +273,10 @@ function renderExpenses() {
     });
   }
 
-
   // edit an expense
 
   function editExpense(index) {
-
-    const previousExpenses = expenses; 
+    const previousExpenses = expenses;
 
     if (document.querySelector(".js-edit-name").value === "") {
       expenses[index].name = previousExpenses.name;
@@ -308,17 +284,15 @@ function renderExpenses() {
       expenses[index].name = document.querySelector(".js-edit-name").value;
     }
 
-    if(Number(
-      document.querySelector(".js-edit-cost").value
-    ) === null) {
+    if (Number(document.querySelector(".js-edit-cost").value) === null) {
       expenses[index].cost = previousExpenses.cost;
     } else {
       expenses[index].cost = Number(
-        document.querySelector(".js-edit-cost").value
+        document.querySelector(".js-edit-cost").value,
       );
     }
 
-    if(document.querySelector(".js-edit-cartegory").value === "") {
+    if (document.querySelector(".js-edit-cartegory").value === "") {
       expenses[index].cartegory = previousExpenses.cartegory;
     } else {
       expenses[index].cartegory =
@@ -334,9 +308,7 @@ function renderExpenses() {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }
 
-  
   function clearAllExpenses() {
-
     expenses.length = 0;
 
     localStorage.setItem("expenses", JSON.stringify(expenses));
@@ -345,9 +317,7 @@ function renderExpenses() {
   const clearAllButton = document.querySelector(".js-clear-all-button");
 
   if (clearAllButton) {
-
     clearAllButton.addEventListener("click", () => {
-
       renderConfirmationDialogue();
 
       document
@@ -357,22 +327,52 @@ function renderExpenses() {
       const yesButton = document.querySelector(".js-yes-button");
 
       yesButton.addEventListener("click", () => {
-
         removeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
         clearAllExpenses();
 
         renderExpenses();
-
       });
 
       const noButton = document.querySelector(".js-no-button");
 
       noButton.addEventListener("click", () => {
-
-       removeDialogue(document.querySelector(".js-confirmation-dialogue"));
-
+        removeDialogue(document.querySelector(".js-confirmation-dialogue"));
       });
     });
+  }
+
+  function downloadExpensesAsCSV(expenses) {
+    // Step 2: Create CSV string
+    let csv = "Date,Category,Amount,Description\n";
+    expenses.forEach((exp) => {
+      csv += `${exp.date},${exp.cartegory},${exp.amount},${exp.name}\n`;
+    });
+
+    // Step 3: Create blob
+    const blob = new Blob([csv], { type: "text/csv" });
+
+    // Step 4: Create URL
+    const url = URL.createObjectURL(blob);
+
+    // Step 5: Create link
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "my-expenses.csv";
+
+    // Step 6: Trigger download
+    link.click();
+
+    // Step 7: Clean up
+    URL.revokeObjectURL(url);
+  }
+
+  const downloadButton = document.querySelector(".js-download-button");
+ downloadButton
+    .addEventListener("click", () => {
+      downloadExpensesAsCSV(expenses);
+    });
+  if(expenses.length === 0) {
+    downloadButton.classList.add("inactive");
   }
 }

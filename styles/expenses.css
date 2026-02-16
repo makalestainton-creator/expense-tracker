@@ -656,6 +656,68 @@ body.dark-mode .dialogue-overlay {
   text-decoration: underline;
 }
 
+.download-button {
+  position: fixed;
+  bottom: 10vh;
+  right: 2vw;
+  padding: .8rem;
+  border-radius: 50%;
+  background-color: #0f766e;
+  border: none;
+  transition: all .3s ease;
+  z-index: 1000;
+}
+
+.download-button:active {
+  transform: scale(.95);
+}
+
+.download-button:hover {
+  cursor: pointer;
+  background-color: #108178;
+}
+
+.inactive {
+  display: none;
+}
+
+.download-button:hover + .tooltip {
+  visibility: visible;
+}
+
+/* Define the shake animation */
+@keyframes shake-vertical {
+  0%, 100% { transform: translateY(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateY(-8px); }
+  20%, 40%, 60%, 80% { transform: translateY(8px); }
+}
+
+/* Apply animation only on page load */
+.download-button {
+  animation: shake-vertical 0.8s ease-in-out;
+  /* Animation runs once automatically, then stops */
+}
+
+svg {
+  stroke: #f3f5f9;
+}
+
+.tooltip {
+  background-color: #0974bb;
+  color: #fff;
+  padding: 5px 8px;
+  position: fixed;
+  bottom: 18vh;
+  right: 6vw;
+  visibility: hidden;
+  border-radius: 13px 18px 0px 11px;
+  opacity: .6;
+  font-size: .8rem;
+  transition: all .3s ease;
+  z-index: 1000;
+  margin-bottom: 10px;
+}
+
 @media(max-width: 768px) {
   .entries-grid{
     grid-template-columns: 1fr;

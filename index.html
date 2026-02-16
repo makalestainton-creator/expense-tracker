@@ -281,21 +281,21 @@
       <div class="title">
         <h1>Track your Expenses Here</h1>
       </div>
-      <div class="line-separator"></div>
+      <!-- <div class="line-separator"></div> -->
       <div class="month-pill-container">
         <div class="month-pill js-month-pill"></div>
       </div>
       <div class="content-area">
-        <div class="total-expenditure js-total-expenditure"></div>
         <div class="expense-details">
           <div class="expense-grid">
-            <p class="label">Description:</p>
+            <label for="description">Description:</label>
             <input
               type="text"
               class="expense-input js-expense-input js-expense-description-input"
               placeholder="Expense description"
+              id="description"
             />
-            <p class="expense-amount label">Amount:</p>
+            <label for="amount">Amount:</label>
             <!-- styling div here -->
             <div class="prefix-container">
               <span class="prefix">Ksh.</span>
@@ -303,12 +303,12 @@
                 type="text"
                 class="expense-input js-expense-input js-expense-amount-input amount-input"
                 placeholder="0.00"
+                id="amount"
               />
             </div>
-            <p class="expense-cartegory label">Cartegory:</p>
+            <label for="cartegory">Cartegory:</label>
             <select
-              name=""
-              id=""
+              id="cartegory"
               class="expense-input js-expense-input js-expense-cartegory-input"
             >
               <option value="Food">Food</option>
@@ -319,13 +319,14 @@
               <option value="Health">Health</option>
               <option value="Other">Other</option>
             </select>
-            <p class="expense-date label">Date:</p>
+            <label for="date">Date:</label>
             <input
               type="date"
               class="expense-input js-expense-input js-expense-date-input"
+              id="date"
             />
           </div>
-          <button class="add-expense-button js-add-expense-button">Add</button>
+          <button class="add-expense-button js-add-expense-button">Add Expense</button>
           <div class="added-to-tracker js-added-to-tracker">
             <img src="icons/checkmark.png" class="checkmark" />
             Added
@@ -334,6 +335,13 @@
             <div class="empty-field-warning js-empty-field-warning"></div>
           </div>
         </div>
+        <div class="right-panel">
+          <div class="total-expenditure js-total-expenditure"></div>
+          <div class="chart-container">
+            <canvas id="doughnutCanvas"></canvas>
+          </div>
+        </div>
+        
       </div>
       <p class="code-link-container">
         <a
@@ -346,5 +354,6 @@
       </p>
     </div>
     <script type="module" src="scripts/homePage.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   </body>
 </html>

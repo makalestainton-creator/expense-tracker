@@ -1,8 +1,9 @@
 import { calculateTotalExpenditure } from "./expenseSummary.js";
 import { changeTheme } from "./utils/changeTheme.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-
+import { renderExpenseChart } from "./utils/chart.js";
 calculateTotalExpenditure();
+renderExpenseChart();
 changeTheme();
 
 const today = dayjs();
@@ -88,7 +89,8 @@ if (addButton) {
       document.querySelector(".js-empty-field-warning").innerHTML = "";
     }, 4000);
     addExpense();
-    calculateTotalExpenditure()
+    calculateTotalExpenditure();
+    renderExpenseChart();
   });
 }
 
@@ -101,5 +103,6 @@ document.body.addEventListener("keydown", (event) => {
     }, 4000);
     addExpense();
     calculateTotalExpenditure();
+    renderExpenseChart();
   }
 });
