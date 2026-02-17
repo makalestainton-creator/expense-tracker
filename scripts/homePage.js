@@ -32,7 +32,12 @@ function addExpense() {
 
   // avoids adding empty expenses
 
-  if (!expenseDescription || !expenseCartegory || !expenseDate) {
+  if (
+    !expenseDescription ||
+    !expenseCartegory ||
+    !expenseDate ||
+    !document.querySelector(".js-expense-amount-input").value
+  ) {
     document.querySelector(".js-empty-field-warning").textContent = `
       Please fill all the fields!
     `;

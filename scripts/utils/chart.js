@@ -28,7 +28,11 @@ export function renderExpenseChart() {
     }
   }
   if (categoryValues.length === 7) {
+    document.querySelector(".js-chart-container").innerHTML = "";
     return;
+  } else {
+    document.querySelector(".js-chart-container").innerHTML =
+      "<canvas id='doughnutCanvas'></canvas>";
   }
 
   const isDarkMode = localStorage.getItem("theme") === "dark";
@@ -76,7 +80,7 @@ export function renderExpenseChart() {
             ],
         hoverOffset: 2,
         borderWidth: 2,
-        borderColor: isDarkMode ? "#031922" : "#fff",
+        borderColor: isDarkMode ? "#031922" : "#F9FAFB",
       },
     ],
   };
@@ -95,9 +99,9 @@ export function renderExpenseChart() {
       maintainAspectRatio: true,
       plugins: {
         legend: {
-          position: "right", // ← This moves legend to bottom
+          position: "bottom",
           labels: {
-            padding: 20,
+            padding: 15,
             font: {
               size: 12,
               family: "Roboto",
@@ -117,8 +121,8 @@ export function renderExpenseChart() {
           },
           color: isDarkMode ? "#e5e5e5" : "#1f2937",
           padding: {
-            top: 10,
-            bottom: 20,
+            top: 15,
+            bottom: 10,
           },
         },
         tooltip: {
@@ -151,6 +155,5 @@ export function renderExpenseChart() {
         },
       },
     },
-    maxHeight: 250,
   });
 }
