@@ -168,15 +168,14 @@ function renderExpenses() {
         renderEditDialogue();
 
         // this section displays the value of the expense labels in the in input field before editing
-        document.querySelector(".js-edit-name").value = expenses[index].name;
+        document.getElementById("description").value = expenses[index].name;
 
-        document.querySelector(".js-edit-cost").value =
+        document.getElementById("amount").value =
           `${expenses[index].cost}`;
 
-        document.querySelector(".js-edit-cartegory").value =
-          expenses[index].cartegory;
+        document.getElementById("cartegory").value = expenses[index].cartegory;
 
-        document.querySelector(".js-edit-date").value = expenses[index].date;
+        document.getElementById("date").value = expenses[index].date;
 
         let timeoutId;
         document
@@ -278,31 +277,28 @@ function renderExpenses() {
   function editExpense(index) {
     const previousExpenses = expenses;
 
-    if (document.querySelector(".js-edit-name").value === "") {
+    if (!document.getElementById("description").value) {
       expenses[index].name = previousExpenses.name;
     } else {
-      expenses[index].name = document.querySelector(".js-edit-name").value;
+      expenses[index].name = document.getElementById("description").value.trim();
     }
 
-    if (Number(document.querySelector(".js-edit-cost").value) === null) {
+    if (!Number(document.getElementById("amount").value)) {
       expenses[index].cost = previousExpenses.cost;
     } else {
-      expenses[index].cost = Number(
-        document.querySelector(".js-edit-cost").value,
-      );
+      expenses[index].cost = Number(document.getElementById("amount").value);
     }
 
-    if (document.querySelector(".js-edit-cartegory").value === "") {
+    if (!document.getElementById("cartegory").value) {
       expenses[index].cartegory = previousExpenses.cartegory;
     } else {
-      expenses[index].cartegory =
-        document.querySelector(".js-edit-cartegory").value;
+      expenses[index].cartegory = document.getElementById("cartegory").value.trim();
     }
 
-    if (document.querySelector(".js-edit-date").value === "") {
+    if (!document.getElementById("date").value) {
       expenses[index].date = previousExpenses.date;
     } else {
-      expenses[index].date = document.querySelector(".js-edit-date").value;
+      expenses[index].date = document.getElementById("date").value.trim();
     }
 
     localStorage.setItem("expenses", JSON.stringify(expenses));

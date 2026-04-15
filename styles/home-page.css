@@ -1,16 +1,3 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  z-index: 1;
-}
-
-body {
-  padding-top: 90px;
-  background-color: #f9fafb;
-  font-family: "Roboto";
-}
-
 body.dark-mode {
   background-color: #001219;
 }
@@ -18,27 +5,6 @@ body.dark-mode {
 body.dark-mode h2,
 body.dark-mode h1 {
   color: #60288f;
-}
-
-.header {
-  height: 70px;
-  padding: 0 30px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background-color: #f2f2f2;
-  border-bottom: 1px solid #d3d3d3;
-  z-index: 1000;
-}
-
-body.dark-mode .header {
-  background-color: #001219;
-  border-bottom: 1px solid #022330;
 }
 
 .left-header-section {
@@ -109,13 +75,12 @@ body.dark-mode .expenses-link {
   margin-left: auto;
   margin-right: auto;
   max-width: 80vw;
-  height: 100%;
 }
 
 .content-area {
   display: grid;
-  grid-template-columns: 45vw 35vw;
-  gap: 5vw;
+  grid-template-columns: 1.6fr 1.4fr;
+  column-gap: 3vw;
 }
 
 .title h1 {
@@ -136,7 +101,7 @@ body.dark-mode .expenses-link {
   background-color: #dbdee2;
   flex: 1;
   position: relative;
-  margin-top: calc(.675rem + 1rem);
+  margin-top: calc(0.675rem + 1rem);
 }
 
 body.dark-mode .month-pill-container::before,
@@ -150,10 +115,10 @@ body.dark-mode .month-pill-container::after {
   font-weight: 500;
   font-size: 0.8rem;
   padding: 0.5rem 1.7rem;
-  margin: .675rem 0;
+  margin: 0.675rem 0;
   border-radius: 2em;
-  white-space: nowrap; 
-  flex-shrink: 0; 
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 body.dark-mode .month-pill {
@@ -166,11 +131,18 @@ body.dark-mode .month-pill {
   background-color: #fff;
 }
 
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+}
+
 .right-panel {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  align-self: stretch;
   width: 100%;
   background-color: #fff;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
@@ -178,6 +150,7 @@ body.dark-mode .month-pill {
 }
 
 .expense-details {
+  width: 100%;
   align-self: start;
   padding: 1.5rem;
   position: relative;
@@ -199,7 +172,7 @@ body.dark-mode .month-pill {
   position: absolute;
   right: 1rem;
   left: 1rem;
-  bottom: -.1rem;
+  bottom: -0.1rem;
   background-color: #c8d5e7;
 }
 
@@ -209,178 +182,9 @@ body.dark-mode .total-expenditure::after {
 
 body.dark-mode .expense-details,
 body.dark-mode .right-panel,
-body.dark-mode .total-expenditure {
+body.dark-mode .total-expenditure,
+body.dark-mode .recents-container {
   background-color: #031922;
-}
-
-.expense-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-}
-
-label {
-  font-size: 20px;
-  font-weight: 400;
-  color: #6b7280;
-}
-
-body.dark-mode label {
-  color: #cccbcb;
-}
-
-.expense-input:not(.amount-input) {
-  outline: none;
-  border: 1px solid #538de4;
-  height: 30px;
-  margin-top: 12px;
-  color: #2e2e2e;
-  border-radius: 5px;
-  padding: 2px 5px;
-  font-size: .9rem;
-}
-
-.expense-input:focus:not(.amount-input) {
-  outline: 1px solid #c2c2c2;
-}
-
-body.dark-mode .expense-input:not(.amount-input) {
-  background-color: #082a38;
-  color: #cccbcb;
-  border-color: #05465f;
-}
-
-.amount-input {
-  outline: none;
-  border: none;
-  margin: 0;
-  height: 100%;
-  width: 100%;
-  color: #2e2e2e;
-  font-size: .9rem;
-}
-
-.prefix {
-  pointer-events: none;
-}
-
-.prefix::selection {
-  background: transparent;
-}
-
-.prefix-container {
-  outline: none;
-  border: 1px solid #538de4;
-  height: 30px;
-  margin-top: 12px;
-  color: #2e2e2e;
-  border-radius: 5px;
-  padding: 2px 5px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: .3rem;
-}
-
-.prefix-container:has(.amount-input:focus) {
-  outline: 1px solid #c2c2c2;
-}
-
-body.dark-mode .prefix-container {
-  background-color: #082a38;
-  color: #8b8b8b;
-  border-color: #05465f;
-}
-
-body.dark-mode .amount-input {
-  background-color: transparent;
-  color: #cccbcb;
-}
-
-select,
-::picker(select) {
-  appearance: base-select;
-}
-
-select {
-  transition: .4s;
-}
-
-select:hover,
-select:focus {
-  background-color: #edf3fa;
-}
-
-select::picker-icon {
-  color: #008080;
-  transition: .4s rotate;
-}
-
-select:open::picker-icon {
-  rotate: 180deg;
-}
-
-::picker(select) {
-  border: none;
-  background-color: #f5faff;
-  border-radius: .3rem;
-  top: calc(anchor(bottom) + 1px);
-  opacity: 0;
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.1);
-  transition: all .4s allow-discrete;
-}
-
-::picker(select):popover-open {
-  opacity: 1;
-}
-
-@starting-style {
-  ::picker(select):open {
-    opacity: 0;
-  }
-}
-
-select option {
-  display: flex;
-  justify-content: flex-start;
-  padding: .6rem;
-  border: 1px solid #e0eaf3;
-  transition: .4s;
-}
-
-select option:first-of-type {
-  border-radius: .5rem .5rem 0 0;
-}
-
-select option:last-of-type {
-  border-radius: 0 0 .5rem .5rem;
-}
-
-select option:nth-of-type(even) {
-  background-color: #edf3fd;
-}
-
-select option:not(option:last-of-type) {
-  border-bottom: none;
-}
-
-option:hover,
-option:focus {
-  background-color: #c9d8f5;
-}
-
-option:checked {
-  font-weight: bold;
-}
-
-option::checkmark {
-  order: 1;
-  margin-left: auto;
-  content: "✅";
-}
-
-.expense-date-input {
-  width: 39%;
 }
 
 .add-expense-button {
@@ -419,7 +223,10 @@ option::checkmark {
   align-items: center;
   justify-content: center;
   /* this will be visible once we click the add button */
-  opacity: 0;
+  opacity: 1;
+  position: absolute;
+  left: 10rem;
+  right: 10rem;
 }
 
 .is-added-to-tracker {
@@ -480,7 +287,8 @@ body.dark-mode .period {
   color: #cccbcb;
 }
 
-.cost {
+.cost,
+.recent-expense-cost {
   font-size: 18px;
   font-weight: 500;
   color: #3063aa;
@@ -494,42 +302,193 @@ body.dark-mode .cost {
   height: 220px;
 }
 
-.chart-container canvas{
+.chart-container canvas {
   margin-left: auto;
   margin-right: auto;
   max-width: 300px;
 }
 
-.code-link-container {
+.recents-container {
+  height: 20vh;
+  padding: 1rem;
+  background-color: #fff;
+  margin: 0;
+  width: 100%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 0.6rem;
+  overflow-y: overlay;
   display: flex;
-  justify-content: center;
-  margin: 30px;
+  flex-direction: column;
+  gap: 1rem;
+
+  /* Firefox: thumb color | track color */
+  scrollbar-color: rgba(88, 93, 97, 0.2) transparent;
+  scrollbar-width: thin;
 }
 
-.code-link {
+body.dark-mode .recents-container h4 {
+  color: #d6d5d5;
+}
+
+/* WebKit (Chrome/Safari) */
+.recents-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recents-container::-webkit-scrollbar-track {
+  background: transparent; /* Makes the track blend in */
+}
+
+.recents-container::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2); /* Subtle grey thumb */
+  border-radius: 20px;
+  border: 2px solid transparent; /* Creates a 'floating' gap */
+  background-clip: content-box;
+}
+
+.recents-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.recents-container h4 {
   text-align: center;
-  color: #64748b;
-  text-decoration: none;
-  font-size: 15px;
 }
 
-.github-icon {
-  height: 16px;
+.recent-expense {
+  position: relative;
 }
 
-.code-link:hover {
-  text-decoration: underline;
+.recent-expense:not(.recent-expense:first-of-type)::before {
+  content: " ";
+  height: 1px;
+  background-color: #c9d8f5;
+  position: absolute;
+  top: -10px;
+  left: 0;
+  right: 0;
 }
 
-/* responsive design: when screen width is less than the max-width specified the selectors take the given properties */
+body.dark-mode .recent-expense:not(.recent-expense:first-of-type)::before {
+  background-color: #4f5766;
+}
+
+body.dark-mode .recent-expense-description {
+  color: #d6d5d5;
+}
+
+.recents-container .date {
+  color: #99a2b6;
+  font-size: 0.9rem;
+  font-weight: normal;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.recents-container .date-no {
+  color: #99a2b6;
+}
+
+.recent-expense-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recent-category {
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+
+  color: #f2f2f2;
+  font-size: 0.9rem;
+  padding: 0.2rem 0.3rem;
+  border-radius: 0.9rem;
+}
+
+.recent-category svg {
+  stroke: #fff;
+  height: 20px;
+  width: 20px;
+}
+
+.recent-food-category {
+  background-color: #3bb184;
+}
+
+body.dark-mode .recent-food-category {
+  background-color: #206d50;
+}
+
+.recent-transport-category {
+  background-color: #3a7de7;
+}
+
+body.dark-mode .recent-transport-category {
+  background-color: #163f81;
+}
+
+.recent-entertainment-category {
+  background-color: #9049ca;
+}
+
+body.dark-mode .recent-entertainment-category {
+  background-color: #4e1979;
+}
+
+.recent-shopping-category {
+  background-color: #beb41d;
+}
+
+body.dark-mode .recent-shopping-category {
+  background-color: #77700b;
+}
+
+.recent-bills-category {
+  background-color: #3c7eb8;
+}
+
+body.dark-mode .recent-bills-category {
+  background-color: #1d578a;
+}
+
+.recent-health-category {
+  background-color: #3c7ec0;
+}
+
+body.dark-mode .recent-health-category {
+  background-color: #11375c;
+}
+
+.recent-other-category {
+  background-color: #a55133;
+}
+
+body.dark-mode .recent-other-category {
+  background-color: #7e371e;
+}
+
+.right-side {
+  display: flex;
+  gap: 1rem;
+}
+
 @media (max-width: 800px) {
   .content-area {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
-    row-gap: 30px;
+    gap: 30px;
     margin-bottom: 20px;
+  }
+
+  .left-panel {
+    display: contents;
+  }
+
+  .recents-container {
+    order: 1;
+    align-self: end;
   }
 
   label {
@@ -545,15 +504,8 @@ body.dark-mode .cost {
   .cost {
     font-size: 16px;
   }
-
-  .total-expenditure,
-  .chart-container {
-    flex: 1;
-    width: 100%;
-  }
 }
 
-/* responsive design: when screen width is less than the max-width specified the selectors take the given properties */
 @media (max-width: 500px) {
   .header {
     padding: 0px 12px;
@@ -600,16 +552,14 @@ body.dark-mode .cost {
   .expense-details,
   .total-expenditure {
     padding: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
   }
+
   .expense-grid {
     column-gap: 16px;
   }
 
   label {
     font-size: 16px;
-    font-weight: normal;
   }
 
   input::placeholder {
@@ -628,7 +578,7 @@ body.dark-mode .cost {
   }
 
   .period-total .period {
-    /* lines that extend beyond 1 line are replaced with ...  */
+    /* ellipsis  */
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
@@ -652,7 +602,6 @@ body.dark-mode .cost {
   }
 
   .content-area {
-    /* outline: 2px solid; */
     padding: 12px;
     column-gap: 10px;
     width: 90vw;
@@ -679,11 +628,6 @@ body.dark-mode .cost {
 @media (max-width: 350px) {
   .header {
     padding-right: 0px;
-  }
-
-  .right-header-section {
-    justify-content: end;
-    gap: 0px;
   }
 
   .expenses-link {

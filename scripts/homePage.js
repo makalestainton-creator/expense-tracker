@@ -2,14 +2,16 @@ import { calculateTotalExpenditure } from "./expenseSummary.js";
 import { changeTheme } from "./utils/changeTheme.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
 import { renderExpenseChart } from "./utils/chart.js";
-calculateTotalExpenditure();
-renderExpenseChart();
-changeTheme();
+import { renderRecentExpenses } from "./recents.js";
 
-const today = dayjs();
+export const today = dayjs();
 
 const month = today.format("MMMM YYYY");
 document.querySelector(".js-month-pill").textContent = `${month}`;
+calculateTotalExpenditure();
+renderExpenseChart();
+changeTheme();
+renderRecentExpenses();
 
 function addExpense() {
   const expenseDescription = document.querySelector(
@@ -66,21 +68,21 @@ function addExpense() {
   calculateTotalExpenditure();
 
   // show added message
-  document
-    .querySelector(".js-added-to-tracker")
-    .classList.add("is-added-to-tracker");
+  document.querySelector(".js-added-to-tracker").innerHTML =
+    "<img src='icons/checkmark.png' class='checkmark' />Added";
 
   clearTimeout(timeoutId);
 
   timeoutId = setTimeout(() => {
-    document
-      .querySelector(".js-added-to-tracker")
-      .classList.remove("is-added-to-tracker");
+    document.querySelector(".js-added-to-tracker").innerHTML = "";
   }, 2000);
 
   document.querySelectorAll(".js-expense-input").forEach((expenseInput) => {
     expenseInput.value = "";
   });
+  calculateTotalExpenditure();
+  renderExpenseChart();
+  renderRecentExpenses();
 }
 
 const addButton = document.querySelector(".js-add-expense-button");
@@ -94,8 +96,6 @@ if (addButton) {
       document.querySelector(".js-empty-field-warning").innerHTML = "";
     }, 4000);
     addExpense();
-    calculateTotalExpenditure();
-    renderExpenseChart();
   });
 }
 
@@ -107,7 +107,5 @@ document.body.addEventListener("keydown", (event) => {
       document.querySelector(".js-empty-field-warning").innerHTML = "";
     }, 4000);
     addExpense();
-    calculateTotalExpenditure();
-    renderExpenseChart();
   }
 });

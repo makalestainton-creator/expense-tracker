@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Expense tracker</title>
     <link rel="stylesheet" href="styles/home-page.css" />
+    <link rel="stylesheet" href="styles/shared.css">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
@@ -286,56 +287,63 @@
         <div class="month-pill js-month-pill"></div>
       </div>
       <div class="content-area">
-        <div class="expense-details">
-          <div class="expense-grid">
-            <label for="description">Description:</label>
-            <input
-              type="text"
-              class="expense-input js-expense-input js-expense-description-input"
-              placeholder="Expense description"
-              id="description"
-            />
-            <label for="amount">Amount:</label>
-            <!-- styling div here -->
-            <div class="prefix-container">
-              <span class="prefix">Ksh.</span>
+        <div class="left-panel">
+          <div class="expense-details">
+            <div class="expense-grid">
+              <label for="description">Description:</label>
               <input
                 type="text"
-                class="expense-input js-expense-input js-expense-amount-input amount-input"
-                placeholder="0.00"
-                id="amount"
+                class="expense-input js-expense-input js-expense-description-input"
+                placeholder="Expense description"
+                id="description"
+              />
+              <label for="amount">Amount:</label>
+              <!-- styling div here -->
+              <div class="prefix-container">
+                <span class="prefix">Ksh.</span>
+                <input
+                  type="text"
+                  class="expense-input js-expense-input js-expense-amount-input amount-input"
+                  placeholder="0.00"
+                  id="amount"
+                />
+              </div>
+              <label for="cartegory">Cartegory:</label>
+              <select
+                id="cartegory"
+                class="expense-input js-expense-input js-expense-cartegory-input"
+              >
+                <button>
+                  <selectedcontent></selectedcontent>
+                </button>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Bills">Bills</option>
+                <option value="Health">Health</option>
+                <option value="Other">Other</option>
+              </select>
+              <label for="date">Date:</label>
+              <input
+                type="date"
+                class="expense-input js-expense-input js-expense-date-input"
+                id="date"
               />
             </div>
-            <label for="cartegory">Cartegory:</label>
-            <select
-              id="cartegory"
-              class="expense-input js-expense-input js-expense-cartegory-input"
-            >
-            <button>
-              <selectedcontent></selectedcontent>
+            <button class="add-expense-button js-add-expense-button">
+              Add Expense
             </button>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Shopping">Shopping</option>
-              <option value="Bills">Bills</option>
-              <option value="Health">Health</option>
-              <option value="Other">Other</option>
-            </select>
-            <label for="date">Date:</label>
-            <input
-              type="date"
-              class="expense-input js-expense-input js-expense-date-input"
-              id="date"
-            />
+            <div class="added-to-tracker js-added-to-tracker">
+              <!-- <img src="icons/checkmark.png" class="checkmark" />
+              Added -->
+            </div>
+            <div class="empty-field-container">
+              <div class="empty-field-warning js-empty-field-warning"></div>
+            </div>
           </div>
-          <button class="add-expense-button js-add-expense-button">Add Expense</button>
-          <div class="added-to-tracker js-added-to-tracker">
-            <img src="icons/checkmark.png" class="checkmark" />
-            Added
-          </div>
-          <div class="empty-field-container">
-            <div class="empty-field-warning js-empty-field-warning"></div>
+          <div class="recents-container js-recents-container">
+            <h4>Recent expenses</h4>
           </div>
         </div>
         <div class="right-panel">
@@ -344,17 +352,7 @@
             <canvas id="doughnutCanvas"></canvas>
           </div>
         </div>
-        
       </div>
-      <p class="code-link-container">
-        <a
-          href="https://github.com/makalestainton-creator/expense-tracker"
-          class="code-link"
-        >
-          View code
-          <img src="icons/github.png" class="github-icon" />
-        </a>
-      </p>
     </div>
     <script type="module" src="scripts/homePage.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
