@@ -20,15 +20,15 @@ function addExpense() {
   const expenseAmount = Number(
     document.querySelector(".js-expense-amount-input").value,
   );
-  const expenseCartegory = document.querySelector(
-    ".js-expense-cartegory-input",
+  const expenseCategory = document.querySelector(
+    ".js-expense-category-input",
   ).value;
   const expenseDate = document.querySelector(".js-expense-date-input").value;
 
   const newExpense = {
     name: expenseDescription,
     cost: expenseAmount,
-    cartegory: expenseCartegory,
+    category: expenseCategory,
     date: expenseDate,
   };
 
@@ -36,7 +36,7 @@ function addExpense() {
 
   if (
     !expenseDescription ||
-    !expenseCartegory ||
+    !expenseCategory ||
     !expenseDate ||
     !document.querySelector(".js-expense-amount-input").value
   ) {

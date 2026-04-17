@@ -20,9 +20,9 @@ function renderExpenses() {
       const expenseIndex = expenses.indexOf(expense);
       html += `
       <div class="entry-item-container">
-        <div class="cartegory-container">
-          <p class="cartegory value-dark-mode js-cartegory">
-            ${expense.cartegory}
+        <div class="category-container">
+          <p class="category value-dark-mode js-category">
+            ${expense.category}
           </p>
         </div>
         <div class="entry-item js-entry-item">
@@ -50,27 +50,27 @@ function renderExpenses() {
     });
 
     document.querySelector(".js-entries-grid").innerHTML = html;
-    applyCartegoryStyles();
+    applyCategoryStyles();
     applyHighCostStyles();
     attachEventListeners();
   }
 
-  function applyCartegoryStyles() {
-    document.querySelectorAll(".js-cartegory").forEach((cartegoryElement) => {
-      if (cartegoryElement.innerText.toLowerCase() === "food") {
-        cartegoryElement.classList.add("food");
-      } else if (cartegoryElement.innerText.toLowerCase() === "transport") {
-        cartegoryElement.classList.add("transport");
-      } else if (cartegoryElement.innerText.toLowerCase() === "entertainment") {
-        cartegoryElement.classList.add("entertainment");
-      } else if (cartegoryElement.innerText.toLowerCase() === "shopping") {
-        cartegoryElement.classList.add("shopping");
-      } else if (cartegoryElement.innerText.toLowerCase() === "bills") {
-        cartegoryElement.classList.add("bills");
-      } else if (cartegoryElement.innerText.toLowerCase() === "health") {
-        cartegoryElement.classList.add("health");
-      } else if (cartegoryElement.innerText.toLowerCase() === "other") {
-        cartegoryElement.classList.add("other");
+  function applyCategoryStyles() {
+    document.querySelectorAll(".js-category").forEach((categoryElement) => {
+      if (categoryElement.innerText.toLowerCase() === "food") {
+        categoryElement.classList.add("food");
+      } else if (categoryElement.innerText.toLowerCase() === "transport") {
+        categoryElement.classList.add("transport");
+      } else if (categoryElement.innerText.toLowerCase() === "entertainment") {
+        categoryElement.classList.add("entertainment");
+      } else if (categoryElement.innerText.toLowerCase() === "shopping") {
+        categoryElement.classList.add("shopping");
+      } else if (categoryElement.innerText.toLowerCase() === "bills") {
+        categoryElement.classList.add("bills");
+      } else if (categoryElement.innerText.toLowerCase() === "health") {
+        categoryElement.classList.add("health");
+      } else if (categoryElement.innerText.toLowerCase() === "other") {
+        categoryElement.classList.add("other");
       }
     });
   }
@@ -90,7 +90,7 @@ function renderExpenses() {
 
     const filtered = expenses.filter((expense) => {
       return (
-        expense.cartegory.toLowerCase().includes(searchTerm) ||
+        expense.category.toLowerCase().includes(searchTerm) ||
         expense.name.toLowerCase().includes(searchTerm)
       );
     });
@@ -173,7 +173,7 @@ function renderExpenses() {
         document.getElementById("amount").value =
           `${expenses[index].cost}`;
 
-        document.getElementById("cartegory").value = expenses[index].cartegory;
+        document.getElementById("category").value = expenses[index].category;
 
         document.getElementById("date").value = expenses[index].date;
 
@@ -185,7 +185,7 @@ function renderExpenses() {
 
             if (
               !expenses[index].name ||
-              !expenses[index].cartegory ||
+              !expenses[index].category ||
               !expenses[index].date
             ) {
               document.querySelector(".js-edit-alert").classList.add("active");
@@ -231,7 +231,7 @@ function renderExpenses() {
           .addEventListener("click", () => {
             if (
               !expenses[index].name ||
-              !expenses[index].cartegory ||
+              !expenses[index].category ||
               !expenses[index].date
             ) {
               document.querySelector(".js-edit-alert").classList.add("active");
@@ -289,10 +289,10 @@ function renderExpenses() {
       expenses[index].cost = Number(document.getElementById("amount").value);
     }
 
-    if (!document.getElementById("cartegory").value) {
-      expenses[index].cartegory = previousExpenses.cartegory;
+    if (!document.getElementById("category").value) {
+      expenses[index].category = previousExpenses.category;
     } else {
-      expenses[index].cartegory = document.getElementById("cartegory").value.trim();
+      expenses[index].category = document.getElementById("category").value.trim();
     }
 
     if (!document.getElementById("date").value) {
@@ -342,7 +342,7 @@ function renderExpenses() {
     // Step 2: Create CSV string
     let csv = "Date,Category,Amount,Description\n";
     expenses.forEach((exp) => {
-      csv += `${exp.date},${exp.cartegory},${exp.amount},${exp.name}\n`;
+      csv += `${exp.date},${exp.category},${exp.amount},${exp.name}\n`;
     });
 
     // Step 3: Create blob

@@ -39,10 +39,10 @@ export function renderEditDialogue() {
           id="amount"
         />
       </div>
-      <label for="cartegory">Cartegory:</label>
+      <label for="category">Category:</label>
       <select
-        id="cartegory"
-        class="expense-input js-expense-input js-expense-cartegory-input"
+        id="category"
+        class="expense-input js-expense-input js-expense-category-input"
       >
         <button>
           <selectedcontent></selectedcontent>

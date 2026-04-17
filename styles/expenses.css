@@ -255,12 +255,12 @@ body.dark-mode .amount {
   color: #d45c17;
 }
 
-.cartegory-container {
+.category-container {
   display: flex;
   justify-content: center;
 }
 
-.cartegory {
+.category {
   text-align: center;
   margin-top: 10px;
   padding: 5px 40px;
@@ -270,64 +270,64 @@ body.dark-mode .amount {
   background-color: #e5f0ff;
 }
 
-body.dark-mode .cartegory {
+body.dark-mode .category {
   background-color: #0a2a33;
   border: 1px solid #1b4d5a;
 }
 
-.cartegory.food {
+.category.food {
   color: #4ade80;
 }
 
-body.dark-mode .cartegory.food {
+body.dark-mode .category.food {
   color: #3fbf8e;
 }
 
-.cartegory.transport {
+.category.transport {
   color: #60a5fa;
 }
 
-body.dark-mode .cartegory.transport {
+body.dark-mode .category.transport {
   color: #3b82f6;
 }
 
-.cartegory.entertainment {
+.category.entertainment {
   color: #b057f8;
 }
 
-body.dark-mode .cartegory.entertainment {
+body.dark-mode .category.entertainment {
   color: #9d50db;
 }
 
-.cartegory.shopping {
+.category.shopping {
   color: #f8e15d;
 }
 
-body.dark-mode .cartegory.shopping {
+body.dark-mode .category.shopping {
   color: #c5b247;
 }
 
-.cartegory.bills {
+.category.bills {
   color: #29669b;
 }
 
-body.dark-mode .cartegory.bills {
+body.dark-mode .category.bills {
   color: #428ccc;
 }
 
-.cartegory.health {
+.category.health {
   color: #4ea0f1;
 }
 
-body.dark-mode .cartegory.health {
+body.dark-mode .category.health {
   color: #448bd3;
 }
 
-.cartegory.other {
+.category.other {
   color: #e6744b;
 }
 
-body.dark-mode .cartegory.other {
+body.dark-mode .category.other {
   color: #c4623e;
 }
 

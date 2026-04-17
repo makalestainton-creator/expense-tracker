@@ -1,8 +1,8 @@
 import { renderExpenseChart } from "./chart.js";
 
-export function changeTheme() {
+const buttonElement = document.querySelector(".js-change-theme-button");
 
-  const buttonElement = document.querySelector(".js-change-theme-button");
+export function changeTheme() {
   if(localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark-mode");
   }

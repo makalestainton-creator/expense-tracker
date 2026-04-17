@@ -14,7 +14,7 @@ export function renderExpenseChart() {
   };
 
   expenses.forEach((expense) => {
-    const category = expense.cartegory.toLowerCase();
+    const category = expense.category.toLowerCase();
     if (categoryTotals.hasOwnProperty(category)) {
       categoryTotals[category] += expense.cost;
     }
@@ -49,7 +49,7 @@ export function renderExpenseChart() {
     ],
     datasets: [
       {
-        label: "Cartegory",
+        label: "Category",
         data: [
           categoryTotals["food"],
           categoryTotals["transport"],
