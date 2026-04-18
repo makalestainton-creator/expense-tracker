@@ -170,8 +170,7 @@ function renderExpenses() {
         // this section displays the value of the expense labels in the in input field before editing
         document.getElementById("description").value = expenses[index].name;
 
-        document.getElementById("amount").value =
-          `${expenses[index].cost}`;
+        document.getElementById("amount").value = `${expenses[index].cost}`;
 
         document.getElementById("category").value = expenses[index].category;
 
@@ -181,13 +180,15 @@ function renderExpenses() {
         document
           .querySelector(".js-save-button")
           .addEventListener("click", () => {
-            editExpense(index);
+            const newName = document.getElementById("description").value.trim();
+            const newCost = Number(document.getElementById("amount").value);
+            const newCategory = document
+              .getElementById("category")
+              .value.trim();
+            const newDate = document.getElementById("date").value.trim();
+            
 
-            if (
-              !expenses[index].name ||
-              !expenses[index].category ||
-              !expenses[index].date
-            ) {
+            if (!newName || !newCategory || !newDate) {
               document.querySelector(".js-edit-alert").classList.add("active");
               document.querySelector(".js-edit-alert").textContent =
                 `Please fill all fields!`;
@@ -202,11 +203,7 @@ function renderExpenses() {
               return;
             }
 
-            if (
-              expenses[index].cost <= 0 ||
-              expenses[index].cost !== Number(expenses[index].cost) ||
-              expenses[index].cost === null
-            ) {
+            if (!newCost || newCost <= 0) {
               document.querySelector(".js-edit-alert").classList.add("active");
               document.querySelector(".js-edit-alert").textContent =
                 `Unexpected input!`;
@@ -220,54 +217,21 @@ function renderExpenses() {
               }, 3000);
               return;
             }
+
+            
+            editExpense(index);
+            localStorage.setItem("expenses", JSON.stringify(expenses));
 
             renderExpenses();
 
             removeDialogue(document.querySelector(".js-edit-dialogue"));
-          });
+          }, {once: true});
 
         document
           .querySelector(".js-cancel-button")
           .addEventListener("click", () => {
-            if (
-              !expenses[index].name ||
-              !expenses[index].category ||
-              !expenses[index].date
-            ) {
-              document.querySelector(".js-edit-alert").classList.add("active");
-              document.querySelector(".js-edit-alert").innerHTML =
-                `Please fill all fields!`;
-
-              clearTimeout(timeoutId);
-
-              timeoutId = setTimeout(() => {
-                document
-                  .querySelector(".js-edit-alert")
-                  .classList.remove("active");
-              }, 3000);
-              return;
-            }
-
-            if (
-              expenses[index].cost <= 0 ||
-              expenses[index].cost !== Number(expenses[index].cost) ||
-              expenses[index].cost === null
-            ) {
-              document.querySelector(".js-edit-alert").classList.add("active");
-              document.querySelector(".js-edit-alert").innerHTML =
-                `Unexpected input!`;
-
-              clearTimeout(timeoutId);
-
-              timeoutId = setTimeout(() => {
-                document
-                  .querySelector(".js-edit-alert")
-                  .classList.remove("active");
-              }, 3000);
-              return;
-            }
             removeDialogue(document.querySelector(".js-edit-dialogue"));
-          });
+          }, {once: true});
       });
     });
   }
@@ -280,7 +244,9 @@ function renderExpenses() {
     if (!document.getElementById("description").value) {
       expenses[index].name = previousExpenses.name;
     } else {
-      expenses[index].name = document.getElementById("description").value.trim();
+      expenses[index].name = document
+        .getElementById("description")
+        .value.trim();
     }
 
     if (!Number(document.getElementById("amount").value)) {
@@ -292,7 +258,9 @@ function renderExpenses() {
     if (!document.getElementById("category").value) {
       expenses[index].category = previousExpenses.category;
     } else {
-      expenses[index].category = document.getElementById("category").value.trim();
+      expenses[index].category = document
+        .getElementById("category")
+        .value.trim();
     }
 
     if (!document.getElementById("date").value) {
@@ -300,8 +268,6 @@ function renderExpenses() {
     } else {
       expenses[index].date = document.getElementById("date").value.trim();
     }
-
-    localStorage.setItem("expenses", JSON.stringify(expenses));
   }
 
   function clearAllExpenses() {
@@ -364,11 +330,10 @@ function renderExpenses() {
   }
 
   const downloadButton = document.querySelector(".js-download-button");
- downloadButton
-    .addEventListener("click", () => {
-      downloadExpensesAsCSV(expenses);
-    });
-  if(expenses.length === 0) {
+  downloadButton.addEventListener("click", () => {
+    downloadExpensesAsCSV(expenses);
+  });
+  if (expenses.length === 0) {
     downloadButton.classList.add("inactive");
   }
 }

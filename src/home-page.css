@@ -189,10 +189,9 @@ body.dark-mode .recents-container {
 
 .add-expense-button {
   width: 100%;
-  margin: 20px auto 10px auto;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 15px;
+  margin: 20px auto 4px auto;
+  padding: 9px;
+  border-radius: 64px;
   border: none;
   outline: none;
   background-color: #0f766e;
