@@ -1,91 +1,23 @@
-body.dark-mode {
-  background-color: #001219;
-}
-
-body.dark-mode h2,
-body.dark-mode h1 {
-  color: #60288f;
-}
-
-.left-header-section {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.dashboard-title {
-  margin-bottom: 4px;
-  font-size: 17px;
-  font-weight: 500;
-  color: #000;
-}
-
-body.dark-mode .dashboard-title {
-  color: #d6d6d6;
-}
-
-.dashboard-illustration {
-  font-size: 14px;
-  font-weight: normal;
-  color: #64748b;
-}
-
-.right-header-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.expenses-link {
-  width: 100px;
-  border-radius: 6px;
-  padding: 2px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #2e2e2e;
-}
-
-.expenses-link:hover {
-  border: 2px solid #0f766e;
-}
-
-body.dark-mode .expenses-link {
-  color: #cccbcb;
-}
-
-.expenses-icon {
-  height: 30px;
-}
-
-.change-theme-button {
-  border: none;
-  background: none;
-  cursor: pointer;
-  outline: none;
-}
-
-.wrapper {
+.home-screen {
   margin-left: auto;
   margin-right: auto;
   max-width: 80vw;
+}
+
+.home-screen-inactive {
+  display: none;
 }
 
 .content-area {
   display: grid;
   grid-template-columns: 1.6fr 1.4fr;
   column-gap: 3vw;
+  justify-content: center;
 }
 
-.title h1 {
-  justify-self: center;
-  color: #1f2937;
+h1 {
+  text-align: center;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
 }
 
 .month-pill-container {
@@ -140,9 +72,6 @@ body.dark-mode .month-pill {
 .right-panel {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  align-self: stretch;
   width: 100%;
   background-color: #fff;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
@@ -158,12 +87,14 @@ body.dark-mode .month-pill {
 }
 
 .total-expenditure {
-  padding: 1.5rem 2rem;
+  padding: 1.5rem 2rem 1rem 2rem;
   position: relative;
 }
 
-.total-expenditure h2 {
-  font-size: 1.8rem;
+.total-expenditure > h2 {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: clamp(1rem, 4.5vw, 1.3rem);
 }
 
 .total-expenditure::after {
@@ -251,15 +182,6 @@ body.dark-mode .empty-field-warning {
   color: #c03429;
 }
 
-.total-expenditure h2 {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.analytics-icon {
-  height: 30px;
-}
-
 .analysis-title {
   margin-top: 40px;
   margin-bottom: 14px;
@@ -277,9 +199,8 @@ body.dark-mode .empty-field-warning {
 }
 
 .period {
-  font-size: 18px;
+  font-size: clamp(.9rem, 4.5vw, 1rem);
   font-weight: 500;
-  color: #111827;
 }
 
 body.dark-mode .period {
@@ -288,7 +209,7 @@ body.dark-mode .period {
 
 .cost,
 .recent-expense-cost {
-  font-size: 18px;
+  font-size: clamp(.9rem, 4.5vw, 1rem);
   font-weight: 500;
   color: #3063aa;
 }
@@ -298,13 +219,9 @@ body.dark-mode .cost {
 }
 
 .chart-container {
-  height: 220px;
-}
-
-.chart-container canvas {
   margin-left: auto;
   margin-right: auto;
-  max-width: 300px;
+  max-width: clamp(250px, 50vw, 400px);
 }
 
 .recents-container {
@@ -470,15 +387,28 @@ body.dark-mode .recent-other-category {
   gap: 1rem;
 }
 
-@media (max-width: 800px) {
+@media (min-width: 2000px) {
+  .home-screen {
+    max-width: 1600px;
+  }
+}
+
+@media (900px < width <= 1024px) {
+  .home-screen {
+    max-width: 90vw;
+  }
+}
+
+@media (600px < width <= 900px) {
+  .home-screen {
+    max-width: 70vw;
+  }
+}
+
+@media (max-width: 900px) {
   .content-area {
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    grid-template-columns: 1fr;
     gap: 30px;
-    margin-bottom: 20px;
   }
 
   .left-panel {
@@ -487,178 +417,22 @@ body.dark-mode .recent-other-category {
 
   .recents-container {
     order: 1;
-    align-self: end;
-  }
-
-  label {
-    font-size: 18px;
-  }
-
-  input,
-  select {
-    width: 100%;
-  }
-
-  .period,
-  .cost {
-    font-size: 16px;
   }
 }
 
 @media (max-width: 500px) {
-  .header {
-    padding: 0px 12px;
-  }
-
-  .left-header-section {
-    gap: 7px;
-  }
-
-  .left-header-section svg {
-    height: 30px;
-    width: 30px;
-  }
-
-  .dashboard-title {
-    font-size: 14px;
-  }
-
-  .dashboard-illustration {
-    font-size: 12px;
-  }
-
-  .header .expenses-icon {
-    height: 28px;
-  }
-
-  .header .expenses-link {
-    font-size: 14px;
-  }
-
-  .title h1 {
-    font-size: 18px;
-    margin-bottom: 17px;
-  }
-
-  .content-area {
-    margin-left: auto;
-    margin-right: auto;
-    padding: 8px;
-    max-width: 400px;
-    row-gap: 40px;
-  }
-
-  .expense-details,
-  .total-expenditure {
-    padding: 10px;
-  }
-
-  .expense-grid {
-    column-gap: 16px;
-  }
-
-  label {
-    font-size: 16px;
-  }
-
-  input::placeholder {
-    font-size: 13px;
-    color: #adadad;
-  }
 
   .expense-details .added-to-tracker {
     margin-top: 0px;
     margin-bottom: 0px;
   }
 
-  .period-total .period,
-  .period-total .cost {
-    font-size: 14px;
-  }
-
   .period-total .period {
-    /* ellipsis  */
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-
-  .total-expenditure {
-    margin-top: -20px;
-  }
-
-  .center-label {
-    height: 50px;
-    width: 50px;
-  }
 }
 
-@media (max-width: 400px) {
-  .header {
-    padding: 0px 6px;
-  }
-
-  .content-area {
-    padding: 12px;
-    column-gap: 10px;
-    width: 90vw;
-  }
-
-  input,
-  select {
-    width: 100%;
-  }
-
-  .expense-grid {
-    grid-template-columns: 1fr 2fr;
-  }
-
-  .total-expenditure h2 {
-    font-size: 18px;
-  }
-
-  .total-expenditure .period {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 350px) {
-  .header {
-    padding-right: 0px;
-  }
-
-  .expenses-link {
-    width: 80px;
-    margin: 0px;
-  }
-
-  .expenses-icon {
-    height: 20px;
-  }
-
-  .expenses-link span {
-    font-size: 12px;
-  }
-
-  .left-header-section {
-    gap: 1px;
-  }
-
-  .dashboard-title {
-    font-size: 12px;
-  }
-
-  .dashboard-illustration {
-    font-size: 9px;
-  }
-
-  .total-expenditure h2 {
-    font-size: 16px;
-  }
-
-  .total-expenditure .period {
-    font-size: 10px;
-  }
-}

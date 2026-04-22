@@ -1,5 +1,4 @@
-import { today } from "./homePage.js";
-import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import dayjs from "dayjs";
 
 function renderCategorySVG(expense) {
   if (expense.category === "Food") {
@@ -72,7 +71,7 @@ function renderCategorySVG(expense) {
 export function renderRecentExpenses() {
   const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
   const container = document.querySelector(".js-recents-container");
-  const dateNum = today.format("DD");
+  const dateNum = dayjs().format("DD");
   if (!container) return;
   if (expenses.length === 0) {
     container.textContent = "Recent Expenses will appear here";

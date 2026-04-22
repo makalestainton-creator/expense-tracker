@@ -1,9 +1,9 @@
-import path from "node:path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from "node:path";
 
 export default {
-  entry: "./src/homepage.js",
+  entry: "./src/scripts/homePage.js",
   output: {
     filename: "bundle.js",
     path: path.resolve(import.meta.dirname, "dist"),
@@ -17,31 +17,32 @@ export default {
 
     new CopyWebpackPlugin({
       patterns: [
-        { from: './src/favicon/favicon.ico', to: '.' },
-        { from: './src/favicon/favicon-16x16.png', to: '.' },
-        { from: './src/favicon/favicon-32x32.png', to: '.' },
-        { from: './src/favicon/apple-touch-icon.png', to: '.' },
-        { from: './src/favicon/android-chrome-192x192.png', to: '.' },
-        { from: './src/favicon/android-chrome-512x512.png', to: '.' },
-        { from: './src/favicon/site.webmanifest', to: '.' },
+        { from: './src/favicons/favicon.ico', to: '.' },
+        { from: './src/favicons/favicon-16x16.png', to: '.' },
+        { from: './src/favicons/favicon-32x32.png', to: '.' },
+        { from: './src/favicons/apple-touch-icon.png', to: '.' },
+        { from: './src/favicons/android-chrome-192x192.png', to: '.' },
+        { from: './src/favicons/android-chrome-512x512.png', to: '.' },
+        { from: './src/favicons/site.webmanifest', to: '.' },
       ]
-    })
+    }),
   ],
 
   module: {
     rules: [
       {
-        test: /\.html$/i,
-        use: ["html-loader"],
-      },
-      {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(png|gif|jpeg|jpg|svg)$/i,
+        test: /\.html$/i,
+        use: ["html-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
     ],
   },
 };
+

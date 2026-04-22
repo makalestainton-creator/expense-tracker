@@ -1,38 +1,12 @@
-button:active {
-  transform: scale(0.95);
+.expense-screen {
+  display: none;
 }
 
-body.dark-mode {
-  background-color: #001219;
-}
-
-.home-page-icon {
-  height: 24px;
-}
-
-.home-page-link {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
-  width: 100px;
-  height: 50px;
-  font-family: "poppins";
-  color: #0f766e;
-}
-
-body.dark-mode .home-page-link {
-  color: #0974bb;
-}
-
-body.dark-mode h2 {
-  color: #d6dbdf;
+.expense-screen-active {
+  display: block;
 }
 
 .expense-quantity {
-  text-decoration: none;
   color: #62b9b2;
   font-size: 22px;
   font-weight: normal;
@@ -40,98 +14,6 @@ body.dark-mode h2 {
 
 body.dark-mode .expense-quantity {
   color: #d6dbdf;
-}
-
-.change-theme-button {
-  width: 50px;
-  margin-left: auto;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.search-icon {
-  height: 26px;
-}
-
-.search-button {
-  height: 30px;
-  width: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: -1px;
-  border: 1px solid #afafaf;
-  border-bottom-right-radius: 50px;
-  border-top-right-radius: 50px;
-  cursor: pointer;
-  background-color: #d3d3d3;
-  transition: background-color 0.2s ease;
-}
-
-.search-button:hover {
-  background-color: #e2e2e2;
-}
-
-#search-input {
-  height: 30px;
-  width: 100%;
-  outline: none;
-  border: 1px solid #afafaf;
-  border-bottom-left-radius: 50px;
-  border-top-left-radius: 50px;
-  flex-shrink: 1;
-  padding: 2px 8px;
-  font-size: 15px;
-}
-
-body.dark-mode #search-input,
-body.dark-mode .search-button {
-  border-color: #05465f;
-}
-
-body.dark-mode #search-input {
-  background-color: #052430;
-  color: #f2f5f9;
-}
-
-body.dark-mode .search-button {
-  background-color: #022230;
-}
-
-.search {
-  display: flex;
-  margin-right: 10px;
-}
-
-.right-header-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 30%;
-}
-
-@media (max-width: 575px) {
-  .right-header-section {
-    max-width: 150px;
-  }
-
-  .home-page-link {
-    flex-direction: column;
-    font-size: 14px;
-  }
-
-  .header h2 {
-    font-size: 16px;
-  }
-
-  #search-input {
-    max-width: 60%;
-  }
-
-  .search-button {
-    width: 30px;
-  }
 }
 
 .clear-all-button-container {
@@ -144,7 +26,7 @@ body.dark-mode .search-button {
   margin-top: 15px;
   margin-bottom: 15px;
   border-radius: 4px;
-  padding: 10px 30px;
+  padding: 0.6rem 1.5rem;
   color: #f2f5f9;
   background-color: #d44b42;
   font-size: 15px;
@@ -166,7 +48,7 @@ body.dark-mode .clear-all-button {
 
 .entries-title {
   text-align: center;
-  margin: 20px auto;
+  margin-bottom: 1rem;
   color: #1f2937;
 }
 
@@ -174,21 +56,33 @@ body.dark-mode .clear-all-button {
   padding: 10px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 85vw;
+  max-width: 80vw;
+
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 500px));
+  justify-content: center;
   column-gap: 30px;
   row-gap: 30px;
 }
 
+@media (min-width: 900px) {
+  .entries-grid {
+    max-width: 94vw;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 400px));
+  }
+}
+
 .entry-item-container {
   background-color: #fff;
+  /* outline: 2px solid; */
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
-  padding-bottom: 5px;
-  border-radius: 10px;
+  padding: clamp(0.6rem, 2.5vw, 0.8rem);
+  border-radius: 8px;
   opacity: 1;
-  transition: transform 0.3s ease-out;
-  z-index: 1;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 body.dark-mode .entry-item-container {
@@ -201,21 +95,19 @@ body.dark-mode .entry-item-container {
 }
 
 .fade-out {
-  transform: translateX(-180deg);
   opacity: 0;
 }
 
 .entry-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  row-gap: 4px;
-  padding: 12px;
+  row-gap: 0.3rem;
   align-items: center;
 }
 
 .label,
 .value {
-  font-size: 16px;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
 }
 
 .label {
@@ -228,7 +120,7 @@ body.dark-mode .label {
 
 .value {
   color: #111827;
-  /* lines that extend beyond 1 line are replaced with ...  */
+
   display: -webkit-box;
   -webkit-line-clamp: 1;
   line-clamp: 1;
@@ -243,8 +135,6 @@ body.dark-mode .value {
 .amount {
   color: #1f2937;
   font-weight: 500;
-  /* if amount goes high: use the value below */
-  /* color: #dc2626; */
 }
 
 body.dark-mode .amount {
@@ -258,14 +148,15 @@ body.dark-mode .amount {
 .category-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-bottom: clamp(0.6rem, 2.5vw, 0.9rem);
 }
 
 .category {
   text-align: center;
-  margin-top: 10px;
-  padding: 5px 40px;
+  padding: 0.3rem 2rem;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 500;
   background-color: #e5f0ff;
 }
@@ -331,35 +222,19 @@ body.dark-mode .category.other {
   color: #c4623e;
 }
 
-.entry-buttons {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0px 50px;
-  margin-bottom: 10px;
-  transition: all 0.3s ease;
-}
-
 .delete-button,
 .edit-button {
-  border: none;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  outline: none;
-  padding: 5px 16px;
+  padding: 0.3rem 1rem;
   border-radius: 5px;
+  transition: all 0.3s ease;
 }
 
 .delete-button {
   background-color: transparent;
   border: 2px solid #d44b42;
   color: #d44b42;
-  font-size: 13px;
-}
-
-body.dark-mode .delete-button {
-  background-color: #94261e;
-  color: #ced5db;
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
 }
 
 .edit-button {
@@ -379,17 +254,6 @@ body.dark-mode .delete-button {
   border-color: #f2f2f2;
 }
 
-body.dark-mode .edit-button {
-  background: #0b3d4b;
-  color: #338b84;
-}
-
-body.dark-mode .edit-button:hover {
-  background: #0a2a33;
-  color: #ced5db;
-  border-color: #1b4d5a;
-}
-
 .no-expense-alert {
   font-weight: 500;
   font-size: 25px;
@@ -398,63 +262,58 @@ body.dark-mode .edit-button:hover {
   margin-top: 100px;
 }
 
-.confirmation-dialogue-container,
-.expense-grid {
-  background-color: #fff;
+.confirmation-dialogue,
+.expense-screen .expense-grid {
   position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  background-color: #fff;
   border-radius: 8px;
+  padding: clamp(0.8rem, 2.5vw, 1rem);
   box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 }
 
-.confirmation-dialogue-container {
-  max-width: 480px;
-  gap: 20px;
-  top: 45%;
-  bottom: auto;
-  left: 32%;
-  right: 32%;
-  padding-bottom: 16px;
-  padding: 16px 10px;
+.edit-dialogue,
+.confirmation-dialogue {
+  display: none;
+}
+
+.confirmation-dialogue {
   color: #111827;
   font-weight: 400;
   font-size: 17px;
-  text-align: center;
 }
 
-.expense-grid {
-  align-self: center;
-  justify-self: center;
-  bottom: 40%;
-  padding: 16px;
-  gap: 12px;
-}
-
-body.dark-mode .confirmation-dialogue-container,
-body.dark-mode .expense-grid {
+body.dark-mode .confirmation-dialogue,
+body.dark-mode .expense-screen .expense-grid {
   background-color: #0b3d4b;
   color: #ced5db;
 }
 
-.dialogue-buttons {
+.dialogue-buttons,
+.entry-buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 50px;
+  justify-items: center;
+  gap: 5vw;
+  grid-column: 1/3;
+  justify-content: space-between;
+
+  margin-top: 1.5rem;
 }
 
-.confirmation-dialogue-container button,
-.expense-grid button {
-  padding: 8px 40px;
-  font-size: 14px;
+.confirmation-dialogue button,
+.expense-screen .expense-grid button {
+  padding: .4rem 1rem;
+  font-size: 0.9rem;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.confirmation-dialogue-container button:active,
+.confirmation-dialogue button:active,
 .edit-dialogue-container button:active {
   opacity: 0.8;
 }
@@ -469,7 +328,7 @@ body.dark-mode .expense-grid {
 .cancel-button {
   border: 2px solid #d44b42;
   color: #d44b42;
-  background-color: #fff;
+  background-color: transparent;
   transition: all 0.2s ease;
 }
 
@@ -484,15 +343,8 @@ body.dark-mode .expense-grid {
   background-color: #045a53;
 }
 
-body.dark-mode .save-button {
-  background-color: #056883;
-  color: #ced5db;
-}
-
 body.dark-mode .cancel-button {
-  background-color: transparent;
-  border-color: #022230;
-  color: #d8d9da;
+  color: #f77a71;
 }
 
 body.dark-mode .cancel-button:hover {
@@ -527,25 +379,20 @@ body.dark-mode .no-button:hover {
   border-color: #09637c;
 }
 
-.dialogue-overlay {
+.overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  inset: 0;
   background-color: rgba(0, 0, 0, 0.2);
-  visibility: hidden;
-  opacity: 0;
+  display: none;
   z-index: 998;
 }
 
-body.dark-mode .dialogue-overlay {
+body.dark-mode .overlay {
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.dialogue-overlay-active {
-  visibility: visible;
-  opacity: 1;
+.overlay-active {
+  display: block;
 }
 
 .edit-alert {
@@ -623,7 +470,7 @@ body.dark-mode .dialogue-overlay {
   /* Animation runs once automatically, then stops */
 }
 
-svg {
+.expense-screen svg {
   stroke: #f3f5f9;
 }
 
@@ -641,7 +488,7 @@ svg {
   font-size: 0.8rem;
 
   visibility: hidden;
-  
+
   transition: all 0.3s ease;
   z-index: 1000;
   pointer-events: none;
@@ -659,66 +506,21 @@ svg {
   .entry-item {
     grid-template-columns: 2fr 1.5fr;
   }
-
-  .confirmation-dialogue-container {
-    left: 19%;
-    right: 19%;
-  }
 }
 
 @media (max-width: 500px) {
-  .header {
-    height: 90px;
+  .entries-title {
+    margin-bottom: 0.5rem;
   }
 
-  .right-header-section {
-    gap: 4px;
-    margin-right: -40px;
+  .clear-all-button {
+    padding: 0.4rem 1rem;
   }
 
-  .header svg {
-    height: 50px;
-    width: 50px;
-  }
-
-  .entry-item p {
-    font-size: 16px;
-    font-weight: 400;
-  }
-
-  .confirmation-dialogue-container {
-    width: 320px;
-    left: 50px;
-    right: 50px;
-  }
-
-  .confirmation-dialogue-container button {
-    padding: 8px 30px;
-  }
-}
-
-@media (max-width: 375px) {
-  .confirmation-dialogue-container {
-    width: 260px;
-    padding-left: 4px;
-    padding-right: 4px;
-    left: 60px;
-    right: 60px;
-  }
-
-  .confirmation-dialogue-container p {
-    font-size: 16px;
-  }
-
-  .confirmation-dialogue-container button {
-    padding: 6px 28px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 320px) {
-  .dialogue-container {
-    left: 30px;
-    right: 30px;
+  .delete-button,
+  .edit-button,
+  .confirmation-dialogue button,
+  .expense-screen .expense-grid button {
+    padding: 0.2rem 0.8rem;
   }
 }

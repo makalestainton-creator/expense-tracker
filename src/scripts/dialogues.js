@@ -1,34 +1,36 @@
+const confirmationDialogue = document.querySelector(".js-confirmation-dialogue");
+const editDialogue = document.querySelector(".js-edit-dialogue");
+
 export function renderConfirmationDialogue() {
-  document.querySelector(".js-confirmation-dialogue").innerHTML = `
-    <div class="confirmation-dialogue-container">
-      <p>Are you sure you want to proceed? <strong>This action cannot be undone</strong></p>
-      <div class="dialogue-buttons">
-        <button class="yes-button js-yes-button">
-          Yes
-        </button>
-        <button class="no-button js-no-button">
-          No
-        </button>
-      </div>
+  confirmationDialogue.innerHTML = `
+    <p>Are you sure you want to proceed? <strong>This action cannot be undone</strong></p>
+    <div class="dialogue-buttons">
+      <button class="yes-button js-yes-button">
+        Yes, delete
+      </button>
+      <button class="no-button js-no-button">
+        No, keep it
+      </button>
     </div>
   `;
 
+  confirmationDialogue.classList.add("overlay-active");
   document
-    .querySelector(".js-dialogue-overlay")
-    .classList.add("dialogue-overlay-active");
+    .querySelector(".js-overlay")
+    .classList.add("overlay-active");
 }
 
 export function renderEditDialogue() {
-  document.querySelector(".js-edit-dialogue").innerHTML =
+  editDialogue.innerHTML =
     `<div class="expense-grid">
-      <label for="description">Description:</label>
+      <label for="description-edit">Description:</label>
       <input
         type="text"
         class="expense-input js-expense-input js-expense-description-input"
         placeholder="Expense description"
-        id="description"
+        id="description-edit"
       />
-      <label for="amount">Amount:</label>
+      <label for="amount-edit">Amount:</label>
 
       <div class="prefix-container">
         <span class="prefix">Ksh.</span>
@@ -36,12 +38,12 @@ export function renderEditDialogue() {
           type="text"
           class="expense-input js-expense-input js-expense-amount-input amount-input"
           placeholder="0.00"
-          id="amount"
+          id="amount-edit"
         />
       </div>
-      <label for="category">Category:</label>
+      <label for="category-edit">Category:</label>
       <select
-        id="category"
+        id="category-edit"
         class="expense-input js-expense-input js-expense-category-input"
       >
         <button>
@@ -55,30 +57,34 @@ export function renderEditDialogue() {
         <option value="Health">Health</option>
         <option value="Other">Other</option>
       </select>
-      <label for="date">Date:</label>
+      <label for="date-edit">Date:</label>
       <input
         type="date"
         class="expense-input js-expense-input js-expense-date-input"
-        id="date"
+        id="date-edit"
       />
 
-      <button class="save-button js-save-button">
-        Save
-      </button>
-      <button class="cancel-button js-cancel-button">
-        Cancel
-      </button>
+      <div class="dialogue-buttons">
+        <button class="save-button js-save-button">
+          Save
+        </button>
+        <button class="cancel-button js-cancel-button">
+          Cancel
+        </button>
+      </div>
 
     </div>
     `;
+  
+  editDialogue.classList.add("overlay-active");
   document
-    .querySelector(".js-dialogue-overlay")
-    .classList.add("dialogue-overlay-active");
+    .querySelector(".js-overlay")
+    .classList.add("overlay-active");
 }
 
-export function removeDialogue(containerElement) {
-  containerElement.innerHTML = "";
+export function closeDialogue(containerElement) {
+  containerElement.classList.remove("overlay-active");
   document
-    .querySelector(".js-dialogue-overlay")
-    .classList.remove("dialogue-overlay-active");
+    .querySelector(".js-overlay")
+    .classList.remove("overlay-active");
 }

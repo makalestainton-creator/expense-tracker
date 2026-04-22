@@ -1,17 +1,74 @@
+import "../styles/shared.css";
+import "../styles/home-page.css";
+import "../styles/expenses.css";
+import checkMark from "../icons/checkmark.png";
+
+
+import { displayExpenses, updateExpenseNum } from "./expenses.js"
 import { calculateTotalExpenditure } from "./expenseSummary.js";
 import { changeTheme } from "./utils/changeTheme.js";
-import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import dayjs from "dayjs";
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
 
-export const today = dayjs();
+const searchContainer = document.querySelector(".search");
+const searchInput = searchContainer.querySelector("input");
+const chartContainer = document.querySelector(".js-chart-container");
 
-const month = today.format("MMMM YYYY");
-document.querySelector(".js-month-pill").textContent = `${month}`;
+// let resizeTimeout;
+// const resizeObserver = new ResizeObserver(() => {
+//   clearTimeout(resizeTimeout);
+//   resizeTimeout = setTimeout(() => {
+//     renderExpenseChart();
+//   }, 100);
+// });
+
+// resizeObserver.observe(chartContainer);
+
+
+const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
 calculateTotalExpenditure();
 renderExpenseChart();
 changeTheme();
 renderRecentExpenses();
+
+
+function toggleActiveMode(button) {
+  document.querySelectorAll(".mode").forEach((btn) => {
+    btn.classList.remove("active-mode");
+  });
+
+  button.classList.add("active-mode");
+}
+
+if (localStorage.getItem("homescreen") === "inactive") {
+  toggleActiveMode(document.querySelector(".expenses-btn"));
+  document.querySelector(".js-expense-screen").classList.add("expense-screen-active");
+  document.querySelector(".js-home-screen").classList.add("home-screen-inactive");
+  searchContainer.style.display = "block";
+  searchInput.focus();
+}
+
+document.querySelector(".home-btn").addEventListener("click", (e) => {
+  toggleActiveMode(e.target);
+  document.querySelector(".js-expense-screen").classList.remove("expense-screen-active");
+  document.querySelector(".js-home-screen").classList.remove("home-screen-inactive");
+  searchContainer.style.display = "";
+  localStorage.setItem("homescreen", "active");
+});
+
+document.querySelector(".expenses-btn").addEventListener("click", (e) => {
+  toggleActiveMode(e.target);
+  document.querySelector(".js-expense-screen").classList.add("expense-screen-active");
+  document.querySelector(".js-home-screen").classList.add("home-screen-inactive");
+  searchContainer.style.display = "block";
+  searchInput.focus();
+  localStorage.setItem("homescreen", "inactive");
+});
+
+const currentMonth = dayjs().format("MMMM");
+document.querySelector(".js-month-pill").textContent = `${currentMonth}`;
 
 function addExpense() {
   const expenseDescription = document.querySelector(
@@ -69,7 +126,7 @@ function addExpense() {
 
   // show added message
   document.querySelector(".js-added-to-tracker").innerHTML =
-    "<img src='icons/checkmark.png' class='checkmark' />Added";
+    `<img src="${checkMark}" class="checkmark" />Added`;
 
   clearTimeout(timeoutId);
 
@@ -83,6 +140,8 @@ function addExpense() {
   calculateTotalExpenditure();
   renderExpenseChart();
   renderRecentExpenses();
+  displayExpenses(expenses);
+  updateExpenseNum(expenses);
 }
 
 const addButton = document.querySelector(".js-add-expense-button");

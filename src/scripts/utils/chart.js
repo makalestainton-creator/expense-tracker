@@ -1,8 +1,14 @@
-import { changeTheme } from "./changeTheme.js";
+import { Chart } from "chart.js/auto";
+const ctx = document.getElementById("doughnutCanvas");
 
+let expenseChart = null;
 export function renderExpenseChart() {
   const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
-  let expenseChart = null;
+  const isDarkMode = localStorage.getItem("theme") === "dark";
+
+  // offsetParent === null is a reliable way to check if an element is hidden via display: none anywhere in its ancestor chain.
+  if (!ctx || ctx.offsetParent === null) return;
+
   const categoryTotals = {
     food: 0,
     transport: 0,
@@ -20,22 +26,19 @@ export function renderExpenseChart() {
     }
   });
 
-  let categoryValues = [];
-  for (const category in categoryTotals) {
-    const value = categoryTotals[category];
-    if (value === 0) {
-      categoryValues.push(value);
+  if (!expenses.length) {
+    if (expenseChart) {
+      expenseChart.destroy();
+      expenseChart = null;
     }
-  }
-  if (categoryValues.length === 7) {
-    document.querySelector(".js-chart-container").innerHTML = "";
     return;
-  } else {
-    document.querySelector(".js-chart-container").innerHTML =
-      "<canvas id='doughnutCanvas'></canvas>";
   }
 
-  const isDarkMode = localStorage.getItem("theme") === "dark";
+  // destroy and redraw with fresh data
+  if (expenseChart) {
+    expenseChart.destroy();
+    expenseChart = null;
+  }
 
   const data = {
     labels: [
@@ -61,35 +64,29 @@ export function renderExpenseChart() {
         ],
         backgroundColor: isDarkMode
           ? [
-              "#3FBF8E",
-              "#3B82F6",
-              "#9d50db",
-              "#c5b247",
-              "#428ccc",
-              "#448bd3",
-              "#c4623e",
-            ]
+            "#3FBF8E",
+            "#3B82F6",
+            "#9d50db",
+            "#c5b247",
+            "#428ccc",
+            "#448bd3",
+            "#c4623e",
+          ]
           : [
-              "#4ADE80",
-              "#60A5FA",
-              "#b057f8",
-              "#f8e15d",
-              "#29669b",
-              "#4ea0f1",
-              "#e6744b",
-            ],
+            "#4ADE80",
+            "#60A5FA",
+            "#b057f8",
+            "#f8e15d",
+            "#29669b",
+            "#4ea0f1",
+            "#e6744b",
+          ],
         hoverOffset: 2,
         borderWidth: 2,
         borderColor: isDarkMode ? "#031922" : "#F9FAFB",
       },
     ],
   };
-
-  const ctx = document.getElementById("doughnutCanvas");
-  const existingChart = Chart.getChart("doughnutCanvas");
-  if (existingChart) {
-    existingChart.destroy();
-  }
 
   expenseChart = new Chart(ctx, {
     type: "doughnut",
@@ -145,7 +142,7 @@ export function renderExpenseChart() {
             ? "rgba(0, 0, 0, 0.9)"
             : "rgba(0, 0, 0, 0.8)",
           padding: 12,
-          cornerRadius: 8,
+          cornerRadius: 4,
           titleFont: {
             size: 14,
           },

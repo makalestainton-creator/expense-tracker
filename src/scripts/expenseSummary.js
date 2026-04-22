@@ -1,4 +1,4 @@
-import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
+import dayjs from "dayjs";
 
 export function calculateTotalExpenditure() {
   // get todays date using dayjs and display it in a readable format
@@ -36,16 +36,8 @@ export function calculateTotalExpenditure() {
     }
   });
 
-  // generate the html
-  const totalExpenditure = document.querySelector(".js-total-expenditure");
-
-  totalExpenditure.innerHTML = `
-    <h2>Totals</h2>
-    <div class="period-total">
-      <p class="period">Today (${dateString}): </p>
-      <p class="cost">Ksh.${dailyTotal}</p>
-      <p class="period">This month (${month}): </p>
-      <p class="cost">Ksh.${monthlyTotal}</p>
-    </div>
-    `;
+  document.querySelector(".today").textContent = `${dateString}`;
+  document.querySelector(".todays-total").textContent = `${dailyTotal}`;
+  document.querySelector(".current-month").textContent = `${month}`;
+  document.querySelector(".current-month-total").textContent = `${monthlyTotal}`;
 }

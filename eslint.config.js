@@ -14,7 +14,7 @@ export default defineConfig([
   {
     rules: {
       "no-unused-vars": "warn",
-      "no-udef": "warn",
+      "no-undef": "warn",
     },
   },
   eslintConfigPrettier,
