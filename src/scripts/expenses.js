@@ -1,48 +1,24 @@
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
 import { calculateTotalExpenditure } from "./expenseSummary.js";
-import { renderConfirmationDialogue } from "./dialogues.js";
+import { renderConfirmationDialogue, openFilterMenu } from "./dialogues.js";
 import { closeDialogue, renderEditDialogue } from "./dialogues.js";
 import { changeTheme } from "./utils/changeTheme.js";
 
-// Loads expenses fresh from localStorage every time
-// Load fresh from localStorage
 const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
 const expensesGrid = document
   .querySelector(".js-entries-grid");
-// const domCategories = document.querySelectorAll(".js-category");
-// const domAmounts = document
-//   .querySelectorAll(".js-amount");
 const quantityIndicator = document
   .querySelector(".js-expense-quantity");
-// const deleteButtons = document
-//   .querySelectorAll(".js-delete-button");
-// const yesButton = document.querySelector(".js-yes-button");
-// const confirmationDialogue = document
-//   .querySelector(".js-confirmation-dialogue");
-// const editDialogue = document
-//   .querySelector(".js-edit-dialogue");
-// const noButton = document.querySelector(".js-no-button");
-// const editButtons = document
-//   .querySelectorAll(".js-edit-button");
-// const saveButton = document
-//   .querySelector(".js-save-button");
-// const cancelButton = document
-//   .querySelector(".js-cancel-button");
-// const editError = document
-//   .querySelector(".js-edit-alert");
-// const clearAllButton = document
-//   .querySelector(".js-clear-all-button");
-// const overlay = document
-//   .querySelector(".js-overlay");
+const clearAllButton = document
+  .querySelector(".js-clear-all-button");
 const downloadButton = document
   .querySelector(".js-download-button");
-// const domExpenses = document
-//   .querySelectorAll(".entry-item-container");
 
 
 updateExpenseNum(expenses);
+openFilterMenu();
 
 export function displayExpenses(expenses) {
   expensesGrid.innerHTML = "";
@@ -123,20 +99,19 @@ function applyHighCostStyles() {
     });
 }
 
-// const input = document.querySelector("#search-input");
-// input.addEventListener("input", () => {
-//   const searchTerm = input.value.trim().toLowerCase();
+const searchInput = document.querySelector("#search");
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value.trim().toLowerCase();
 
-//   const filtered = expenses.filter((expense) => {
-//     return (
-//       expense.category.toLowerCase().includes(searchTerm) ||
-//       expense.name.toLowerCase().includes(searchTerm)
-//     );
-//   });
+  const filtered = expenses.filter((expense) => {
+    return (
+      expense.category.toLowerCase().includes(searchTerm) ||
+      expense.name.toLowerCase().includes(searchTerm)
+    );
+  });
 
-//   displayExpenses(filtered);
-// });
-// renderExpenses();
+  displayExpenses(filtered);
+});
 
 export function updateExpenseNum(expenses) {
   quantityIndicator.innerHTML =
@@ -146,7 +121,7 @@ export function updateExpenseNum(expenses) {
 if (expenses.length === 0) {
   expensesGrid.innerHTML = `<p class="no-expense-alert">No expenses yet. Start tracking by adding your first expense!</p>`;
 
-  expensesGrid.classList.remove("entries-grid");
+  // expensesGrid.classList.remove("entries-grid");
 
   document.querySelector(".js-clear-all-button-container").innerHTML = "";
 }
@@ -220,17 +195,18 @@ function attachEventListeners() {
     .querySelectorAll(".js-edit-button").forEach((editButton) => {
       editButton.addEventListener("click", () => {
         const index = parseInt(editButton.getAttribute("data-index"));
+        const currentExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
         renderEditDialogue();
 
         // this section displays the value of the expense labels in the in input field before editing
-        document.getElementById("description-edit").value = expenses[index].name;
+        document.getElementById("description-edit").value = currentExpenses[index].name;
 
-        document.getElementById("amount-edit").value = `${expenses[index].cost}`;
+        document.getElementById("amount-edit").value = `${currentExpenses[index].cost}`;
 
-        document.getElementById("category-edit").value = expenses[index].category;
+        document.getElementById("category-edit").value = currentExpenses[index].category;
 
-        document.getElementById("date-edit").value = expenses[index].date;
+        document.getElementById("date-edit").value = currentExpenses[index].date;
 
         let timeoutId;
         
@@ -277,8 +253,9 @@ function attachEventListeners() {
             }
 
 
-            editExpense(index);
-            localStorage.setItem("expenses", JSON.stringify(expenses));
+            editExpense(index, currentExpenses); // pass it in
+            localStorage.setItem("expenses", JSON.stringify(currentExpenses));
+
             const freshExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
             displayExpenses(freshExpenses);
@@ -301,7 +278,7 @@ function attachEventListeners() {
 
 // edit an expense
 
-function editExpense(index) {
+function editExpense(index, expenses) {
   const previousExpenses = expenses;
 
   if (!document.getElementById("description-edit").value) {
@@ -339,8 +316,7 @@ function clearAllExpenses() {
   localStorage.setItem("expenses", JSON.stringify(expenses));
 }
 
-const clearAllButton = document
-  .querySelector(".js-clear-all-button");
+
 const overlay = document
   .querySelector(".js-overlay");
 if (clearAllButton) {

@@ -1,5 +1,9 @@
 const confirmationDialogue = document.querySelector(".js-confirmation-dialogue");
 const editDialogue = document.querySelector(".js-edit-dialogue");
+const menuOpenBtn = document.querySelector(".menu-open");
+const menuCloseBtn = document.querySelector(".close-menu-btn")
+const menuFilter = document.querySelector(".menu-container");
+const detailsElms = document.querySelectorAll("details");
 
 export function renderConfirmationDialogue() {
   confirmationDialogue.innerHTML = `
@@ -75,7 +79,7 @@ export function renderEditDialogue() {
 
     </div>
     `;
-  
+
   editDialogue.classList.add("overlay-active");
   document
     .querySelector(".js-overlay")
@@ -87,4 +91,29 @@ export function closeDialogue(containerElement) {
   document
     .querySelector(".js-overlay")
     .classList.remove("overlay-active");
+}
+
+
+export function openFilterMenu() {
+  menuOpenBtn.addEventListener("click", () => {
+    menuFilter.classList.add("open");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (
+      !menuFilter.contains(e.target) &&
+      !menuOpenBtn.contains(e.target)
+    ) {
+      menuFilter.classList.remove("open")
+    }
+  });
+
+  menuCloseBtn.addEventListener("click", () => {
+    menuFilter.classList.remove("open");
+  });
+
+  // detailsElms.forEach((elm) => {
+  //   elm.addEventListener('mouseenter', () => elm.open = true);
+  //   elm.addEventListener('mouseleave', () => elm.open = false);
+  // });
 }

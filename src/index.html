@@ -46,6 +46,186 @@
         </button>
       </div>
     </div>
+    <div class="menu-container">
+      <div class="menu">
+        <button class="close-menu-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24" fill="#6b7280">
+            <path
+              d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z"
+            />
+          </svg>
+        </button>
+        <div class="filter">
+          <p>Filter by:</p>
+          <ul>
+            <li>
+              <details>
+                <summary>
+                  Category
+                  <span><img src="icons/chevron.svg" class="chevron" /></span>
+                </summary>
+
+                <ul>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="food-filter"
+                      id="food-filter"
+                    />
+                    <label for="food-filter">Food</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="transport-filter"
+                      id="transport-filter"
+                    />
+                    <label for="transport-filter">Transport</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="entertainment-filter"
+                      id="entertainment-filter"
+                    />
+                    <label for="entertainment-filter">Entertainment</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="shopping-filter"
+                      id="shopping-filter"
+                    />
+                    <label for="shopping-filter">Shopping</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="bills-filter"
+                      id="bills-filter"
+                    />
+                    <label for="bills-filter">Bills</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="health-filter"
+                      id="health-filter"
+                    />
+                    <label for="health-filter">Health</label>
+                  </li>
+                  <li>
+                    <input
+                      type="checkbox"
+                      name="other-filter"
+                      id="other-filter"
+                    />
+                    <label for="other-filter">Other</label>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details>
+                <summary>
+                  Period added
+                  <span><img src="icons/chevron.svg" class="chevron" /></span>
+                </summary>
+
+                <ul>
+                  <li>
+                    <input type="radio" name="period-added" id="today-filter" />
+                    <label for="today-filter">Today</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="period-added"
+                      id="this-week-filter"
+                    />
+                    <label for="this-week-filter">This week</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="period-added"
+                      id="last-week-filter"
+                    />
+                    <label for="last-week-filter">Last week</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      name="period-added"
+                      id="this-month-filter"
+                    />
+                    <label for="this-month-filter">This month</label>
+                  </li>
+                </ul>
+              </details>
+            </li>
+            <li>
+              <details class="amount-range">
+                <summary>
+                  Amount range
+                  <span><img src="icons/chevron.svg" class="chevron" /></span>
+                </summary>
+
+                <ul>
+                  <li>
+                    <label for="from">From:</label>
+                    <input type="number" name="from" id="from" />
+                  </li>
+                  <li>
+                    <label for="to">To:</label>
+                    <input type="number" name="to" id="to" />
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+        <div class="sort">
+          <p>Sort:</p>
+          <ul>
+            <li>
+              <select name="period-sort" id="period-sort">
+                <option value="Newest first">Newest first</option>
+                <option value="Oldest first">Oldest first</option>
+              </select>
+            </li>
+            <li>
+              <select name="spending-sort" id="spending-sort">
+                <option value="High spend">High spend</option>
+                <option value="Low spend">Low spend</option>
+              </select>
+            </li>
+            <li>
+              <details>
+                <summary>
+                  Category(alphabetical)
+                  <span><img src="icons/chevron.svg" class="chevron" /></span>
+                </summary>
+
+                <ul>
+                  <li>
+                    <input type="radio" name="alpha-sort" id="ascending" />
+                    <label for="ascending"> Ascending </label>
+                  </li>
+                  <li>
+                    <input type="radio" name="alpha-sort" id="descending" />
+                    <label for="descending"> Descending </label>
+                  </li>
+                </ul>
+              </details>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <button class="menu-open">
+      <img src="icons/hamburger.svg" alt="" />
+    </button>
     <div class="wrapper">
       <section class="home-screen js-home-screen">
         <h1>Track your Expenses Here</h1>
@@ -114,15 +294,10 @@
             <div class="total-expenditure">
               <h2>Totals</h2>
               <div class="period-total">
+                <p class="period">Today (<span class="today"></span>):</p>
+                <p class="cost">Ksh.<span class="todays-total"></span></p>
                 <p class="period">
-                  Today (<span class="today"></span>):
-                </p>
-                <p class="cost">
-                  Ksh.<span class="todays-total"></span>
-                </p>
-                <p class="period">
-                  This month
-                  (<span class="current-month"></span>):
+                  This month (<span class="current-month"></span>):
                 </p>
                 <p class="cost">
                   Ksh.

@@ -2,6 +2,8 @@ import "../styles/shared.css";
 import "../styles/home-page.css";
 import "../styles/expenses.css";
 import checkMark from "../icons/checkmark.png";
+import lightChevron from "../icons/light-chevron.svg";
+import darkChevron from "../icons/chevron.svg";
 
 
 import { displayExpenses, updateExpenseNum } from "./expenses.js"
@@ -11,19 +13,26 @@ import dayjs from "dayjs";
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
 
-const searchContainer = document.querySelector(".search");
-const searchInput = searchContainer.querySelector("input");
-const chartContainer = document.querySelector(".js-chart-container");
+const searchContainer = document
+  .querySelector(".search");
+const searchInput = searchContainer
+  .querySelector("input");
+const chartContainer = document
+  .querySelector(".js-chart-container");
+const menuOpenBtn = document.
+  querySelector(".menu-open");
+const menuFilter = document.
+  querySelector(".menu-container");
 
-// let resizeTimeout;
-// const resizeObserver = new ResizeObserver(() => {
-//   clearTimeout(resizeTimeout);
-//   resizeTimeout = setTimeout(() => {
-//     renderExpenseChart();
-//   }, 100);
-// });
+let resizeTimeout;
+const resizeObserver = new ResizeObserver(() => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    renderExpenseChart();
+  }, 100);
+});
 
-// resizeObserver.observe(chartContainer);
+resizeObserver.observe(chartContainer);
 
 
 const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
@@ -47,6 +56,8 @@ if (localStorage.getItem("homescreen") === "inactive") {
   document.querySelector(".js-expense-screen").classList.add("expense-screen-active");
   document.querySelector(".js-home-screen").classList.add("home-screen-inactive");
   searchContainer.style.display = "block";
+  menuOpenBtn.style.display = "block";
+  menuFilter.style.display = "block";
   searchInput.focus();
 }
 
@@ -55,6 +66,8 @@ document.querySelector(".home-btn").addEventListener("click", (e) => {
   document.querySelector(".js-expense-screen").classList.remove("expense-screen-active");
   document.querySelector(".js-home-screen").classList.remove("home-screen-inactive");
   searchContainer.style.display = "";
+  menuOpenBtn.style.display = "";
+  menuFilter.style.display = "";
   localStorage.setItem("homescreen", "active");
 });
 
@@ -63,6 +76,8 @@ document.querySelector(".expenses-btn").addEventListener("click", (e) => {
   document.querySelector(".js-expense-screen").classList.add("expense-screen-active");
   document.querySelector(".js-home-screen").classList.add("home-screen-inactive");
   searchContainer.style.display = "block";
+  menuOpenBtn.style.display = "block";
+  menuFilter.style.display = "block";
   searchInput.focus();
   localStorage.setItem("homescreen", "inactive");
 });
