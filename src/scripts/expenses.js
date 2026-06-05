@@ -13,9 +13,22 @@ const quantityIndicator = document
   .querySelector(".js-expense-quantity");
 const clearAllButton = document
   .querySelector(".js-clear-all-button");
-const downloadButton = document
-  .querySelector(".js-download-button");
-
+const overlay = document
+  .querySelector(".js-overlay");
+const foodFilter = document
+  .getElementById("food-filter");
+const transportFilter = document
+  .getElementById("transport-filter");
+const entertainMentFilter = document
+  .getElementById("entertainment-filter");
+const shoppingFilter = document
+  .getElementById("shopping-filter");
+const billsFilter = document
+  .getElementById("bills-filter");
+const healthFilter = document
+  .getElementById("health-filter");
+const otherFilter = document
+  .getElementById("other-filter");
 
 updateExpenseNum(expenses);
 openFilterMenu();
@@ -23,11 +36,22 @@ openFilterMenu();
 export function displayExpenses(expenses) {
   expensesGrid.innerHTML = "";
 
-  // generates the HTML for each expense
-  expenses.forEach((expense, index) => {
-    const expenseIndex = expenses.indexOf(expense);
+  // Always read from localStorage to get true indices for delete/edit
+  const allExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+  expenses.forEach((expense) => {
+    // Find the real index in the full array so delete/edit always hit the right item
+    const realIndex = allExpenses.findIndex(
+      (e) =>
+        e.name === expense.name &&
+        e.cost === expense.cost &&
+        e.date === expense.date &&
+        e.category === expense.category
+    );
+
     expensesGrid.innerHTML += `
-      <div class="entry-item-container" data-exp-index="${expenseIndex}">
+      <div class="entry-item-container" data-exp-index="${realIndex}">
+        <div class="edited-indicator" style="${expense.edited ? 'display:block' : ''}">Edited</div>
         <div class="category-container">
           <p class="category value-dark-mode js-category">
             ${expense.category}
@@ -45,10 +69,10 @@ export function displayExpenses(expenses) {
             ${expense.date}
           </p>
           <div class="entry-buttons">
-            <button class="delete-button js-delete-button" data-index="${index}">
+            <button class="delete-button js-delete-button" data-index="${realIndex}">
               Delete
             </button>
-            <button class="edit-button js-edit-button" data-index="${index}">
+            <button class="edit-button js-edit-button" data-index="${realIndex}">
               Edit
             </button>
           </div>
@@ -99,19 +123,125 @@ function applyHighCostStyles() {
     });
 }
 
+// Tracks the current filtered+sorted result so search can narrow within it
+let activeFilteredExpenses = null;
+
 const searchInput = document.querySelector("#search");
 searchInput.addEventListener("input", () => {
   const searchTerm = searchInput.value.trim().toLowerCase();
+  // Search within the active filtered set, or all expenses if no filter applied
+  const base = activeFilteredExpenses || JSON.parse(localStorage.getItem("expenses")) || [];
 
-  const filtered = expenses.filter((expense) => {
-    return (
-      expense.category.toLowerCase().includes(searchTerm) ||
-      expense.name.toLowerCase().includes(searchTerm)
-    );
-  });
+  const searched = base.filter((expense) =>
+    expense.category.toLowerCase().includes(searchTerm) ||
+    expense.name.toLowerCase().includes(searchTerm)
+  );
 
-  displayExpenses(filtered);
+  displayExpenses(searched);
+  updateExpenseNum(searched);
 });
+
+applyFilters();
+function applyFilters() {
+  document.querySelector(".confirm").addEventListener("click", () => {
+    const currentExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
+
+    // --- Category filter (checkboxes — all can be active together) ---
+    const selectedCategories = [
+      foodFilter.checked && "Food",
+      transportFilter.checked && "Transport",
+      entertainMentFilter.checked && "Entertainment",
+      shoppingFilter.checked && "Shopping",
+      billsFilter.checked && "Bills",
+      healthFilter.checked && "Health",
+      otherFilter.checked && "Other",
+    ].filter(Boolean);
+
+    // --- Period filter (radio — mutually exclusive) ---
+    const periodFilterId = document.querySelector("input[name='period-added']:checked")?.id;
+
+    // --- Amount range ---
+    const from = Number(document.getElementById("from").value) || 0;
+    const to = Number(document.getElementById("to").value) || Infinity;
+
+    // --- Single sort dropdown ---
+    const sortValue = document.getElementById("sort").value;
+
+    let filtered = [...currentExpenses];
+
+    // Apply category filter
+    if (selectedCategories.length) {
+      filtered = filtered.filter(e => selectedCategories.includes(e.category));
+    }
+
+    // Apply period filter
+    if (periodFilterId) {
+      const now = new Date();
+      const todayStr = now.toISOString().slice(0, 10);
+
+      // Get Monday of current week
+      const dayOfWeek = now.getDay(); // 0=Sun 
+      const diffToMonday = (dayOfWeek + 6) % 7;
+      const thisMonday = new Date(now);
+      thisMonday.setDate(now.getDate() - diffToMonday);
+      thisMonday.setHours(0, 0, 0, 0);
+
+      // Get Monday of last week
+      const lastMonday = new Date(thisMonday);
+      lastMonday.setDate(thisMonday.getDate() - 7);
+      const lastSunday = new Date(thisMonday);
+      lastSunday.setDate(thisMonday.getDate() - 1);
+
+      const currentMonth = now.getMonth();
+      const currentYear = now.getFullYear();
+
+      filtered = filtered.filter(e => {
+        const expDate = new Date(e.date);
+
+        if (periodFilterId === "today-filter") {
+          return e.date === todayStr;
+        }
+        if (periodFilterId === "this-week-filter") {
+          return expDate >= thisMonday && expDate <= now;
+        }
+        if (periodFilterId === "last-week-filter") {
+          return expDate >= lastMonday && expDate <= lastSunday;
+        }
+        if (periodFilterId === "this-month-filter") {
+          return expDate.getMonth() === currentMonth && expDate.getFullYear() === currentYear;
+        }
+        return true;
+      });
+    }
+
+    // Apply amount range filter
+    filtered = filtered.filter(e => e.cost >= from && e.cost <= to);
+
+    // Apply single sort (one clear choice, no conflict)
+    if (sortValue === "newest") {
+      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (sortValue === "oldest") {
+      filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (sortValue === "high-spend") {
+      filtered.sort((a, b) => b.cost - a.cost);
+    } else if (sortValue === "low-spend") {
+      filtered.sort((a, b) => a.cost - b.cost);
+    } else if (sortValue === "alpha-asc") {
+      filtered.sort((a, b) => a.category.localeCompare(b.category));
+    } else if (sortValue === "alpha-desc") {
+      filtered.sort((a, b) => b.category.localeCompare(a.category));
+    }
+
+    // Save this as the active filtered set so search can work within it
+    activeFilteredExpenses = filtered;
+
+    // Clear search box when new filter is applied so results aren't doubly narrowed
+    searchInput.value = "";
+
+    displayExpenses(filtered);
+    updateExpenseNum(filtered);
+  });
+}
 
 export function updateExpenseNum(expenses) {
   quantityIndicator.innerHTML =
@@ -142,6 +272,9 @@ function deleteExpense(deleteButton) {
     currentExpenses.splice(index, 1);
 
     localStorage.setItem("expenses", JSON.stringify(currentExpenses));
+
+    // Reset active filter so search works on full list after delete
+    activeFilteredExpenses = null;
 
     displayExpenses(currentExpenses);
     updateExpenseNum(currentExpenses);
@@ -181,13 +314,13 @@ function attachEventListeners() {
             .querySelector(".js-confirmation-dialogue"));
 
           deleteExpense(deleteButton);
-        }, {once: true});
+        }, { once: true });
 
         document.querySelector(".js-no-button").addEventListener("click", () => {
           // removes the dialogue and overlay and does nothing more
           closeDialogue(document
             .querySelector(".js-confirmation-dialogue"));
-        }, {once: true});
+        }, { once: true });
       });
     });
 
@@ -209,7 +342,7 @@ function attachEventListeners() {
         document.getElementById("date-edit").value = currentExpenses[index].date;
 
         let timeoutId;
-        
+
         document
           .querySelector(".js-save-button")
           .addEventListener("click", () => {
@@ -277,12 +410,9 @@ function attachEventListeners() {
 }
 
 // edit an expense
-
 function editExpense(index, expenses) {
-  const previousExpenses = expenses;
-
   if (!document.getElementById("description-edit").value) {
-    expenses[index].name = previousExpenses.name;
+    // keep existing
   } else {
     expenses[index].name = document
       .getElementById("description-edit")
@@ -290,13 +420,13 @@ function editExpense(index, expenses) {
   }
 
   if (!Number(document.getElementById("amount-edit").value)) {
-    expenses[index].cost = previousExpenses.cost;
+    // keep existing
   } else {
     expenses[index].cost = Number(document.getElementById("amount-edit").value);
   }
 
   if (!document.getElementById("category-edit").value) {
-    expenses[index].category = previousExpenses.category;
+    // keep existing
   } else {
     expenses[index].category = document
       .getElementById("category-edit")
@@ -304,21 +434,21 @@ function editExpense(index, expenses) {
   }
 
   if (!document.getElementById("date-edit").value) {
-    expenses[index].date = previousExpenses.date;
+    // keep existing
   } else {
     expenses[index].date = document.getElementById("date-edit").value.trim();
   }
+
+  // Stamp the edited flag so it persists across rerenders
+  expenses[index].edited = true;
 }
 
 function clearAllExpenses() {
   expenses.length = 0;
-
+  activeFilteredExpenses = null;
   localStorage.setItem("expenses", JSON.stringify(expenses));
 }
 
-
-const overlay = document
-  .querySelector(".js-overlay");
 if (clearAllButton) {
   clearAllButton.addEventListener("click", () => {
     renderConfirmationDialogue();
@@ -343,36 +473,3 @@ if (clearAllButton) {
     });
   });
 }
-
-function downloadExpensesAsCSV(expenses) {
-  // Step 2: Create CSV string
-  let csv = "Date,Category,Amount,Description\n";
-  expenses.forEach((exp) => {
-    csv += `${exp.date},${exp.category},${exp.amount},${exp.name}\n`;
-  });
-
-  // Step 3: Create blob
-  const blob = new Blob([csv], { type: "text/csv" });
-
-  // Step 4: Create URL
-  const url = URL.createObjectURL(blob);
-
-  // Step 5: Create link
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = "my-expenses.csv";
-
-  // Step 6: Trigger download
-  link.click();
-
-  // Step 7: Clean up
-  URL.revokeObjectURL(url);
-}
-
-downloadButton.addEventListener("click", () => {
-  downloadExpensesAsCSV(expenses);
-});
-if (expenses.length === 0) {
-  downloadButton.classList.add("inactive");
-}
-

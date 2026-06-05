@@ -102,6 +102,8 @@ function addExpense() {
     cost: expenseAmount,
     category: expenseCategory,
     date: expenseDate,
+    time: dayjs().format("HH:mm"),
+    edited: false,
   };
 
   // avoids adding empty expenses

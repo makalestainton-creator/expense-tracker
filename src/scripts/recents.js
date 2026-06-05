@@ -90,23 +90,30 @@ export function renderRecentExpenses() {
   container.innerHTML = "<h4>Recent expenses</h4>";
 
   recentExpenses.forEach((expense) => {
-    
     const expenseDateString = dayjs(expense.date).format("dddd MMMM, YYYY");
     const expenseDateNum = expense.date.slice(-2);
     container.innerHTML += `
         <div class="recent-expense">
-          <p class="date">${expenseDateString}</p>
+          
           <div class="recent-expense-details">
-            <div class="right-side">
-              ${renderCategorySVG(expense)}
-              <span class="date-no">${expenseDateNum}</span>
-              <div class="recent-category">
-                ${renderCategorySVG(expense)}
-                <p class="category-name">${expense.category}</p>
-              </div>
-              <p class="recent-expense-description">${expense.name}</p>
+            <div class="top">
+              <p class="date">${expenseDateString}</p>
+              
+              <span class="time">${expense.time}</span>
             </div>
-            <p class="recent-expense-cost">Ksh.${expense.cost}</p>
+            <div class="bottom">
+              <div class="left-side">
+                <span class="date-no">${expenseDateNum}</span>
+                <div class="recent-category">
+                  ${renderCategorySVG(expense)}
+                  <p class="category-name">${expense.category}</p>
+                </div>
+                <p class="recent-expense-description">${expense.name}</p>
+              </div>
+              <div class="right-side">
+                <p class="recent-expense-cost">Ksh.${expense.cost}</p>
+              </div>
+            </div>
           </div>
         </div>
       `;
@@ -153,3 +160,4 @@ export function renderRecentExpenses() {
     });
   });
 }
+

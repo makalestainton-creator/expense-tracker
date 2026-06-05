@@ -292,7 +292,8 @@ body.dark-mode .recent-expense-description {
   color: #d6d5d5;
 }
 
-.recents-container .date {
+.recents-container .date,
+.recents-container .time {
   color: #99a2b6;
   font-size: 0.9rem;
   font-weight: normal;
@@ -300,11 +301,22 @@ body.dark-mode .recent-expense-description {
   margin-bottom: 0.2rem;
 }
 
+.recents-container .time {
+  align-self: end;
+}
+
 .recents-container .date-no {
   color: #99a2b6;
 }
 
 .recent-expense-details {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+}
+
+.top,
+.bottom {
   display: flex;
   justify-content: space-between;
 }
@@ -382,10 +394,16 @@ body.dark-mode .recent-other-category {
   background-color: #7e371e;
 }
 
-.right-side {
+.left-side {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
+
+/* .right-side {
+  display: flex;
+  flex-direction: column;
+} */
 
 @media (min-width: 2000px) {
   .home-screen {

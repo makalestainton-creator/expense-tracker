@@ -22,19 +22,18 @@ body.dark-mode .expense-quantity {
 }
 
 .clear-all-button {
+  cursor: pointer;
   border: none;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin: 1rem auto;
   border-radius: 4px;
   padding: 0.6rem 1.5rem;
   color: #f2f5f9;
   background-color: #d44b42;
-  font-size: 15px;
+  font-size: 0.9rem;
   transition: background-color 0.2s ease;
 }
 
 .clear-all-button:hover {
-  cursor: pointer;
   background-color: #ce2216;
 }
 
@@ -43,7 +42,16 @@ body.dark-mode .expense-quantity {
 }
 
 body.dark-mode .clear-all-button {
-  background-color: #94261e;
+  background-color: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .clear-all-button:hover,
+body.dark-mode .delete-button:hover {
+  border-color: #f84437;
+  color: #ff5555;
 }
 
 .entries-title {
@@ -74,11 +82,13 @@ body.dark-mode .clear-all-button {
 
 .entry-item-container {
   background-color: #fff;
-  /* outline: 2px solid; */
+  border: 1px solid #e7e7e7;
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
   padding: clamp(0.6rem, 2.5vw, 0.8rem);
   border-radius: 8px;
   opacity: 1;
+
+  position: relative;
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
@@ -87,11 +97,17 @@ body.dark-mode .clear-all-button {
 
 body.dark-mode .entry-item-container {
   background-color: #031922;
+  border: 1px solid #01202c;
 }
 
 .entry-item-container:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .entry-item-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 20px rgba(255, 255, 255, 0.05);
 }
 
 .fade-out {
@@ -222,6 +238,19 @@ body.dark-mode .category.other {
   color: #c4623e;
 }
 
+.edited-indicator {
+  color: #0f766e;
+  font-size: clamp(.6rem, 2.5vw, .8rem);
+  border: 1px solid;
+  padding: .1rem .4rem;
+  border-radius: 4rem;
+  display: none;
+  
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
 .delete-button,
 .edit-button {
   cursor: pointer;
@@ -232,9 +261,15 @@ body.dark-mode .category.other {
 
 .delete-button {
   background-color: transparent;
-  border: 2px solid #d44b42;
+  border: 1px solid #d44b42;
   color: #d44b42;
   font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+body.dark-mode .delete-button {
+  background-color: transparent;
+  border: 1px solid #2a2a2a;
+  color: #666;
 }
 
 .edit-button {
@@ -252,6 +287,15 @@ body.dark-mode .category.other {
   background-color: #0a5852;
   color: #f2f2f2;
   border-color: #f2f2f2;
+}
+
+body.dark-mode .edit-button:hover,
+body.dark-mode .no-button:hover,
+body.dark-mode .save-button:hover {
+  transform: translateY(-2px);
+  background-color: #0f766e;
+  color: #f2f2f2;
+  box-shadow: 2px 2px 10px rgba(255, 255, 255, 0.2);
 }
 
 .no-expense-alert {
@@ -273,7 +317,7 @@ body.dark-mode .category.other {
   border-radius: 8px;
   padding: clamp(0.8rem, 2.5vw, 1rem);
   box-shadow: 2px 4px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
+  z-index: 1002;
 }
 
 .edit-dialogue,
@@ -284,7 +328,7 @@ body.dark-mode .category.other {
 .confirmation-dialogue {
   color: #111827;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 1rem;
 }
 
 body.dark-mode .confirmation-dialogue,
@@ -307,7 +351,7 @@ body.dark-mode .expense-screen .expense-grid {
 
 .confirmation-dialogue button,
 .expense-screen .expense-grid button {
-  padding: .4rem 1rem;
+  padding: 0.4rem 1rem;
   font-size: 0.9rem;
   border-radius: 4px;
   cursor: pointer;
@@ -322,14 +366,25 @@ body.dark-mode .expense-screen .expense-grid {
   border: 2px solid #d44b42;
   background-color: transparent;
   color: #d44b42;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .yes-button {
+  border: 1px solid #041d24;
+  color: #a9aeaf;
+}
+
+body.dark-mode .yes-button:hover {
+  border-color: #c4342a;
+  color: #e24949;
+  background-color: transparent;
 }
 
 .cancel-button {
-  border: 2px solid #d44b42;
+  border: 1px solid #d44b42;
   color: #d44b42;
   background-color: transparent;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
 }
 
 .save-button {
@@ -344,11 +399,14 @@ body.dark-mode .expense-screen .expense-grid {
 }
 
 body.dark-mode .cancel-button {
-  color: #f77a71;
+  border-color: #161616;
+  color: #9c9c9c;
 }
 
 body.dark-mode .cancel-button:hover {
-  background-color: #022230;
+  color: #f77a71;
+  border: 1px solid #d44b42;
+  background-color: transparent;
 }
 
 .yes-button:hover,
@@ -365,8 +423,8 @@ body.dark-mode .cancel-button:hover {
 }
 
 body.dark-mode .no-button {
-  background-color: #0a5164;
-  border-color: #09637c;
+  background-color: #0f766e;
+  border: none;
   color: #ced5db;
 }
 
@@ -375,16 +433,12 @@ body.dark-mode .no-button {
   border-color: #f2f2f2;
 }
 
-body.dark-mode .no-button:hover {
-  border-color: #09637c;
-}
-
 .overlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.2);
   display: none;
-  z-index: 998;
+  z-index: 1001;
 }
 
 body.dark-mode .overlay {
@@ -412,86 +466,8 @@ body.dark-mode .overlay {
   opacity: 1;
 }
 
-.download-button {
-  position: fixed;
-  bottom: 10vh;
-  right: 2vw;
-  padding: 0.8rem;
-  border-radius: 50%;
-  background-color: #0f766e;
-  border: none;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.download-button:active {
-  transform: scale(0.95);
-}
-
-.download-button:hover {
-  cursor: pointer;
-  background-color: #108178;
-}
-
 .inactive {
   display: none;
-}
-
-.download-button:hover::before {
-  visibility: visible;
-}
-
-/* Define the shake animation */
-@keyframes shake-vertical {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateY(-8px);
-  }
-
-  20%,
-  40%,
-  60%,
-  80% {
-    transform: translateY(8px);
-  }
-}
-
-/* Apply animation only on page load */
-.download-button {
-  animation: shake-vertical 0.8s ease-in-out;
-  /* Animation runs once automatically, then stops */
-}
-
-.expense-screen svg {
-  stroke: #f3f5f9;
-}
-
-.download-button::before {
-  content: "Download CSV";
-  position: absolute;
-  top: -3rem;
-  right: 50%;
-
-  background-color: #0974bb;
-  color: #fff;
-  padding: 5px 8px;
-  border-radius: 13px 18px 0px 11px;
-  opacity: 0.6;
-  font-size: 0.8rem;
-
-  visibility: hidden;
-
-  transition: all 0.3s ease;
-  z-index: 1000;
-  pointer-events: none;
 }
 
 @media (max-width: 768px) {

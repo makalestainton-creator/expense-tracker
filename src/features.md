@@ -1,80 +1,78 @@
-For that use case, a `<details>` + `<summary>` element is actually a great fit — no JavaScript needed for the open/close, and it's accessible out of the box. The hover behavior would need a small JS or CSS trick since `<details>` is click-based natively, but it's doable with pure CSS using `:hover` on the details element itself.
-
-Here's the rough approach:
-
-```css
-details[open],
-details:hover {
-  open: true; /* doesn't work — CSS can't set HTML attributes */
-}
-```
-
-That won't work. So you have two clean options:
-
-**Option 1 — Pure CSS with a fake dropdown (no `<details>`)**
-Use a hidden checkbox or a focusable element + sibling combinator. Works but is a bit hacky semantically.
-
-**Option 2 — `<details>` + a tiny JS hover shim (recommended)**
-Keep the semantic benefits of `<details>` and just add hover open/close in JS:
-
-```js
-const filterDetails = document.querySelector('.js-filter-details');
-
-filterDetails.addEventListener('mouseenter', () => filterDetails.open = true);
-filterDetails.addEventListener('mouseleave', () => filterDetails.open = false);
-```
-
-Then inside it you'd have your filter controls — category checkboxes, a date range picker, amount range, sort order, etc. — and a button to apply them which calls `displayExpenses()` with the filtered array.
-
-A few things worth thinking through before you build it:
-
-- **Hover on mobile** doesn't exist, so you'd want the click behavior `<details>` gives you for free to serve as the fallback — which it already does.
-- **Where exactly** after the header — directly below the `.entries-title`, or fixed/sticky below the app header?
-- **Apply on change vs. apply on button click** — instant filtering as you tick options feels snappier, but a confirm button avoids re-rendering on every checkbox tick.
-
-What filters are you thinking — category, date range, amount, sort order?
-
-<!-- **next -->
-
-Here's a solid set of filters that would work well with your existing data structure:
-
-**Filtering (narrow down what shows)**
-- **Category** — checkboxes for Food, Transport, Entertainment, etc. Most useful since you already have category styles built out
-- **Date range** — a "from" and "to" date input, pairs perfectly with your existing `expense.date` field
-- **Amount range** — min/max inputs, and your `high-amount` style (≥1000) could even be a quick toggle
-- **Search by name** — you already have the search input scaffolded but commented out in `expenses.js`, this would be the place to revive it
-
-**Sorting (reorder what shows)**
-- **Date** — newest first / oldest first
-- **Amount** — highest first / lowest first
-- **Category** — alphabetical grouping
-
-**Quick presets (one-click filters, very satisfying UX)**
-- *This month* — filter to current month's expenses only
-- *High spend* — only expenses ≥ Ksh 1,000
-- *Today* — just today's entries
+😂 excavator analogy is perfect. Let me break it down piece by piece.
 
 ---
 
-The beauty of your setup is that all of these operate on the in-memory `expenses` array and just call `displayExpenses(filtered)` — none of them need to touch localStorage. The pattern would be:
+**Step 1 — get reference points**
+```javascript
+const now = new Date();               // right now, e.g. Friday June 6 2025
+const todayStr = now.toISOString().slice(0, 10); // "2025-06-06" (just the date part)
+```
+`toISOString()` gives `"2025-06-06T10:30:00.000Z"`, `.slice(0, 10)` chops off the time part leaving just `"2025-06-06"`.
 
-```js
-function applyFilters() {
-  let filtered = [...expenses];
+---
 
-  // each filter narrows the array down
-  if (selectedCategories.length) {
-    filtered = filtered.filter(e => selectedCategories.includes(e.category));
-  }
-  if (minAmount) {
-    filtered = filtered.filter(e => e.cost >= minAmount);
-  }
-  // ...etc
+**Step 2 — find this Monday**
+```javascript
+const dayOfWeek = now.getDay(); // Sun=0, Mon=1, Tue=2... Sat=6
 
-  displayExpenses(filtered);
-}
+const diffToMonday = (dayOfWeek + 6) % 7;
+// e.g. Friday: (5 + 6) % 7 = 11 % 7 = 4 days back to reach Monday
+// e.g. Monday: (1 + 6) % 7 = 7 % 7 = 0 (already Monday, go back 0)
+// e.g. Sunday: (0 + 6) % 7 = 6 % 7 = 6 days back to reach Monday
+
+const thisMonday = new Date(now);
+thisMonday.setDate(now.getDate() - diffToMonday); // rewind to Monday
+thisMonday.setHours(0, 0, 0, 0); // set to midnight so whole day is included
 ```
 
-A natural priority order to build them in would be: **category checkboxes → search → sort → date range → amount range → presets**, since each one builds on the same filtering pattern and gets progressively more involved.
+---
 
-Which of these would you like to start with?
+**Step 3 — find last week's Monday and Sunday**
+```javascript
+const lastMonday = new Date(thisMonday);
+lastMonday.setDate(thisMonday.getDate() - 7); // go back 7 days from this Monday
+
+const lastSunday = new Date(thisMonday);
+lastSunday.setDate(thisMonday.getDate() - 1); // one day before this Monday = last Sunday
+```
+So last week is the range **lastMonday → lastSunday**.
+
+---
+
+**Step 4 — the actual filtering**
+```javascript
+filtered = filtered.filter(e => {
+  const expDate = new Date(e.date); // turn "2025-06-06" string into a real Date object
+
+  if (periodFilterId === "today-filter")
+    return e.date === todayStr;          // simple string compare, "2025-06-06" === "2025-06-06"
+
+  if (periodFilterId === "this-week-filter")
+    return expDate >= thisMonday && expDate <= now;  // between Monday and right now
+
+  if (periodFilterId === "last-week-filter")
+    return expDate >= lastMonday && expDate <= lastSunday; // between last Mon and last Sun
+
+  if (periodFilterId === "this-month-filter")
+    return expDate.getMonth() === currentMonth      // same month number (0-11)
+        && expDate.getFullYear() === currentYear;   // AND same year
+
+  return true; // no filter matched, keep everything
+});
+```
+
+---
+
+**On your dayjs question** — honestly for this specific case, spoon is fine 😄 You're just doing date comparisons, and native `Date` handles it cleanly. dayjs would make it slightly more readable:
+
+```javascript
+// Native Date version:
+const diffToMonday = (dayOfWeek + 6) % 7;
+const thisMonday = new Date(now);
+thisMonday.setDate(now.getDate() - diffToMonday);
+
+// dayjs version:
+const thisMonday = dayjs().startOf("week"); // one line, same result
+```
+
+So dayjs would shorten it, but it's not necessary — the native code works perfectly. Since you're already importing dayjs elsewhere in the project it wouldn't even be an extra dependency, but it's your call.

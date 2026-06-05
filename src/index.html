@@ -186,41 +186,22 @@
           </ul>
         </div>
         <div class="sort">
-          <p>Sort:</p>
+          <p>Sort by:</p>
           <ul>
             <li>
-              <select name="period-sort" id="period-sort">
-                <option value="Newest first">Newest first</option>
-                <option value="Oldest first">Oldest first</option>
+              <select name="sort" id="sort">
+                <option value="none">-- No sort --</option>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="high-spend">Highest amount</option>
+                <option value="low-spend">Lowest amount</option>
+                <option value="alpha-asc">Category A → Z</option>
+                <option value="alpha-desc">Category Z → A</option>
               </select>
-            </li>
-            <li>
-              <select name="spending-sort" id="spending-sort">
-                <option value="High spend">High spend</option>
-                <option value="Low spend">Low spend</option>
-              </select>
-            </li>
-            <li>
-              <details>
-                <summary>
-                  Category(alphabetical)
-                  <span><img src="icons/chevron.svg" class="chevron" /></span>
-                </summary>
-
-                <ul>
-                  <li>
-                    <input type="radio" name="alpha-sort" id="ascending" />
-                    <label for="ascending"> Ascending </label>
-                  </li>
-                  <li>
-                    <input type="radio" name="alpha-sort" id="descending" />
-                    <label for="descending"> Descending </label>
-                  </li>
-                </ul>
-              </details>
             </li>
           </ul>
         </div>
+        <button class="confirm">Confirm</button>
       </div>
     </div>
     <button class="menu-open">
@@ -330,24 +311,6 @@
             Clear all
           </button>
         </div>
-
-        <button class="download-button js-download-button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-        </button>
       </section>
     </div>
   </body>
