@@ -81,8 +81,7 @@ export function renderRecentExpenses() {
   let recentExpenses = [];
 
   expenses.forEach((expense) => {
-    const expenseDateNum = expense.date.slice(-2);
-    if (expenseDateNum === dateNum || dateNum - expenseDateNum < 10) {
+    if (expenses.indexOf(expense) <= expenses.length || expenses.indexOf(expense) >= expenses.length - 9) {
       recentExpenses.push(expense);
     }
   });

@@ -111,9 +111,4 @@ export function openFilterMenu() {
   menuCloseBtn.addEventListener("click", () => {
     menuFilter.classList.remove("open");
   });
-
-  // detailsElms.forEach((elm) => {
-  //   elm.addEventListener('mouseenter', () => elm.open = true);
-  //   elm.addEventListener('mouseleave', () => elm.open = false);
-  // });
 }

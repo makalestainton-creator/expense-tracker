@@ -285,31 +285,14 @@ function deleteExpense(deleteButton) {
 }
 
 function attachEventListeners() {
-  const deleteButtons = document
-    .querySelectorAll(".js-delete-button");
-  const yesButton = document.querySelector(".js-yes-button");
-  const confirmationDialogue = document
-    .querySelector(".js-confirmation-dialogue");
-  const noButton = document.querySelector(".js-no-button");
-  const editButtons = document
-    .querySelectorAll(".js-edit-button");
-  const editDialogue = document
-    .querySelector(".js-edit-dialogue");
-  const saveButton = document
-    .querySelector(".js-save-button");
-  const cancelButton = document
-    .querySelector(".js-cancel-button");
-  const editError = document
-    .querySelector(".js-edit-alert");
-
   document
     .querySelectorAll(".js-delete-button").forEach((deleteButton) => {
       deleteButton.addEventListener("click", () => {
-        //  displays the confirmation dialogue and activates overlay to avoid interactivity with the rest of the page when the dialogue is active
+
         renderConfirmationDialogue();
 
         document.querySelector(".js-yes-button").addEventListener("click", () => {
-          // removes the dialogue and the overlay once we click the button
+
           closeDialogue(document
             .querySelector(".js-confirmation-dialogue"));
 
@@ -317,7 +300,6 @@ function attachEventListeners() {
         }, { once: true });
 
         document.querySelector(".js-no-button").addEventListener("click", () => {
-          // removes the dialogue and overlay and does nothing more
           closeDialogue(document
             .querySelector(".js-confirmation-dialogue"));
         }, { once: true });
@@ -332,7 +314,6 @@ function attachEventListeners() {
 
         renderEditDialogue();
 
-        // this section displays the value of the expense labels in the in input field before editing
         document.getElementById("description-edit").value = currentExpenses[index].name;
 
         document.getElementById("amount-edit").value = `${currentExpenses[index].cost}`;
