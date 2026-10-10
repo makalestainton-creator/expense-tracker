@@ -1,9 +1,11 @@
-const confirmationDialogue = document.querySelector(".js-confirmation-dialogue");
+const confirmationDialogue = document.querySelector(
+  ".js-confirmation-dialogue",
+);
 const editDialogue = document.querySelector(".js-edit-dialogue");
 const menuOpenBtn = document.querySelector(".menu-open");
-const menuCloseBtn = document.querySelector(".close-menu-btn")
+const menuCloseBtn = document.querySelector(".close-menu-btn");
 const menuFilter = document.querySelector(".menu-container");
-const detailsElms = document.querySelectorAll("details");
+import alertSVG from "../icons/alert-circle.svg";
 
 export function renderConfirmationDialogue() {
   confirmationDialogue.innerHTML = `
@@ -19,31 +21,40 @@ export function renderConfirmationDialogue() {
   `;
 
   confirmationDialogue.classList.add("overlay-active");
-  document
-    .querySelector(".js-overlay")
-    .classList.add("overlay-active");
+  document.querySelector(".js-overlay").classList.add("overlay-active");
 }
 
 export function renderEditDialogue() {
-  editDialogue.innerHTML =
-    `<div class="expense-grid">
+  editDialogue.innerHTML = `<div class="expense-grid">
       <label for="description-edit">Description:</label>
-      <input
-        type="text"
-        class="expense-input js-expense-input js-expense-description-input"
-        placeholder="Expense description"
-        id="description-edit"
-      />
-      <label for="amount-edit">Amount:</label>
-
-      <div class="prefix-container">
-        <span class="prefix">Ksh.</span>
+      <div>
         <input
           type="text"
-          class="expense-input js-expense-input js-expense-amount-input amount-input"
-          placeholder="0.00"
-          id="amount-edit"
+          class="expense-input js-expense-input js-expense-description-input"
+          placeholder="Expense description"
+          id="description-edit"
         />
+        <span class="exp-error exp-description-error">
+          <img src="${alertSVG}" />
+          Description is required
+        </span>
+      </div>
+      <label for="amount-edit">Amount:</label>
+
+      <div>
+        <div class="prefix-container">
+          <span class="prefix">Ksh.</span>
+          <input
+            type="text"
+            class="expense-input js-expense-input js-expense-amount-input amount-input"
+            placeholder="0.00"
+            id="amount-edit"
+          />
+        </div>
+        <span class="exp-error exp-amount-error">
+          <img src="${alertSVG}" />
+          Enter a valid amount
+        </span>
       </div>
       <label for="category-edit">Category:</label>
       <select
@@ -62,11 +73,17 @@ export function renderEditDialogue() {
         <option value="Other">Other</option>
       </select>
       <label for="date-edit">Date:</label>
-      <input
-        type="date"
-        class="expense-input js-expense-input js-expense-date-input"
-        id="date-edit"
-      />
+      <div>
+        <input
+          type="date"
+          class="expense-input js-expense-input js-expense-date-input"
+          id="date-edit"
+        />
+        <span class="exp-error exp-date-error">
+          <img src="${alertSVG}" />
+          Please choose a date
+        </span>
+      </div>
 
       <div class="dialogue-buttons">
         <button class="save-button js-save-button">
@@ -81,18 +98,13 @@ export function renderEditDialogue() {
     `;
 
   editDialogue.classList.add("overlay-active");
-  document
-    .querySelector(".js-overlay")
-    .classList.add("overlay-active");
+  document.querySelector(".js-overlay").classList.add("overlay-active");
 }
 
 export function closeDialogue(containerElement) {
   containerElement.classList.remove("overlay-active");
-  document
-    .querySelector(".js-overlay")
-    .classList.remove("overlay-active");
+  document.querySelector(".js-overlay").classList.remove("overlay-active");
 }
-
 
 export function openFilterMenu() {
   menuOpenBtn.addEventListener("click", () => {
@@ -100,11 +112,8 @@ export function openFilterMenu() {
   });
 
   document.addEventListener("click", (e) => {
-    if (
-      !menuFilter.contains(e.target) &&
-      !menuOpenBtn.contains(e.target)
-    ) {
-      menuFilter.classList.remove("open")
+    if (!menuFilter.contains(e.target) && !menuOpenBtn.contains(e.target)) {
+      menuFilter.classList.remove("open");
     }
   });
 

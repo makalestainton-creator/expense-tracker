@@ -3,35 +3,18 @@ import { renderRecentExpenses } from "./recents.js";
 import { calculateTotalExpenditure } from "./expenseSummary.js";
 import { renderConfirmationDialogue, openFilterMenu } from "./dialogues.js";
 import { closeDialogue, renderEditDialogue } from "./dialogues.js";
-import { changeTheme } from "./utils/changeTheme.js";
+import { applyFilters } from "./filterExpenses.js";
 
 const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
-const expensesGrid = document
-  .querySelector(".js-entries-grid");
-const quantityIndicator = document
-  .querySelector(".js-expense-quantity");
-const clearAllButton = document
-  .querySelector(".js-clear-all-button");
-const overlay = document
-  .querySelector(".js-overlay");
-const foodFilter = document
-  .getElementById("food-filter");
-const transportFilter = document
-  .getElementById("transport-filter");
-const entertainMentFilter = document
-  .getElementById("entertainment-filter");
-const shoppingFilter = document
-  .getElementById("shopping-filter");
-const billsFilter = document
-  .getElementById("bills-filter");
-const healthFilter = document
-  .getElementById("health-filter");
-const otherFilter = document
-  .getElementById("other-filter");
+const expensesGrid = document.querySelector(".js-entries-grid");
+const quantityIndicator = document.querySelector(".js-expense-quantity");
+const clearAllButton = document.querySelector(".js-clear-all-button");
+const overlay = document.querySelector(".js-overlay");
 
 updateExpenseNum(expenses);
 openFilterMenu();
+applyFilters();
 
 export function displayExpenses(expenses) {
   expensesGrid.innerHTML = "";
@@ -46,12 +29,12 @@ export function displayExpenses(expenses) {
         e.name === expense.name &&
         e.cost === expense.cost &&
         e.date === expense.date &&
-        e.category === expense.category
+        e.category === expense.category,
     );
 
     expensesGrid.innerHTML += `
       <div class="entry-item-container" data-exp-index="${realIndex}">
-        <div class="edited-indicator" style="${expense.edited ? 'display:block' : ''}">Edited</div>
+        <div class="edited-indicator" style="${expense.edited ? "display:block" : ""}">Edited</div>
         <div class="category-container">
           <p class="category value-dark-mode js-category">
             ${expense.category}
@@ -89,16 +72,20 @@ export function displayExpenses(expenses) {
 displayExpenses(expenses);
 
 function applyCategoryStyles() {
-  const domCategories = document.querySelectorAll(".js-category");
-
   document.querySelectorAll(".js-category").forEach((categoryElement) => {
     if (categoryElement.textContent.trim().toLowerCase() === "food") {
       categoryElement.classList.add("food");
-    } else if (categoryElement.textContent.trim().toLowerCase() === "transport") {
+    } else if (
+      categoryElement.textContent.trim().toLowerCase() === "transport"
+    ) {
       categoryElement.classList.add("transport");
-    } else if (categoryElement.textContent.trim().toLowerCase() === "entertainment") {
+    } else if (
+      categoryElement.textContent.trim().toLowerCase() === "entertainment"
+    ) {
       categoryElement.classList.add("entertainment");
-    } else if (categoryElement.textContent.trim().toLowerCase() === "shopping") {
+    } else if (
+      categoryElement.textContent.trim().toLowerCase() === "shopping"
+    ) {
       categoryElement.classList.add("shopping");
     } else if (categoryElement.textContent.trim().toLowerCase() === "bills") {
       categoryElement.classList.add("bills");
@@ -111,141 +98,16 @@ function applyCategoryStyles() {
 }
 
 function applyHighCostStyles() {
-  const domAmounts = document
-    .querySelectorAll(".js-amount");
-
-  document
-    .querySelectorAll(".js-amount").forEach((amountElement) => {
-      const cost = Number(amountElement.innerText.slice(4));
-      if (cost >= 1000) {
-        amountElement.classList.add("high-amount");
-      }
-    });
-}
-
-// Tracks the current filtered+sorted result so search can narrow within it
-let activeFilteredExpenses = null;
-
-const searchInput = document.querySelector("#search");
-searchInput.addEventListener("input", () => {
-  const searchTerm = searchInput.value.trim().toLowerCase();
-  // Search within the active filtered set, or all expenses if no filter applied
-  const base = activeFilteredExpenses || JSON.parse(localStorage.getItem("expenses")) || [];
-
-  const searched = base.filter((expense) =>
-    expense.category.toLowerCase().includes(searchTerm) ||
-    expense.name.toLowerCase().includes(searchTerm)
-  );
-
-  displayExpenses(searched);
-  updateExpenseNum(searched);
-});
-
-applyFilters();
-function applyFilters() {
-  document.querySelector(".confirm").addEventListener("click", () => {
-    const currentExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
-
-    // --- Category filter (checkboxes — all can be active together) ---
-    const selectedCategories = [
-      foodFilter.checked && "Food",
-      transportFilter.checked && "Transport",
-      entertainMentFilter.checked && "Entertainment",
-      shoppingFilter.checked && "Shopping",
-      billsFilter.checked && "Bills",
-      healthFilter.checked && "Health",
-      otherFilter.checked && "Other",
-    ].filter(Boolean);
-
-    // --- Period filter (radio — mutually exclusive) ---
-    const periodFilterId = document.querySelector("input[name='period-added']:checked")?.id;
-
-    // --- Amount range ---
-    const from = Number(document.getElementById("from").value) || 0;
-    const to = Number(document.getElementById("to").value) || Infinity;
-
-    // --- Single sort dropdown ---
-    const sortValue = document.getElementById("sort").value;
-
-    let filtered = [...currentExpenses];
-
-    // Apply category filter
-    if (selectedCategories.length) {
-      filtered = filtered.filter(e => selectedCategories.includes(e.category));
+  document.querySelectorAll(".js-amount").forEach((amountElement) => {
+    const cost = Number(amountElement.innerText.slice(4));
+    if (cost >= 1000) {
+      amountElement.classList.add("high-amount");
     }
-
-    // Apply period filter
-    if (periodFilterId) {
-      const now = new Date();
-      const todayStr = now.toISOString().slice(0, 10);
-
-      // Get Monday of current week
-      const dayOfWeek = now.getDay(); // 0=Sun 
-      const diffToMonday = (dayOfWeek + 6) % 7;
-      const thisMonday = new Date(now);
-      thisMonday.setDate(now.getDate() - diffToMonday);
-      thisMonday.setHours(0, 0, 0, 0);
-
-      // Get Monday of last week
-      const lastMonday = new Date(thisMonday);
-      lastMonday.setDate(thisMonday.getDate() - 7);
-      const lastSunday = new Date(thisMonday);
-      lastSunday.setDate(thisMonday.getDate() - 1);
-
-      const currentMonth = now.getMonth();
-      const currentYear = now.getFullYear();
-
-      filtered = filtered.filter(e => {
-        const expDate = new Date(e.date);
-
-        if (periodFilterId === "today-filter") {
-          return e.date === todayStr;
-        }
-        if (periodFilterId === "this-week-filter") {
-          return expDate >= thisMonday && expDate <= now;
-        }
-        if (periodFilterId === "last-week-filter") {
-          return expDate >= lastMonday && expDate <= lastSunday;
-        }
-        if (periodFilterId === "this-month-filter") {
-          return expDate.getMonth() === currentMonth && expDate.getFullYear() === currentYear;
-        }
-        return true;
-      });
-    }
-
-    // Apply amount range filter
-    filtered = filtered.filter(e => e.cost >= from && e.cost <= to);
-
-    // Apply single sort (one clear choice, no conflict)
-    if (sortValue === "newest") {
-      filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-    } else if (sortValue === "oldest") {
-      filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
-    } else if (sortValue === "high-spend") {
-      filtered.sort((a, b) => b.cost - a.cost);
-    } else if (sortValue === "low-spend") {
-      filtered.sort((a, b) => a.cost - b.cost);
-    } else if (sortValue === "alpha-asc") {
-      filtered.sort((a, b) => a.category.localeCompare(b.category));
-    } else if (sortValue === "alpha-desc") {
-      filtered.sort((a, b) => b.category.localeCompare(a.category));
-    }
-
-    // Save this as the active filtered set so search can work within it
-    activeFilteredExpenses = filtered;
-
-    // Clear search box when new filter is applied so results aren't doubly narrowed
-    searchInput.value = "";
-
-    displayExpenses(filtered);
-    updateExpenseNum(filtered);
   });
 }
 
 export function updateExpenseNum(expenses) {
-  quantityIndicator.innerHTML =
-    `${expenses.length}`;
+  quantityIndicator.innerHTML = `${expenses.length}`;
 }
 
 if (expenses.length === 0) {
@@ -256,7 +118,6 @@ if (expenses.length === 0) {
   document.querySelector(".js-clear-all-button-container").innerHTML = "";
 }
 
-
 function deleteExpense(deleteButton) {
   const index = parseInt(deleteButton.getAttribute("data-index"));
 
@@ -266,8 +127,7 @@ function deleteExpense(deleteButton) {
   container.classList.add("fade-out");
 
   setTimeout(() => {
-    const currentExpenses =
-      JSON.parse(localStorage.getItem("expenses")) || [];
+    const currentExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
     currentExpenses.splice(index, 1);
 
@@ -285,109 +145,111 @@ function deleteExpense(deleteButton) {
 }
 
 function attachEventListeners() {
-  document
-    .querySelectorAll(".js-delete-button").forEach((deleteButton) => {
-      deleteButton.addEventListener("click", () => {
+  document.querySelectorAll(".js-delete-button").forEach((deleteButton) => {
+    deleteButton.addEventListener("click", () => {
+      renderConfirmationDialogue();
 
-        renderConfirmationDialogue();
-
-        document.querySelector(".js-yes-button").addEventListener("click", () => {
-
-          closeDialogue(document
-            .querySelector(".js-confirmation-dialogue"));
+      document.querySelector(".js-yes-button").addEventListener(
+        "click",
+        () => {
+          closeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
           deleteExpense(deleteButton);
-        }, { once: true });
+        },
+        { once: true },
+      );
 
-        document.querySelector(".js-no-button").addEventListener("click", () => {
-          closeDialogue(document
-            .querySelector(".js-confirmation-dialogue"));
-        }, { once: true });
-      });
+      document.querySelector(".js-no-button").addEventListener(
+        "click",
+        () => {
+          closeDialogue(document.querySelector(".js-confirmation-dialogue"));
+        },
+        { once: true },
+      );
     });
+  });
 
-  document
-    .querySelectorAll(".js-edit-button").forEach((editButton) => {
-      editButton.addEventListener("click", () => {
-        const index = parseInt(editButton.getAttribute("data-index"));
-        const currentExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
+  document.querySelectorAll(".js-edit-button").forEach((editButton) => {
+    editButton.addEventListener("click", () => {
+      const index = parseInt(editButton.getAttribute("data-index"));
+      const currentExpenses =
+        JSON.parse(localStorage.getItem("expenses")) || [];
 
-        renderEditDialogue();
+      renderEditDialogue();
 
-        document.getElementById("description-edit").value = currentExpenses[index].name;
+      document.getElementById("description-edit").value =
+        currentExpenses[index].name;
 
-        document.getElementById("amount-edit").value = `${currentExpenses[index].cost}`;
+      document.getElementById("amount-edit").value =
+        `${currentExpenses[index].cost}`;
 
-        document.getElementById("category-edit").value = currentExpenses[index].category;
+      document.getElementById("category-edit").value =
+        currentExpenses[index].category;
 
-        document.getElementById("date-edit").value = currentExpenses[index].date;
+      document.getElementById("date-edit").value = currentExpenses[index].date;
 
-        let timeoutId;
+      document
+        .querySelector(".js-save-button")
+        .addEventListener("click", () => {
+          const newDescription = document
+            .getElementById("description-edit")
+            .value.trim();
+          const newCost = Number(document.getElementById("amount-edit").value);
+          const newDate = document.getElementById("date-edit").value.trim();
 
-        document
-          .querySelector(".js-save-button")
-          .addEventListener("click", () => {
-            const newName = document.getElementById("description-edit").value.trim();
-            const newCost = Number(document.getElementById("amount-edit").value);
-            const newCategory = document
-              .getElementById("category-edit")
-              .value.trim();
-            const newDate = document.getElementById("date-edit").value.trim();
+          document.querySelectorAll(".exp-error").forEach((elm) => {
+            elm.classList.remove("visible");
+          });
 
+          let hasError = false;
 
-            if (!newName || !newCategory || !newDate) {
-              document
-                .querySelector(".js-edit-alert").classList.add("active");
-              document
-                .querySelector(".js-edit-alert").textContent =
-                `Please fill all fields!`;
+          if (!newDescription) {
+            document
+              .querySelector(".exp-description-error")
+              .classList.add("visible");
+            hasError = true;
+          }
 
-              clearTimeout(timeoutId);
+          if (newCost <= 0 || newCost !== Number(newCost)) {
+            document
+              .querySelector(".exp-amount-error")
+              .classList.add("visible");
+            hasError = true;
+          }
 
-              timeoutId = setTimeout(() => {
-                document
-                  .querySelector(".js-edit-alert").classList.remove("active");
-              }, 3000);
-              return;
-            }
+          if (!newDate) {
+            document.querySelector(".exp-date-error").classList.add("visible");
+            hasError = true;
+          }
 
-            if (!newCost || newCost <= 0) {
-              document
-                .querySelector(".js-edit-alert").classList.add("active");
-              document
-                .querySelector(".js-edit-alert").textContent = `Unexpected input!`;
+          if (hasError) return;
 
-              clearTimeout(timeoutId);
+          document
+            .querySelector(".js-save-button")
+            .removeEventListener("click", this);
 
-              timeoutId = setTimeout(() => {
-                document
-                  .querySelector(".js-edit-alert").classList.remove("active");
-              }, 3000);
-              return;
-            }
+          editExpense(index, currentExpenses);
+          localStorage.setItem("expenses", JSON.stringify(currentExpenses));
 
+          const freshExpenses =
+            JSON.parse(localStorage.getItem("expenses")) || [];
 
-            editExpense(index, currentExpenses); // pass it in
-            localStorage.setItem("expenses", JSON.stringify(currentExpenses));
+          displayExpenses(freshExpenses);
+          renderExpenseChart();
+          renderRecentExpenses();
 
-            const freshExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
+          closeDialogue(document.querySelector(".js-edit-dialogue"));
+        });
 
-            displayExpenses(freshExpenses);
-            renderExpenseChart();
-            renderRecentExpenses();
-
-            closeDialogue(document
-              .querySelector(".js-edit-dialogue"));
-          }, { once: true });
-
-        document
-          .querySelector(".js-cancel-button")
-          .addEventListener("click", () => {
-            closeDialogue(document
-              .querySelector(".js-edit-dialogue"));
-          }, { once: true });
-      });
+      document.querySelector(".js-cancel-button").addEventListener(
+        "click",
+        () => {
+          closeDialogue(document.querySelector(".js-edit-dialogue"));
+        },
+        { once: true },
+      );
     });
+  });
 }
 
 // edit an expense
@@ -436,21 +298,23 @@ if (clearAllButton) {
 
     overlay.classList.add("overlay-active");
 
-    const yesButton = document.querySelector(".js-yes-button").addEventListener("click", () => {
-      closeDialogue(document
-        .querySelector(".js-confirmation-dialogue"));
+    const yesButton = document
+      .querySelector(".js-yes-button")
+      .addEventListener("click", () => {
+        closeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
-      clearAllExpenses();
-      updateExpenseNum(expenses);
-      displayExpenses(expenses);
-      calculateTotalExpenditure();
-      renderExpenseChart();
-      renderRecentExpenses();
-    });
+        clearAllExpenses();
+        updateExpenseNum(expenses);
+        displayExpenses(expenses);
+        calculateTotalExpenditure();
+        renderExpenseChart();
+        renderRecentExpenses();
+      });
 
-    const noButton = document.querySelector(".js-no-button").addEventListener("click", () => {
-      closeDialogue(document
-        .querySelector(".js-confirmation-dialogue"));
-    });
+    const noButton = document
+      .querySelector(".js-no-button")
+      .addEventListener("click", () => {
+        closeDialogue(document.querySelector(".js-confirmation-dialogue"));
+      });
   });
 }

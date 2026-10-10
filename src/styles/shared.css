@@ -839,11 +839,8 @@ option::checkmark {
   width: 100%;
 }
 
-.home-screen label + div {
-  position: relative;
-}
-
-span.error {
+span.error,
+span.exp-error {
   font-size: 0.79rem;
   color: #d82c0d;
   margin-top: 0.25rem;
@@ -862,11 +859,13 @@ span.error {
   gap: 0.2rem;
 }
 
-body.dark-mode span.error {
+body.dark-mode span.error,
+body.dark-mode span.exp-error {
   color: #c24a1e;
 }
 
-span.error.visible {
+span.error.visible,
+span.exp-error.visible {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;

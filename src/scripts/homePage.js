@@ -136,7 +136,6 @@ function addExpense() {
   const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
   expenses.push(newExpense);
 
-  // console.log("After add:", expenses);
   localStorage.setItem("expenses", JSON.stringify(expenses));
   calculateTotalExpenditure();
 
