@@ -7,15 +7,15 @@ const menuCloseBtn = document.querySelector(".close-menu-btn");
 const menuFilter = document.querySelector(".menu-container");
 import alertSVG from "../icons/alert-circle.svg";
 
-export function renderConfirmationDialogue() {
+export function renderConfirmationDialogue(okContent, cancelContent) {
   confirmationDialogue.innerHTML = `
     <p>Are you sure you want to proceed? <strong>This action cannot be undone</strong></p>
     <div class="dialogue-buttons">
       <button class="yes-button js-yes-button">
-        Yes, delete
+        ${okContent}
       </button>
       <button class="no-button js-no-button">
-        No, keep it
+        ${cancelContent}
       </button>
     </div>
   `;

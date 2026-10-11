@@ -1,3 +1,40 @@
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("../fonts/Roboto-Bold.woff2") format("woff2"),
+    url("../fonts/Roboto-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("../fonts/Roboto-Italic.woff2") format("woff2"),
+    url("../fonts/Roboto-Italic.woff") format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("../fonts/Roboto-Regular.woff2") format("woff2"),
+    url("../fonts/Roboto-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* src/styles/shared.css */
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+
 * {
   padding: 0;
   margin: 0;
@@ -12,7 +49,6 @@
 body {
   padding-top: 5rem;
   background-color: #f9fafb;
-  font-family: "Roboto";
 }
 
 body.dark-mode {

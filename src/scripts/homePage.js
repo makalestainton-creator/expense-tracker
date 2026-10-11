@@ -1,3 +1,4 @@
+import "../fonts/stylesheet.css";
 import "../styles/shared.css";
 import "../styles/home-page.css";
 import "../styles/expenses.css";

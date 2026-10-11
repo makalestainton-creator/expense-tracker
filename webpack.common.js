@@ -1,3 +1,5 @@
+// webpack.common.js
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CopyWebpackPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "node:path";
@@ -10,21 +12,20 @@ export default {
     clean: true,
   },
 
+  // webpack.common.js
   plugins: [
     new HtmlWebpackPlugin({
       template: "./src/index.html",
+      favicon: "./src/favicons/favicon.ico", // ADD THIS LINE
     }),
+
+    new MiniCssExtractPlugin({ filename: "styles.css" }),
 
     new CopyWebpackPlugin({
       patterns: [
-        { from: './src/favicons/favicon.ico', to: '.' },
-        { from: './src/favicons/favicon-16x16.png', to: '.' },
-        { from: './src/favicons/favicon-32x32.png', to: '.' },
-        { from: './src/favicons/apple-touch-icon.png', to: '.' },
-        { from: './src/favicons/android-chrome-192x192.png', to: '.' },
-        { from: './src/favicons/android-chrome-512x512.png', to: '.' },
-        { from: './src/favicons/site.webmanifest', to: '.' },
-      ]
+        { from: "./src/favicons", to: "." }, // Keep this to move apple/android icons
+        { from: "./src/icons", to: "icons" },
+      ],
     }),
   ],
 
@@ -32,12 +33,26 @@ export default {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              url: true, // CHANGED TO TRUE: Let webpack parse url() imports
+            },
+          },
+        ],
       },
+
+      // ADDED font matching rule using asset/resource
       {
-        test: /\.html$/i,
-        use: ["html-loader"],
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name][ext][query]", // Places them inside dist/fonts/
+        },
       },
+
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
@@ -45,4 +60,3 @@ export default {
     ],
   },
 };
-

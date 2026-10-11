@@ -147,7 +147,7 @@ function deleteExpense(deleteButton) {
 function attachEventListeners() {
   document.querySelectorAll(".js-delete-button").forEach((deleteButton) => {
     deleteButton.addEventListener("click", () => {
-      renderConfirmationDialogue();
+      renderConfirmationDialogue("Yes, Delete", "No, Keep it");
 
       document.querySelector(".js-yes-button").addEventListener(
         "click",
@@ -252,7 +252,6 @@ function attachEventListeners() {
   });
 }
 
-// edit an expense
 function editExpense(index, expenses) {
   if (!document.getElementById("description-edit").value) {
     // keep existing
@@ -260,12 +259,14 @@ function editExpense(index, expenses) {
     expenses[index].name = document
       .getElementById("description-edit")
       .value.trim();
+    expenses[index].edited = true;
   }
 
   if (!Number(document.getElementById("amount-edit").value)) {
     // keep existing
   } else {
     expenses[index].cost = Number(document.getElementById("amount-edit").value);
+    expenses[index].edited = true;
   }
 
   if (!document.getElementById("category-edit").value) {
@@ -274,16 +275,17 @@ function editExpense(index, expenses) {
     expenses[index].category = document
       .getElementById("category-edit")
       .value.trim();
+    expenses[index].edited = true;
   }
 
   if (!document.getElementById("date-edit").value) {
     // keep existing
   } else {
     expenses[index].date = document.getElementById("date-edit").value.trim();
+    expenses[index].edited = true;
   }
 
-  // Stamp the edited flag so it persists across rerenders
-  expenses[index].edited = true;
+  expenses[index].edited = false;
 }
 
 function clearAllExpenses() {
@@ -294,7 +296,7 @@ function clearAllExpenses() {
 
 if (clearAllButton) {
   clearAllButton.addEventListener("click", () => {
-    renderConfirmationDialogue();
+    renderConfirmationDialogue("Yes, proceed", "No, cancel");
 
     overlay.classList.add("overlay-active");
 
