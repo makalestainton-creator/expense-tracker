@@ -400,11 +400,6 @@ body.dark-mode .recent-other-category {
   align-items: center;
 }
 
-/* .right-side {
-  display: flex;
-  flex-direction: column;
-} */
-
 @media (min-width: 2000px) {
   .home-screen {
     max-width: 1600px;

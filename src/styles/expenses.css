@@ -21,6 +21,355 @@ body.dark-mode .expense-quantity {
   justify-content: center;
 }
 
+.filter-pills-container {
+  max-width: 95vw;
+  padding: 1rem 2rem;
+  margin-inline: auto;
+}
+
+.category-pills-container,
+.date-pills-container {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+  align-items: center;
+  column-gap: 0.5rem;
+  min-width: 0;
+}
+
+/* Each row scrolls independently */
+.category-pills,
+.date-pills {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+
+  padding: 0.35rem 0;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-pills::-webkit-scrollbar,
+.date-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pills > *,
+.date-pills > * {
+  flex-shrink: 0;
+}
+
+.pill-divider {
+  height: 1px;
+  margin: 1rem 0;
+  background: linear-gradient(to right, transparent, #12887e, transparent);
+}
+
+/* Arrows occupy their own grid columns */
+.chevron {
+  position: static;
+  transform: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+
+  justify-self: center;
+
+  background: #f8fafc;
+  border: 1px solid #0f766e;
+  border-radius: 50%;
+
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.chevron svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.chevron svg path {
+  stroke: #0f766e;
+}
+
+.chevron:hover {
+  background: #0f766e;
+  box-shadow: 0 2px 8px rgb(15 118 110 / 20%);
+}
+
+.chevron:hover svg path {
+  stroke: #fff;
+}
+
+.chevron:active {
+  transform: scale(0.94);
+}
+
+.chevron:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
+}
+
+.chevron[hidden] {
+  display: none;
+}
+
+.category-left-chevron,
+.date-left-chevron {
+  left: 0;
+}
+
+.category-right-chevron,
+.date-right-chevron {
+  right: 0;
+}
+
+@media (max-width: 600px) {
+  .category-pills-container,
+  .date-pills-container {
+    grid-template-columns: 1.8rem minmax(0, 1fr) 1.8rem;
+    column-gap: 0.35rem;
+  }
+
+  .category-pills,
+  .date-pills {
+    gap: 0.65rem;
+  }
+
+  .chevron {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+.pill {
+  background-color: #e5f8f7;
+  color: #0f766e;
+  border: 1px solid #149b90;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.5rem 1.7rem;
+  border-radius: 2em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+
+  scroll-snap-align: start;
+}
+
+.pill:hover,
+.pill.active {
+  color: #f2f2f2;
+  background-color: #0f766e;
+  border-color: #0f766e;
+}
+
+.pill:active {
+  transform: scaleX(0.96);
+}
+
+.food-pill {
+  color: #4ade80;
+  background-color: #eef8f2;
+  border-color: #7affaf;
+}
+
+.food-pill:hover,
+.food-pill.active {
+  background-color: #3bb184;
+  border-color: #3bb184;
+}
+
+.transport-pill {
+  color: #60a5fa;
+  background-color: #ecf4ff;
+  border-color: #a9cdff;
+}
+
+.transport-pill:hover,
+.transport-pill.active {
+  background-color: #3a7de7;
+  border-color: #3a7de7;
+}
+
+.entertainment-pill {
+  color: #b057f8;
+  background-color: #f6effc;
+  border-color: #d9affd;
+}
+
+.entertainment-pill:hover,
+.entertainment-pill.active {
+  background-color: #9049ca;
+  border-color: #9049ca;
+}
+
+.shopping-pill {
+  color: #f7d30c;
+  background-color: #fafaf2;
+  border-color: #f7de53;
+}
+
+.shopping-pill:hover,
+.shopping-pill.active {
+  background-color: #beb41d;
+  border-color: #beb41d;
+}
+
+.bills-pill {
+  color: #29669b;
+  background-color: #e7eef5;
+  border-color: #687e91;
+}
+
+.bills-pill:hover,
+.bills-pill.active {
+  background-color: #3c7eb8;
+  border-color: #3c7eb8;
+}
+
+.health-pill {
+  color: #4ea0f1;
+  background-color: #ecf4ff;
+  border-color: #a9cdff;
+}
+
+.health-pill:hover,
+.health-pill.active {
+  background-color: #3c7ec0;
+  border-color: #3c7ec0;
+}
+
+.other-pill {
+  color: #e6744b;
+  background-color: #fdf8f6;
+  border-color: #dda18b;
+}
+
+.other-pill:hover,
+.other-pill.active {
+  background-color: #a55133;
+  border-color: #a55133;
+}
+
+body.dark-mode .pill {
+  background-color: #041d24;
+  border-color: #0d4a42;
+  color: #7eccc7;
+}
+
+body.dark-mode .pill:hover,
+body.dark-mode .pill.active {
+  background-color: #0f766e;
+  border-color: #0f766e;
+  color: #f2f2f2;
+}
+
+/* Per-category */
+body.dark-mode .food-pill {
+  background-color: #0d2b1f;
+  border-color: #1a5c3a;
+  color: #3fbf8e;
+}
+body.dark-mode .food-pill:hover,
+body.dark-mode .food-pill.active {
+  background-color: #206d50;
+  border-color: #206d50;
+  color: #f2f2f2;
+}
+
+body.dark-mode .transport-pill {
+  background-color: #0d1e36;
+  border-color: #1a3a6e;
+  color: #60a5fa;
+}
+body.dark-mode .transport-pill:hover,
+body.dark-mode .transport-pill.active {
+  background-color: #163f81;
+  border-color: #163f81;
+  color: #f2f2f2;
+}
+
+body.dark-mode .entertainment-pill {
+  background-color: #1a0d2e;
+  border-color: #4a1a7a;
+  color: #b057f8;
+}
+body.dark-mode .entertainment-pill:hover,
+body.dark-mode .entertainment-pill.active {
+  background-color: #4e1979;
+  border-color: #4e1979;
+  color: #f2f2f2;
+}
+
+body.dark-mode .shopping-pill {
+  background-color: #1f1c06;
+  border-color: #5a510a;
+  color: #c5b247;
+}
+body.dark-mode .shopping-pill:hover,
+body.dark-mode .shopping-pill.active {
+  background-color: #77700b;
+  border-color: #77700b;
+  color: #f2f2f2;
+}
+
+body.dark-mode .bills-pill {
+  background-color: #0a1a2e;
+  border-color: #1a3a5c;
+  color: #428ccc;
+}
+body.dark-mode .bills-pill:hover,
+body.dark-mode .bills-pill.active {
+  background-color: #1d578a;
+  border-color: #1d578a;
+  color: #f2f2f2;
+}
+
+body.dark-mode .health-pill {
+  background-color: #0a1e36;
+  border-color: #1a3a6e;
+  color: #448bd3;
+}
+body.dark-mode .health-pill:hover,
+body.dark-mode .health-pill.active {
+  background-color: #11375c;
+  border-color: #11375c;
+  color: #f2f2f2;
+}
+
+body.dark-mode .other-pill {
+  background-color: #2a1208;
+  border-color: #6b2e12;
+  color: #c4623e;
+}
+body.dark-mode .other-pill:hover,
+body.dark-mode .other-pill.active {
+  background-color: #7e371e;
+  border-color: #7e371e;
+  color: #f2f2f2;
+}
+
 .clear-all-button {
   cursor: pointer;
   border: none;
@@ -240,12 +589,12 @@ body.dark-mode .category.other {
 
 .edited-indicator {
   color: #0f766e;
-  font-size: clamp(.6rem, 2.5vw, .8rem);
+  font-size: clamp(0.6rem, 2.5vw, 0.8rem);
   border: 1px solid;
-  padding: .1rem .4rem;
+  padding: 0.1rem 0.4rem;
   border-radius: 4rem;
   display: none;
-  
+
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -499,4 +848,44 @@ body.dark-mode .overlay {
   .expense-screen .expense-grid button {
     padding: 0.2rem 0.8rem;
   }
+}
+
+/* Keep the filter rows full-width */
+.filter-pills-container {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.category-pills-container,
+.date-pills-container {
+  width: 100%;
+  box-sizing: border-box;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+}
+
+/* Lock each element into its own column */
+.category-left-chevron,
+.date-left-chevron {
+  grid-column: 1;
+}
+
+.category-pills,
+.date-pills {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.category-right-chevron,
+.date-right-chevron {
+  grid-column: 3;
+  grid-row: 1;
+}
+
+/* Remove the old absolute-positioning rules */
+.category-left-chevron,
+.date-left-chevron,
+.category-right-chevron,
+.date-right-chevron {
+  left: auto;
+  right: auto;
 }

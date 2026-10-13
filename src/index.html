@@ -34,188 +34,6 @@
         </button>
       </div>
     </div>
-    <div class="menu-container">
-      <div class="menu">
-        <button class="close-menu-btn">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            height="24"
-            width="24"
-            fill="#6b7280"
-          >
-            <path
-              d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z"
-            />
-          </svg>
-        </button>
-        <div class="filter">
-          <p>Filter by:</p>
-          <ul>
-            <li>
-              <details>
-                <summary>
-                  Category
-                  <span
-                    ><img src="icons/chevron-up.svg" class="chevron"
-                  /></span>
-                </summary>
-
-                <ul>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="food-filter"
-                      id="food-filter"
-                    />
-                    <label for="food-filter">Food</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="transport-filter"
-                      id="transport-filter"
-                    />
-                    <label for="transport-filter">Transport</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="entertainment-filter"
-                      id="entertainment-filter"
-                    />
-                    <label for="entertainment-filter">Entertainment</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="shopping-filter"
-                      id="shopping-filter"
-                    />
-                    <label for="shopping-filter">Shopping</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="bills-filter"
-                      id="bills-filter"
-                    />
-                    <label for="bills-filter">Bills</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="health-filter"
-                      id="health-filter"
-                    />
-                    <label for="health-filter">Health</label>
-                  </li>
-                  <li>
-                    <input
-                      type="checkbox"
-                      name="other-filter"
-                      id="other-filter"
-                    />
-                    <label for="other-filter">Other</label>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>
-                  Period added
-                  <span
-                    ><img src="icons/chevron-up.svg" class="chevron"
-                  /></span>
-                </summary>
-
-                <ul>
-                  <li>
-                    <input type="radio" name="period-added" id="today-filter" />
-                    <label for="today-filter">Today</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="period-added"
-                      id="this-week-filter"
-                    />
-                    <label for="this-week-filter">This week</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="period-added"
-                      id="last-week-filter"
-                    />
-                    <label for="last-week-filter">Last week</label>
-                  </li>
-                  <li>
-                    <input
-                      type="radio"
-                      name="period-added"
-                      id="this-month-filter"
-                    />
-                    <label for="this-month-filter">This month</label>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details class="amount-range">
-                <summary>
-                  Amount range
-                  <span
-                    ><img src="icons/chevron-up.svg" class="chevron"
-                  /></span>
-                </summary>
-
-                <ul>
-                  <li>
-                    <label for="from">From:</label>
-                    <input type="number" name="from" id="from" />
-                  </li>
-                  <li>
-                    <label for="to">To:</label>
-                    <input type="number" name="to" id="to" />
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
-        </div>
-        <div class="sort">
-          <p>Sort by:</p>
-          <ul>
-            <li>
-              <select name="sort" id="sort">
-                <option value="none">-- No sort --</option>
-                <option value="newest">Newest first</option>
-                <option value="oldest">Oldest first</option>
-                <option value="high-spend">Highest amount</option>
-                <option value="low-spend">Lowest amount</option>
-                <option value="alpha-asc">Category A → Z</option>
-                <option value="alpha-desc">Category Z → A</option>
-              </select>
-            </li>
-          </ul>
-        </div>
-        <button class="confirm">Confirm</button>
-      </div>
-    </div>
-    <button class="menu-open">
-      <!-- <img src="icons/hamburger.svg" alt="" /> -->
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        height="24"
-        width="24"
-        fill="#0f766e"
-      >
-        <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-      </svg>
-    </button>
     <div class="wrapper">
       <section class="home-screen js-home-screen">
         <h1>Track your Expenses Here</h1>
@@ -258,7 +76,7 @@
                 <label for="category">Category:</label>
                 <div>
                   <select
-                    id="category"
+                    id="category-select"
                     class="expense-input js-expense-category-input"
                   >
                     <button>
@@ -326,6 +144,167 @@
           </span
           >)
         </h2>
+
+        <div class="filter-pills-container">
+          <div class="category-pills-container">
+            <button class="category-left-chevron chevron" aria-label="Scroll categories left">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.75 19.5L8.25 12L15.75 4.5"
+                  stroke="#0f766e"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <div class="category-pills">
+              <button
+                class="pill js-category-pill food-pill"
+                data-category="Food"
+              >
+                Food
+              </button>
+              <button
+                class="pill js-category-pill transport-pill"
+                data-category="Transport"
+              >
+                Transport
+              </button>
+              <button
+                class="pill js-category-pill entertainment-pill"
+                data-category="Entertainment"
+              >
+                Entertainment
+              </button>
+              <button
+                class="pill js-category-pill shopping-pill"
+                data-category="Shopping"
+              >
+                Shopping
+              </button>
+              <button
+                class="pill js-category-pill bills-pill"
+                data-category="Bills"
+              >
+                Bills
+              </button>
+              <button
+                class="pill js-category-pill health-pill"
+                data-category="Health"
+              >
+                Health
+              </button>
+              <button
+                class="pill js-category-pill other-pill"
+                data-category="Other"
+              >
+                Other
+              </button>
+            </div>
+            <button class="category-right-chevron chevron">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.25 4.5L15.75 12L8.25 19.5"
+                  stroke="#0f766e"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div class="pill-divider"></div>
+
+          <div class="date-pills-container">
+            <button class="date-left-chevron chevron">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.75 19.5L8.25 12L15.75 4.5"
+                  stroke="#0f766e"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <div class="date-pills">
+              <button
+                class="pill js-date-pill today-pill"
+                data-date-range="today"
+              >
+                Today
+              </button>
+              <button
+                class="pill js-date-pill this-week-pill"
+                data-date-range="week"
+              >
+                This week
+              </button>
+              <button
+                class="pill js-date-pill last-week-pill"
+                data-date-range="last-week"
+              >
+                Last week
+              </button>
+              <button
+                class="pill js-date-pill this-month-pill"
+                data-date-range="month"
+              >
+                This month
+              </button>
+              <select
+                id="sort-select"
+                class="sort-dropdown-pills"
+                style="width: auto; padding: 0.3rem 1rem"
+              >
+                <option value="none">-- No sort --</option>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="highest">Highest amount</option>
+                <option value="lowest">Lowest amount</option>
+                <option value="alpha-asc">Category A → Z</option>
+                <option value="alpha-desc">Category Z → A</option>
+              </select>
+            </div>
+            <button class="date-right-chevron chevron">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8.25 4.5L15.75 12L8.25 19.5"
+                  stroke="#0f766e"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
 
         <div class="entries-grid js-entries-grid"></div>
 

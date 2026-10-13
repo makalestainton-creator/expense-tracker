@@ -11,11 +11,31 @@ import dayjs from "dayjs";
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
 
+import TomSelect from "tom-select";
+import "tom-select/dist/css/tom-select.css";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.min.css";
+
 const searchContainer = document.querySelector(".search");
 const searchInput = searchContainer.querySelector("input");
 const chartContainer = document.querySelector(".js-chart-container");
-const menuOpenBtn = document.querySelector(".menu-open");
-const menuFilter = document.querySelector(".menu-container");
+
+const categorySelect = new TomSelect("#category-select", {
+  create: false,
+  controlInput: null,
+  onDropdownOpen: function() {
+    // Optional: dynamically adjusts position attributes if required by container wrappers
+    this.dropdown.style.marginTop = "4px"; 
+  }
+});
+
+
+const datePicker = flatpickr(".js-expense-date-input", {
+  dateFormat: "Y-m-d",
+  defaultDate: "today",
+  altInput: true,
+  altFormat: "F j, Y", // Beautifies user layout display text
+});
 
 let resizeTimeout;
 const resizeObserver = new ResizeObserver(() => {
@@ -51,8 +71,6 @@ if (localStorage.getItem("homescreen") === "inactive") {
     .querySelector(".js-home-screen")
     .classList.add("home-screen-inactive");
   searchContainer.style.display = "block";
-  menuOpenBtn.style.display = "flex";
-  menuFilter.style.display = "block";
   searchInput.focus();
 }
 
@@ -65,8 +83,6 @@ document.querySelector(".home-btn").addEventListener("click", (e) => {
     .querySelector(".js-home-screen")
     .classList.remove("home-screen-inactive");
   searchContainer.style.display = "";
-  menuOpenBtn.style.display = "";
-  menuFilter.style.display = "";
   localStorage.setItem("homescreen", "active");
 });
 
@@ -79,8 +95,6 @@ document.querySelector(".expenses-btn").addEventListener("click", (e) => {
     .querySelector(".js-home-screen")
     .classList.add("home-screen-inactive");
   searchContainer.style.display = "block";
-  menuOpenBtn.style.display = "block";
-  menuFilter.style.display = "block";
   searchInput.focus();
   localStorage.setItem("homescreen", "inactive");
 });
@@ -95,10 +109,8 @@ function addExpense() {
   const expenseAmount = Number(
     document.querySelector(".js-expense-amount-input").value,
   );
-  const expenseCategory = document.querySelector(
-    ".js-expense-category-input",
-  ).value;
-  const expenseDate = document.querySelector(".js-expense-date-input").value;
+  const expenseCategory = categorySelect.getValue();
+  const expenseDate = datePicker.input.value;
 
   document.querySelectorAll(".error").forEach((elm) => {
     elm.classList.remove("visible");
@@ -153,6 +165,10 @@ function addExpense() {
   document.querySelectorAll(".js-expense-input").forEach((expenseInput) => {
     expenseInput.value = "";
   });
+
+  categorySelect.setValue("Food");
+  datePicker.setDate(new Date());
+
   calculateTotalExpenditure();
   renderExpenseChart();
   renderRecentExpenses();

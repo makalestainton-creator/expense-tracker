@@ -1,9 +1,9 @@
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
 import { calculateTotalExpenditure } from "./expenseSummary.js";
-import { renderConfirmationDialogue, openFilterMenu } from "./dialogues.js";
+import { renderConfirmationDialogue } from "./dialogues.js";
 import { closeDialogue, renderEditDialogue } from "./dialogues.js";
-import { applyFilters } from "./filterExpenses.js";
+import { applyFilters, refreshExpenseFilters } from "./filterExpenses.js";
 
 const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
@@ -11,10 +11,76 @@ const expensesGrid = document.querySelector(".js-entries-grid");
 const quantityIndicator = document.querySelector(".js-expense-quantity");
 const clearAllButton = document.querySelector(".js-clear-all-button");
 const overlay = document.querySelector(".js-overlay");
+const categoryScroll = document.querySelector(".category-pills");
+const dateScroll = document.querySelector(".date-pills");
+const categoryRightChevron = document.querySelector(".category-right-chevron");
+const categoryLeftChevron = document.querySelector(".category-left-chevron");
+const dateRightChevron = document.querySelector(".date-right-chevron");
+const dateLeftChevron = document.querySelector(".date-left-chevron");
+import TomSelect from "tom-select";
 
 updateExpenseNum(expenses);
-openFilterMenu();
 applyFilters();
+
+function scrollFilterRow(element, direction) {
+  element.scrollBy({
+    left: direction * element.clientWidth * 0.7,
+    behavior: "smooth",
+  });
+}
+
+categoryRightChevron.addEventListener("click", () => {
+  scrollFilterRow(categoryScroll, 1);
+});
+
+categoryLeftChevron.addEventListener("click", () => {
+  scrollFilterRow(categoryScroll, -1);
+});
+
+dateRightChevron.addEventListener("click", () => {
+  scrollFilterRow(dateScroll, 1);
+});
+
+dateLeftChevron.addEventListener("click", () => {
+  scrollFilterRow(dateScroll, -1);
+});
+
+// Show arrows only when scrolling in that direction is possible.
+function updateFilterChevrons(left, right, element) {
+  const maxScroll = element.scrollWidth - element.clientWidth;
+  const hasOverflow = maxScroll > 2;
+
+  left.hidden = !hasOverflow || element.scrollLeft <= 2;
+  right.hidden = !hasOverflow || element.scrollLeft >= maxScroll - 2;
+}
+
+function updateAllChevrons() {
+  updateFilterChevrons(
+    categoryLeftChevron,
+    categoryRightChevron,
+    categoryScroll,
+  );
+
+  updateFilterChevrons(dateLeftChevron, dateRightChevron, dateScroll);
+}
+
+categoryScroll.addEventListener("scroll", updateAllChevrons, {
+  passive: true,
+});
+
+dateScroll.addEventListener("scroll", updateAllChevrons, {
+  passive: true,
+});
+
+window.addEventListener("resize", updateAllChevrons);
+
+const chevronObserver = new ResizeObserver(updateAllChevrons);
+
+chevronObserver.observe(categoryScroll);
+chevronObserver.observe(dateScroll);
+
+// Run after the initial layout is available.
+requestAnimationFrame(updateAllChevrons);
 
 export function displayExpenses(expenses) {
   expensesGrid.innerHTML = "";
@@ -24,13 +90,15 @@ export function displayExpenses(expenses) {
 
   expenses.forEach((expense) => {
     // Find the real index in the full array so delete/edit always hit the right item
-    const realIndex = allExpenses.findIndex(
-      (e) =>
-        e.name === expense.name &&
-        e.cost === expense.cost &&
-        e.date === expense.date &&
-        e.category === expense.category,
-    );
+    const realIndex = Number.isInteger(expense.__originalIndex)
+      ? expense.__originalIndex
+      : allExpenses.findIndex(
+          (e) =>
+            e.name === expense.name &&
+            e.cost === expense.cost &&
+            e.date === expense.date &&
+            e.category === expense.category,
+        );
 
     expensesGrid.innerHTML += `
       <div class="entry-item-container" data-exp-index="${realIndex}">
@@ -68,8 +136,6 @@ export function displayExpenses(expenses) {
   applyHighCostStyles();
   attachEventListeners();
 }
-
-displayExpenses(expenses);
 
 function applyCategoryStyles() {
   document.querySelectorAll(".js-category").forEach((categoryElement) => {
@@ -133,11 +199,7 @@ function deleteExpense(deleteButton) {
 
     localStorage.setItem("expenses", JSON.stringify(currentExpenses));
 
-    // Reset active filter so search works on full list after delete
-    activeFilteredExpenses = null;
-
-    displayExpenses(currentExpenses);
-    updateExpenseNum(currentExpenses);
+    refreshExpenseFilters();
     calculateTotalExpenditure();
     renderExpenseChart();
     renderRecentExpenses();
@@ -177,14 +239,18 @@ function attachEventListeners() {
 
       renderEditDialogue();
 
+      const editCategorySelect = new TomSelect("#category-edit", {
+        create: false,
+        controlInput: null,
+      });
+
+      editCategorySelect.setValue(currentExpenses[index].category);
+
       document.getElementById("description-edit").value =
         currentExpenses[index].name;
 
       document.getElementById("amount-edit").value =
         `${currentExpenses[index].cost}`;
-
-      document.getElementById("category-edit").value =
-        currentExpenses[index].category;
 
       document.getElementById("date-edit").value = currentExpenses[index].date;
 
@@ -228,13 +294,11 @@ function attachEventListeners() {
             .querySelector(".js-save-button")
             .removeEventListener("click", this);
 
-          editExpense(index, currentExpenses);
+          // In the save button listener, replace the editExpense call:
+          editExpense(index, currentExpenses, editCategorySelect.getValue());
           localStorage.setItem("expenses", JSON.stringify(currentExpenses));
 
-          const freshExpenses =
-            JSON.parse(localStorage.getItem("expenses")) || [];
-
-          displayExpenses(freshExpenses);
+          refreshExpenseFilters();
           renderExpenseChart();
           renderRecentExpenses();
 
@@ -252,7 +316,7 @@ function attachEventListeners() {
   });
 }
 
-function editExpense(index, expenses) {
+function editExpense(index, expenses, newCategoryValue) {
   if (!document.getElementById("description-edit").value) {
     // keep existing
   } else {
@@ -269,15 +333,6 @@ function editExpense(index, expenses) {
     expenses[index].edited = true;
   }
 
-  if (!document.getElementById("category-edit").value) {
-    // keep existing
-  } else {
-    expenses[index].category = document
-      .getElementById("category-edit")
-      .value.trim();
-    expenses[index].edited = true;
-  }
-
   if (!document.getElementById("date-edit").value) {
     // keep existing
   } else {
@@ -286,11 +341,15 @@ function editExpense(index, expenses) {
   }
 
   expenses[index].edited = false;
+
+  if (newCategoryValue) {
+    expenses[index].category = newCategoryValue;
+    expenses[index].edited = true;
+  }
 }
 
 function clearAllExpenses() {
   expenses.length = 0;
-  activeFilteredExpenses = null;
   localStorage.setItem("expenses", JSON.stringify(expenses));
 }
 
@@ -300,23 +359,18 @@ if (clearAllButton) {
 
     overlay.classList.add("overlay-active");
 
-    const yesButton = document
-      .querySelector(".js-yes-button")
-      .addEventListener("click", () => {
-        closeDialogue(document.querySelector(".js-confirmation-dialogue"));
+    document.querySelector(".js-yes-button").addEventListener("click", () => {
+      closeDialogue(document.querySelector(".js-confirmation-dialogue"));
 
-        clearAllExpenses();
-        updateExpenseNum(expenses);
-        displayExpenses(expenses);
-        calculateTotalExpenditure();
-        renderExpenseChart();
-        renderRecentExpenses();
-      });
+      clearAllExpenses();
+      refreshExpenseFilters();
+      calculateTotalExpenditure();
+      renderExpenseChart();
+      renderRecentExpenses();
+    });
 
-    const noButton = document
-      .querySelector(".js-no-button")
-      .addEventListener("click", () => {
-        closeDialogue(document.querySelector(".js-confirmation-dialogue"));
-      });
+    document.querySelector(".js-no-button").addEventListener("click", () => {
+      closeDialogue(document.querySelector(".js-confirmation-dialogue"));
+    });
   });
 }

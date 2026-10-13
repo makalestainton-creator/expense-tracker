@@ -2,9 +2,6 @@ const confirmationDialogue = document.querySelector(
   ".js-confirmation-dialogue",
 );
 const editDialogue = document.querySelector(".js-edit-dialogue");
-const menuOpenBtn = document.querySelector(".menu-open");
-const menuCloseBtn = document.querySelector(".close-menu-btn");
-const menuFilter = document.querySelector(".menu-container");
 import alertSVG from "../icons/alert-circle.svg";
 
 export function renderConfirmationDialogue(okContent, cancelContent) {
@@ -61,9 +58,6 @@ export function renderEditDialogue() {
         id="category-edit"
         class="expense-input js-expense-input js-expense-category-input"
       >
-        <button>
-          <selectedcontent></selectedcontent>
-        </button>
         <option value="Food">Food</option>
         <option value="Transport">Transport</option>
         <option value="Entertainment">Entertainment</option>
@@ -104,20 +98,4 @@ export function renderEditDialogue() {
 export function closeDialogue(containerElement) {
   containerElement.classList.remove("overlay-active");
   document.querySelector(".js-overlay").classList.remove("overlay-active");
-}
-
-export function openFilterMenu() {
-  menuOpenBtn.addEventListener("click", () => {
-    menuFilter.classList.add("open");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (!menuFilter.contains(e.target) && !menuOpenBtn.contains(e.target)) {
-      menuFilter.classList.remove("open");
-    }
-  });
-
-  menuCloseBtn.addEventListener("click", () => {
-    menuFilter.classList.remove("open");
-  });
 }
