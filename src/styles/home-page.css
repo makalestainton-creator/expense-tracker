@@ -199,7 +199,7 @@ body.dark-mode .empty-field-warning {
 }
 
 .period {
-  font-size: clamp(.9rem, 4.5vw, 1rem);
+  font-size: clamp(0.9rem, 4.5vw, 1rem);
   font-weight: 500;
 }
 
@@ -209,7 +209,7 @@ body.dark-mode .period {
 
 .cost,
 .recent-expense-cost {
-  font-size: clamp(.9rem, 4.5vw, 1rem);
+  font-size: clamp(0.9rem, 4.5vw, 1rem);
   font-weight: 500;
   color: #3063aa;
 }
@@ -324,7 +324,7 @@ body.dark-mode .recent-expense-description {
 .recent-category {
   display: flex;
   align-items: center;
-  gap: .3rem;
+  gap: 0.3rem;
 
   color: #f2f2f2;
   font-size: 0.9rem;
@@ -434,7 +434,6 @@ body.dark-mode .recent-other-category {
 }
 
 @media (max-width: 500px) {
-
   .expense-details .added-to-tracker {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -448,4 +447,3 @@ body.dark-mode .recent-other-category {
     overflow: hidden;
   }
 }
-

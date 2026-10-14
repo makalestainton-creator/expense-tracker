@@ -23,12 +23,11 @@ const chartContainer = document.querySelector(".js-chart-container");
 const categorySelect = new TomSelect("#category-select", {
   create: false,
   controlInput: null,
-  onDropdownOpen: function() {
+  onDropdownOpen: function () {
     // Optional: dynamically adjusts position attributes if required by container wrappers
-    this.dropdown.style.marginTop = "4px"; 
-  }
+    this.dropdown.style.marginTop = "4px";
+  },
 });
-
 
 const datePicker = flatpickr(".js-expense-date-input", {
   dateFormat: "Y-m-d",

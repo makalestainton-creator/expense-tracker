@@ -81,7 +81,10 @@ export function renderRecentExpenses() {
   let recentExpenses = [];
 
   expenses.forEach((expense) => {
-    if (expenses.indexOf(expense) <= expenses.length || expenses.indexOf(expense) >= expenses.length - 9) {
+    if (
+      expenses.indexOf(expense) <= expenses.length ||
+      expenses.indexOf(expense) >= expenses.length - 9
+    ) {
       recentExpenses.push(expense);
     }
   });
@@ -159,4 +162,3 @@ export function renderRecentExpenses() {
     });
   });
 }
-

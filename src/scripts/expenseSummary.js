@@ -39,5 +39,6 @@ export function calculateTotalExpenditure() {
   document.querySelector(".today").textContent = `${dateString}`;
   document.querySelector(".todays-total").textContent = `${dailyTotal}`;
   document.querySelector(".current-month").textContent = `${month}`;
-  document.querySelector(".current-month-total").textContent = `${monthlyTotal}`;
+  document.querySelector(".current-month-total").textContent =
+    `${monthlyTotal}`;
 }
