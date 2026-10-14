@@ -5,6 +5,7 @@ const searchInput = document.querySelector("#search");
 const categoryPills = document.querySelectorAll(".js-category-pill");
 const datePills = document.querySelectorAll(".js-date-pill");
 const sortSelect = document.querySelector("#sort-select");
+import TomSelect from "tom-select";
 
 let initialized = false;
 

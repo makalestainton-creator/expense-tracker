@@ -1,44 +1,30 @@
 import dayjs from "dayjs";
 
-export function calculateTotalExpenditure() {
-  // get todays date using dayjs and display it in a readable format
-  const today = dayjs();
+function getExpenses() {
+  return JSON.parse(localStorage.getItem("expenses")) || [];
+}
 
-  const dateString = today.format("D dddd, MMMM YYYY");
+function getDailyTotal(expenses = getExpenses()) {
+  const today = dayjs().format("YYYY-MM-DD");
+  return expenses.reduce((total, expense) => {
+    return expense.date === today ? total + Number(expense.cost) : total;
+  }, 0);
+}
 
-  const month = today.format("MMMM");
+function getMonthlyTotal(expenses = getExpenses()) {
+  return expenses.reduce((total, expense) => {
+    return dayjs(expense.date).isSame(dayjs(), "month")
+      ? total + Number(expense.cost)
+      : total;
+  }, 0);
+}
 
-  const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
+export function renderTotalExpenditure() {
+  const expenses = getExpenses();
 
-  let dailyTotal = 0;
-
-  let monthlyTotal = 0;
-
-  // accumulate the daily total every time we loop through the expenses
-  expenses.forEach((expense) => {
-    const cost = expense.cost;
-
-    const dateString = today.format("YYYY-MM-DD");
-
-    const expenseDate = expense.date;
-
-    if (expenseDate === dateString) {
-      dailyTotal += cost;
-    }
-
-    // accumulate the monthly totals every time we loop through the expenses
-    const month = expense.date.slice(5, 7);
-
-    const monthString = today.format("MM");
-
-    if (month === monthString) {
-      monthlyTotal += cost;
-    }
-  });
-
-  document.querySelector(".today").textContent = `${dateString}`;
-  document.querySelector(".todays-total").textContent = `${dailyTotal}`;
-  document.querySelector(".current-month").textContent = `${month}`;
+  document.querySelector(".today").textContent = `${dayjs().format("D dddd, MMMM YYYY")}`;
+  document.querySelector(".todays-total").textContent = `${getDailyTotal(expenses)}`;
+  document.querySelector(".current-month").textContent = `${dayjs().format("MMMM")}`;
   document.querySelector(".current-month-total").textContent =
-    `${monthlyTotal}`;
+    `${getMonthlyTotal(expenses)}`;
 }

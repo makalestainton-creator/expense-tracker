@@ -74,7 +74,8 @@ export function renderRecentExpenses() {
   const dateNum = dayjs().format("DD");
   if (!container) return;
   if (expenses.length === 0) {
-    container.textContent = "Recent Expenses will appear here";
+    container.innerHTML =
+      "<pclass='no-expense-alert'>Recent Expenses will appear here</p>";
     return;
   }
 

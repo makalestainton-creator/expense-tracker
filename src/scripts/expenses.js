@@ -1,6 +1,6 @@
 import { renderExpenseChart } from "./utils/chart.js";
 import { renderRecentExpenses } from "./recents.js";
-import { calculateTotalExpenditure } from "./expenseSummary.js";
+import { renderTotalExpenditure } from "./expenseSummary.js";
 import { renderConfirmationDialogue } from "./dialogues.js";
 import { closeDialogue, renderEditDialogue } from "./dialogues.js";
 import { applyFilters, refreshExpenseFilters } from "./filterExpenses.js";
@@ -83,9 +83,17 @@ chevronObserver.observe(dateScroll);
 requestAnimationFrame(updateAllChevrons);
 
 export function displayExpenses(expenses) {
+  if (!expenses.length) {
+    document.querySelector(".filter-pills-container").style.display = "none";
+    document.querySelector(".js-clear-all-button").style.display = "none";
+    document.querySelector(".no-expense-alert").style.display = "none";
+  } else {
+    document.querySelector(".filter-pills-container").style.display = "block";
+    document.querySelector(".js-clear-all-button").style.display = "block";
+  }
+
   expensesGrid.innerHTML = "";
 
-  // Always read from localStorage to get true indices for delete/edit
   const allExpenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
   expenses.forEach((expense) => {
@@ -176,15 +184,8 @@ export function updateExpenseNum(expenses) {
   quantityIndicator.innerHTML = `${expenses.length}`;
 }
 
-if (expenses.length === 0) {
-  expensesGrid.innerHTML = `<p class="no-expense-alert">No expenses yet. Start tracking by adding your first expense!</p>`;
-
-  // expensesGrid.classList.remove("entries-grid");
-
-  document.querySelector(".js-clear-all-button-container").innerHTML = "";
-}
-
 function deleteExpense(deleteButton) {
+  const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
   const index = parseInt(deleteButton.getAttribute("data-index"));
 
   const container = deleteButton.closest(".entry-item-container");
@@ -199,8 +200,9 @@ function deleteExpense(deleteButton) {
 
     localStorage.setItem("expenses", JSON.stringify(currentExpenses));
 
+    displayExpenses(expenses);
     refreshExpenseFilters();
-    calculateTotalExpenditure();
+    renderTotalExpenditure();
     renderExpenseChart();
     renderRecentExpenses();
   }, 300);
@@ -323,34 +325,29 @@ function editExpense(index, expenses, newCategoryValue) {
     expenses[index].name = document
       .getElementById("description-edit")
       .value.trim();
-    expenses[index].edited = true;
   }
 
   if (!Number(document.getElementById("amount-edit").value)) {
     // keep existing
   } else {
     expenses[index].cost = Number(document.getElementById("amount-edit").value);
-    expenses[index].edited = true;
   }
 
   if (!document.getElementById("date-edit").value) {
     // keep existing
   } else {
     expenses[index].date = document.getElementById("date-edit").value.trim();
-    expenses[index].edited = true;
   }
-
-  expenses[index].edited = false;
 
   if (newCategoryValue) {
     expenses[index].category = newCategoryValue;
-    expenses[index].edited = true;
   }
 }
 
 function clearAllExpenses() {
   expenses.length = 0;
   localStorage.setItem("expenses", JSON.stringify(expenses));
+  displayExpenses(expenses);
 }
 
 if (clearAllButton) {
@@ -364,7 +361,7 @@ if (clearAllButton) {
 
       clearAllExpenses();
       refreshExpenseFilters();
-      calculateTotalExpenditure();
+      renderTotalExpenditure();
       renderExpenseChart();
       renderRecentExpenses();
     });

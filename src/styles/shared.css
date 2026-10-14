@@ -331,6 +331,18 @@ span.exp-error.visible {
   height: auto;
 }
 
+.no-expense-alert {
+  font-weight: 500;
+  font-size: 25px;
+  color: #9c9c9c;
+  text-align: center;
+
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
 @media (max-width: 768px) {
   .left-header-section {
     gap: 5px;

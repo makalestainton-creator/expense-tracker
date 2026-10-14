@@ -5,7 +5,7 @@ import "../styles/expenses.css";
 import checkMark from "../icons/checkmark.png";
 
 import { displayExpenses, updateExpenseNum } from "./expenses.js";
-import { calculateTotalExpenditure } from "./expenseSummary.js";
+import { renderTotalExpenditure } from "./expenseSummary.js";
 import { changeTheme } from "./utils/changeTheme.js";
 import dayjs from "dayjs";
 import { renderExpenseChart } from "./utils/chart.js";
@@ -48,7 +48,7 @@ resizeObserver.observe(chartContainer);
 
 const expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
-calculateTotalExpenditure();
+renderTotalExpenditure();
 renderExpenseChart();
 changeTheme();
 renderRecentExpenses();
@@ -149,7 +149,7 @@ function addExpense() {
   expenses.push(newExpense);
 
   localStorage.setItem("expenses", JSON.stringify(expenses));
-  calculateTotalExpenditure();
+  renderTotalExpenditure();
 
   // show added message
   document.querySelector(".js-added-to-tracker").innerHTML =
@@ -168,7 +168,7 @@ function addExpense() {
   categorySelect.setValue("Food");
   datePicker.setDate(new Date());
 
-  calculateTotalExpenditure();
+  renderTotalExpenditure();
   renderExpenseChart();
   renderRecentExpenses();
   displayExpenses(expenses);
